@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
+        app:title="郭霖 , 鸿洋控件"
+        app:titleTextColor="#FFF"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_mei"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="64dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="onBounceBall"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="弹跳小球"
+            android:textColor="#999999"
+            android:textSize="16sp"/>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="onRipple"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="扩散圆（主题切换）"
+            android:textColor="#999999"
+            android:textSize="16sp"/>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="onLinePath"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="炫酷的路径"
+            android:textColor="#999999"
+            android:textSize="16sp"/>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

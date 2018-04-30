@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#44000000"
+              android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
+        app:title="弹跳小球"
+        app:titleTextColor="#FFF"/>
+
+    <com.meis.widget.ball.BounceBallView
+        android:id="@+id/bbv1"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:background="#ffffff"
+        app:anim_duration="3300"
+        app:ball_count="15"
+        app:ball_delay="220"
+        app:bounce_count="3">
+
+    </com.meis.widget.ball.BounceBallView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ball_count = "/>
+
+        <EditText
+            android:id="@+id/ball_count"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="bounce_count = "/>
+
+        <EditText
+            android:id="@+id/bounce_count"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="duration = "/>
+
+        <EditText
+            android:id="@+id/duration"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="ball_delay = "/>
+
+        <EditText
+            android:id="@+id/ball_delay"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="radius = "/>
+
+        <EditText
+            android:id="@+id/radius"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/physic_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="physicMode"/>
+
+        <CheckBox
+            android:id="@+id/random_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="randomColor"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/random_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="randomPath"/>
+
+        <CheckBox
+            android:id="@+id/random_radius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="randomRadius"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/b2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="apply"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/b1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="dialog"
+        android:textAllCaps="false"/>
+
+</LinearLayout>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/colorPrimary"
+        android:visibility="visible"
+        app:layout_collapseMode="pin"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="MEI_S 控件"
+        app:titleTextColor="#FFF"/>
+
+    <com.meis.widget.MeiTextPathView
+        android:id="@+id/mpv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        app:cycle="true"
+        app:duration="12000"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:text="欢迎来到 MEI_S "
+        app:textColor="#999999"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_mei"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="64dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="onMei"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintTop_toBottomOf="@+id/mpv">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="MEI控件"
+            android:textColor="#999999"
+            android:textSize="16sp"/>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="onGuHong"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintTop_toBottomOf="@+id/cv_mei">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="郭霖 , 鸿洋控件"
+            android:textColor="#999999"
+            android:textSize="16sp"/>
+
+    </android.support.v7.widget.CardView>
+
+    <com.meis.widget.loading.MeiFanView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:lineColor="#999999"/>
+
+</android.support.constraint.ConstraintLayout>

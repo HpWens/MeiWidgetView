@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BounceBallView">
+        <attr name="bounce_count" format="integer"/>
+        <attr name="ball_color" format="color"/>
+        <attr name="ball_radius" format="dimension"/>
+        <attr name="anim_duration" format="integer"/>
+        <attr name="ball_count" format="integer"/>
+        <attr name="ball_delay" format="integer"/>
+        <attr name="physic_mode" format="boolean"/>
+        <attr name="random_color" format="boolean"/>
+        <attr name="random_radius" format="boolean"/>
+        <attr name="random_path" format="boolean"/>
+    </declare-styleable>
+
+    <!-- 风扇线条颜色 -->
+    <declare-styleable name="MeiFanView">
+        <attr name="lineColor" format="color"/>
+        <attr name="fanRadiusRatio" format="float"/>
+        <attr name="fanSweepAngle" format="integer"/>
+        <attr name="fanDuration" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="MeiTextPathView">
+        <attr name="text" format="string"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="textColor" format="color"/>
+        <attr name="duration" format="integer"/>
+        <attr name="strokeWidth" format="dimension"/>
+        <attr name="cycle" format="boolean"/>
+        <attr name="autoStart" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="MeiScrollParallaxView">
+        <!-- 滚动速率 （0~1） 值越大滚动视差越明显 -->
+        <attr name="parallaxRate" format="float"/>
+        <!-- 滑动是否显示视差 默认 true -->
+        <attr name="enableParallax" format="boolean"/>
+        <!-- 圆角宽度 默认 0  -->
+        <attr name="roundWidth" format="dimension"/>
+        <!-- 圆角宽度 默认 0  -->
+        <attr name="enableCircle" format="boolean"></attr>
+        <!--圆角外的颜色 默认白色  -->
+        <attr name="outRoundColor" format="color"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="MeiHeartView">
+        <attr name="heartDuration" format="integer"/>
+        <attr name="heartEnableAlpha" format="boolean"/>
+        <attr name="heartEnableScale" format="boolean"/>
+    </declare-styleable>
+
+</resources>
