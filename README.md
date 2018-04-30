@@ -58,6 +58,10 @@ app gradle
 
 <img src="/gif/mei_heart.gif" width="280px"/> 
 
+## Contact
+
+QQ群：478720016
+
 ## LICENSE
 ````
 Copyright 2018 文淑
