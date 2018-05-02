@@ -38,6 +38,35 @@ app gradle
 
 <img src="/gif/mei_main.gif" width="280px"/> 
 
+文字路径
+
+````
+    <com.meis.widget.MeiTextPathView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+````
+
+属性 
+
+````
+    <declare-styleable name="MeiTextPathView">
+        <!-- 路径文字 -->
+        <attr name="text" format="string"/>  
+	<!-- 路径文字大小 -->
+        <attr name="textSize" format="dimension"/>
+	<!-- 路径文字颜色 -->
+        <attr name="textColor" format="color"/>
+	<!-- 路径绘制时长 -->
+        <attr name="duration" format="integer"/>
+	<!-- 文字的描边宽度 -->
+        <attr name="strokeWidth" format="dimension"/>
+	<!-- 是否循环绘制 -->
+        <attr name="cycle" format="boolean"/>
+	<!-- 是否自动开始播放 -->
+        <attr name="autoStart" format="boolean"/>
+    </declare-styleable>
+````
+
 ### 1、弹跳小球
 
 <img src="/gif/bounce_ball.gif" width="280px"/> 
