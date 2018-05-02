@@ -71,9 +71,45 @@ app gradle
 
 <img src="/gif/bounce_ball.gif" width="280px"/> 
 
+````
+    <com.meis.widget.ball.BounceBallView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+````
+
+属性
+
+- bounce_count :小球弹跳次数
+- ball_color:小球颜色
+- ball_count:小球数量
+- ball_radius:小球半径
+- ball_delay:小球出现时间间隔（当小球数大于1时）
+- anim_duration:小球一次动画时长
+- physic_mode : 开启物理效果（下落加速上升减速）
+- random_color: 开启小球颜色随机
+- random_radius: 开启小球大小随机（在基础大小上下浮动）
+- random_path: 开启小球路径随机（在基础路径坐标上下浮动）
+
 ### 2、扩散圆（主题切换）
 
 <img src="/gif/mei_ripple.gif" width="280px"/> 
+
+````
+    <com.meis.widget.MeiRippleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+````
+
+方法
+
+````
+    /**
+     * @param startX      被点击view相对屏幕的 view中心点x坐标
+     * @param startY      被点击view相对屏幕的 view中心点y坐标
+     * @param startRadius 开始扩散的半径
+     */
+    public void startRipple(int startX, int startY, int startRadius)
+````
 
 ### 3、酷炫的路径
 
