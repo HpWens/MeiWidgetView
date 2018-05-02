@@ -115,13 +115,61 @@ app gradle
 
 <img src="/gif/mei_line_path.gif" width="280px"/> 
 
+````
+    <com.meis.widget.MeiLinePathView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+````
+
 ### 4、滚动视差
 
 <img src="/gif/mei_parallax.gif" width="280px"/> 
 
+````
+    <com.meis.widget.MeiScrollParallaxView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>	
+````
+
+属性
+
+````
+    <declare-styleable name="MeiScrollParallaxView">
+        <!-- 滚动速率 （0~1） 值越大滚动视差越明显 -->
+        <attr name="parallaxRate" format="float"/>
+        <!-- 滑动是否显示视差 默认 true -->
+        <attr name="enableParallax" format="boolean"/>
+        <!-- 圆角宽度 默认 0  若通过修改父类来实现 则不需要设置此值-->
+        <attr name="roundWidth" format="dimension"/>
+        <!-- 是否显示圆形 默认 0  若通过修改父类来实现 则不需要设置此值-->
+        <attr name="enableCircle" format="boolean"></attr>
+        <!--圆角外的颜色 默认白色  若通过修改父类来实现 则不需要设置此值-->
+        <attr name="outRoundColor" format="color"/>
+    </declare-styleable>
+````
+
 ### 5、直播间送爱心
 
 <img src="/gif/mei_heart.gif" width="280px"/> 
+
+````
+    <com.meis.widget.heart.MeiHeartView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+````
+
+属性
+
+````
+    <declare-styleable name="MeiHeartView">
+        <!--爱心动画时长-->
+        <attr name="heartDuration" format="integer"/>
+        <!--是否显示透明度动画-->
+        <attr name="heartEnableAlpha" format="boolean"/>
+        <!--是否显示缩放动画-->
+        <attr name="heartEnableScale" format="boolean"/>
+    </declare-styleable>
+````
 
 ## Contact
 
