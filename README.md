@@ -67,6 +67,10 @@ app gradle
     </declare-styleable>
 ````
 
+参考文章
+
+[文字路径动画控件TextPathView解析](https://blog.csdn.net/totond/article/details/79375200)
+
 ### 1、弹跳小球
 
 <img src="/gif/bounce_ball.gif" width="280px"/> 
@@ -90,6 +94,10 @@ app gradle
 - random_radius: 开启小球大小随机（在基础大小上下浮动）
 - random_path: 开启小球路径随机（在基础路径坐标上下浮动）
 
+参考文章
+
+[自定义View之小球自由落体弹跳加载控件](https://blog.csdn.net/totond/article/details/79375200)
+
 ### 2、扩散圆（主题切换）
 
 <img src="/gif/mei_ripple.gif" width="280px"/> 
@@ -111,6 +119,10 @@ app gradle
     public void startRipple(int startX, int startY, int startRadius)
 ````
 
+参考文章
+
+[Android自定义View实现炫酷的主题切换动画(仿酷安客户端)](https://blog.csdn.net/u011387817/article/details/79604418)
+
 ### 3、酷炫的路径
 
 <img src="/gif/mei_line_path.gif" width="280px"/> 
@@ -120,6 +132,10 @@ app gradle
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 ````
+
+参考文章
+
+[Android仿bilibili弹幕聊天室后面的线条动画](https://blog.csdn.net/u011387817/article/details/78817827)
 
 ### 4、滚动视差
 
