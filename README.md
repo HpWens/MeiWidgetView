@@ -189,9 +189,23 @@ app gradle
 
 ### 6、shape控件集
 
+通过XML布局文件实现 Selector 功能 , 减少 apk 体积 , 易于后期维护 , 提升效率
+
 <img src="/gif/mei_shape.gif" width="280px"/> 
 
-通过XML布局文件实现 Selector 功能 , 减少 apk 体积 , 易于后期维护
+
+````
+            <com.meis.widget.radius.RadiusTextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="按下背景切换"
+                android:textColor="#FFF"
+                android:textSize="18sp"
+                app:rv_backgroundColor="@color/colorAccent"
+                app:rv_backgroundPressedColor="@color/colorPrimary">
+````
 
 #### 1、特性
 
