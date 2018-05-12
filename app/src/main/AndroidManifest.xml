@@ -23,6 +23,7 @@
         <activity android:name=".meis.MeiScrollParallaxActivity"></activity>
         <activity android:name=".meis.MainActivity"></activity>
         <activity android:name=".meis.MeiHeartActivity"></activity>
+        <activity android:name=".meis.MeiRadiusActivity"></activity>
     </application>
 
 </manifest>

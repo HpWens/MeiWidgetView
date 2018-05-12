@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
+        app:title="shape控件集"
+        app:titleTextColor="#FFF"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.meis.widget.radius.RadiusTextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="按下背景切换"
+                android:textColor="#FFF"
+                android:textSize="18sp"
+                app:rv_backgroundColor="@color/colorAccent"
+                app:rv_backgroundPressedColor="@color/colorPrimary">
+
+
+            </com.meis.widget.radius.RadiusTextView>
+
+
+            <com.meis.widget.radius.RadiusTextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="按下字体颜色切换"
+                android:textSize="18sp"
+                app:rv_backgroundColor="@color/colorAccent"
+                app:rv_textColor="#FFF"
+                app:rv_textPressedColor="@color/colorPrimary"/>
+
+
+            <com.meis.widget.radius.RadiusTextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="按下涟漪扩散"
+                android:textSize="18sp"
+                app:rv_backgroundColor="@color/colorAccent"
+                app:rv_rippleEnable="true"
+                app:rv_textColor="#FFF"/>
+
+            <com.meis.widget.radius.RadiusTextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="圆角（支持四个角）"
+                android:textSize="18sp"
+                app:rv_backgroundColor="@color/colorAccent"
+                app:rv_radius="8dp"
+                app:rv_textColor="#FFF"/>
+
+            <com.meis.widget.radius.RadiusTextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="圆角为高度一半"
+                android:textSize="18sp"
+                app:rv_backgroundColor="@color/colorAccent"
+                app:rv_radiusHalfHeightEnable="true"
+                app:rv_textColor="#FFF"/>
+
+            <com.meis.widget.radius.RadiusTextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="描边"
+                android:textSize="18sp"
+                app:rv_backgroundColor="#FFF"
+                app:rv_radiusHalfHeightEnable="true"
+                app:rv_strokeColor="@color/colorAccent"
+                app:rv_strokeWidth="1dp"
+                app:rv_textPressedColor="@color/colorAccent"
+                app:rv_strokePressedColor="@color/colorPrimary"
+                app:rv_textColor="@color/colorPrimary"/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.constraint.ConstraintLayout>
