@@ -30,7 +30,7 @@ app gradle
 
 ````
 	dependencies {
-	       implementation 'com.github.HpWens:MeiWidgetView:v0.0.1'
+	       implementation 'com.github.HpWens:MeiWidgetView:v0.0.2'
 	}
 ````
 
@@ -186,6 +186,35 @@ app gradle
         <attr name="heartEnableScale" format="boolean"/>
     </declare-styleable>
 ````
+
+### 6、shape控件集
+
+<img src="/gif/mei_shape.gif" width="280px"/> 
+
+通过XML布局文件实现 Selector 功能 , 减少 apk 体积 , 易于后期维护
+
+#### 1、特性
+
+-  圆角控制
+-  默认背景(边框线)
+-  按下背景(边框线)
+-  不可点击背景(边框线)
+-  选择selected背景(边框线)
+-  选中checked背景(边框线)
+-  全圆角
+-  四角单独设置圆角功能
+
+#### 2、支持控件
+
+-  EditText
+-  FrameLayout
+-  LinearLayout
+-  RelativeLayout
+-  TextView
+
+#### 3、扩展
+
+参考 com.meis.widget.radius.RadiusLinearLayout 类
 
 ## Contact
 
