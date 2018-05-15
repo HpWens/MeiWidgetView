@@ -189,47 +189,33 @@ app gradle
 
 ### 6、shape控件集
 
-通过XML布局文件实现 Selector 功能 , 减少 apk 体积 , 易于后期维护 , 提升效率
+效果图：
 
 <img src="/gif/mei_shape.gif" width="280px"/> 
 
-案列：
-
-````
-            <com.meis.widget.radius.RadiusTextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_margin="16dp"
-                android:gravity="center"
-                android:text="按下背景切换"
-                android:textColor="#FFF"
-                android:textSize="18sp"
-                app:rv_backgroundColor="@color/colorAccent"
-                app:rv_backgroundPressedColor="@color/colorPrimary">
-````
+通过 xml 布局的方式替换掉 selector 文件。这么做的优势在于，减少 apk 体积，避免后期维护大量的 selector 文件，扩展性更强，功能更加强大。
 
 #### 1、特性
 
--  圆角控制
--  默认背景(边框线)
--  按下背景(边框线)
--  不可点击背景(边框线)
--  选择selected背景(边框线)
--  选中checked背景(边框线)
--  全圆角
--  四角单独设置圆角功能
+-  支持圆角（四个角度，圆角半径是高度的一半）
+-  支持背景Pressed，Disabled，Selected，Checked四种状态
+-  支持描边（虚线，四种状态）
+-  支持文本（四种状态）
+-  支持涟漪（水波纹）
+-  leftDrawable，topDrawable，rightDrawable，bottomDrawable（四种状态）
 
-#### 2、支持控件
+#### 2、支持原生控件
 
--  EditText
--  FrameLayout
--  LinearLayout
--  RelativeLayout
--  TextView
+-  RadiusTextView
+-  RadiusCheckBox
+-  RadiusEditText
+-  RadiusFrameLayout
+-  RadiusLinearLayout
+-  RadiusRelativeLayout
 
 #### 3、扩展
 
-参考 com.meis.widget.radius.RadiusLinearLayout 类
+委托的扩展方式（Delegate），参考的是（AppCompatActivity实现方式），具体请参考（RadiusTextView）
 
 ## Contact
 
