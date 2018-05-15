@@ -187,7 +187,7 @@ app gradle
     </declare-styleable>
 ````
 
-### 6、shape控件集
+### 6、selector控件集
 
 效果图：
 
