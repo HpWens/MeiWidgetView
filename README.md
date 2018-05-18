@@ -217,6 +217,63 @@ app gradle
 
 委托的扩展方式（Delegate），参考的是（AppCompatActivity实现方式），具体请参考（RadiusTextView）
 
+### 7、仿百度浏览器图片拖拽控件
+
+效果图
+
+<img src="/gif/mei_drag.gif" width="280px"/> 
+
+参考代码 xml布局文件
+
+````
+<com.meis.widget.photodrag.PhotoDragRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pdr_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
+        app:title="仿百度浏览器图片拖拽控件"
+        app:titleTextColor="#FFF" />
+
+    <me.relex.photodraweeview.PhotoDraweeView
+        android:id="@+id/pdv_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:src="@mipmap/ic_mei_ripple" />
+
+</com.meis.widget.photodrag.PhotoDragRelativeLayout>
+````
+
+代码
+
+````
+   mPdrLayout.setDragListener(new PhotoDragHelper().setOnDragListener(new PhotoDragHelper.OnDragListener() {
+       @Override
+       public void onAlpha(float alpha) {
+           mPdrLayout.setAlpha(alpha);
+       }
+       @Override
+       public View getDragView() {
+           return mPdvView;
+       }
+       @Override
+       public void onAnimationEnd(boolean mSlop) {
+           if (mSlop) {
+               finish();
+               overridePendingTransition(0, 0);
+           }
+       }
+   }));
+````
+
 ## Contact
 
 QQ群：478720016
