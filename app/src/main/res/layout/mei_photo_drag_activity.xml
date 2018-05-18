@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.meis.widget.photodrag.PhotoDragRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pdr_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
+        app:title="仿百度浏览器图片拖拽控件"
+        app:titleTextColor="#FFF" />
+
+    <me.relex.photodraweeview.PhotoDraweeView
+        android:id="@+id/pdv_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:src="@mipmap/ic_mei_ripple" />
+
+</com.meis.widget.photodrag.PhotoDragRelativeLayout>

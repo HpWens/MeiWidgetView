@@ -18,4 +18,12 @@
         <item name="android:backgroundDimAmount">0.4</item>
     </style>
 
+
+    <style name="translucent" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
 </resources>

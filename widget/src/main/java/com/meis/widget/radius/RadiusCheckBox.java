@@ -1,32 +1,30 @@
 package com.meis.widget.radius;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.util.AttributeSet;
 
-import com.meis.widget.radius.delegate.RadiusTextViewDelegate;
+import com.meis.widget.radius.delegate.RadiusCompoundButtonDelegate;
+
 
 /**
- * Created: AriesHoo on AriesHoo on 2017-02-10 14:24
+ * Created: AriesHoo on 2017-02-13 16:10
  * E-Mail: AriesHoo@126.com
- * Function: 用于需要圆角矩形框背景的TextView的情况,减少直接使用TextView时引入的shape资源文件
+ * Function: 用于需要圆角矩形框背景的CheckBox的情况,减少直接使用CheckBox时引入的shape资源文件
  * Description:
  * 1、2018-2-5 14:27:16 初始化TextView的 RadiusTextViewDelegate
  */
-public class RadiusTextView extends android.support.v7.widget.AppCompatTextView {
+public class RadiusCheckBox extends AppCompatCheckBox {
 
-    private RadiusTextViewDelegate delegate;
+    private RadiusCompoundButtonDelegate delegate;
 
-    public RadiusTextView(Context context) {
+    public RadiusCheckBox(Context context) {
         this(context, null);
     }
 
-    public RadiusTextView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public RadiusTextView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        delegate = new RadiusTextViewDelegate(this, context, attrs);
+    public RadiusCheckBox(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        delegate = new RadiusCompoundButtonDelegate(this, context, attrs);
     }
 
     /**
@@ -34,7 +32,7 @@ public class RadiusTextView extends android.support.v7.widget.AppCompatTextView 
      *
      * @return
      */
-    public RadiusTextViewDelegate<RadiusTextViewDelegate> getDelegate() {
+    public RadiusCompoundButtonDelegate<RadiusCompoundButtonDelegate> getDelegate() {
         return delegate;
     }
 
@@ -46,6 +44,7 @@ public class RadiusTextView extends android.support.v7.widget.AppCompatTextView 
             super.onMeasure(measureSpec, measureSpec);
             return;
         }
+
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -73,5 +72,12 @@ public class RadiusTextView extends android.support.v7.widget.AppCompatTextView 
         if (delegate != null) {
             delegate.init();
         }
+    }
+
+    @Override
+    public void setChecked(boolean checked) {
+        super.setChecked(checked);
+        if (delegate != null)
+            delegate.init();
     }
 }

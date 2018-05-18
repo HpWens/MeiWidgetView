@@ -28,4 +28,7 @@ dependencies {
 
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+
+    implementation 'me.relex:photodraweeview:1.1.3'
+    implementation 'com.facebook.fresco:fresco:1.9.0'
 }

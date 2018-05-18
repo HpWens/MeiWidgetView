@@ -42,4 +42,8 @@ public class MainActivity extends AppCompatActivity {
     public void onRadiusView(View view) {
         startActivity(new Intent(this, MeiRadiusActivity.class));
     }
+
+    public void onPhotoDrag(View view) {
+        startActivity(new Intent(this, MeiPhotoDragActivity.class));
+    }
 }
