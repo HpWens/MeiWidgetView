@@ -30,7 +30,7 @@ app gradle
 
 ````
 	dependencies {
-	       implementation 'com.github.HpWens:MeiWidgetView:v0.0.2'
+	       implementation 'com.github.HpWens:MeiWidgetView:v0.0.3'
 	}
 ````
 
