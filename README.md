@@ -226,6 +226,7 @@ app gradle
 参考代码 xml布局文件
 
 ````
+//PhotoDragRelativeLayout 委托的方式 易扩展
 <com.meis.widget.photodrag.PhotoDragRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pdr_content"
