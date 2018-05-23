@@ -307,6 +307,7 @@ VideoDragRelativeLayout 继承 RelativeLayout ，默认拦截事件并消费事�
         @Override
         public void onRelease(boolean dismiss) {
             //释放 注意这里以触摸移动高度 / 父控件高度 的比例  小于 0.1 dismiss=false 则恢复动画 大于 0.1 dismiss=true 
+	    //dismiss=false 显示隐藏的控件
             if (dismiss) {
 	    //可以直接 finish 掉，但也可以通过转场动画返回上一个页面
                finish();
