@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.meis.widget.photodrag.VideoDragRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.meis.widget.photodrag.VideoDragRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_drag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000"
     app:video_drag_transition="false">
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:id="@+id/play_view"
-        app:resize_mode="fill"
+        android:id="@+id/video_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        app:resize_mode="fixed_width"
+        app:surface_type="texture_view"
+        app:use_controller="false">
     </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
 
     <com.meis.widget.radius.RadiusTextView
@@ -23,7 +26,7 @@
         android:layout_marginLeft="16dp"
         android:text="文淑欢迎您的关注"
         android:textColor="#FFF"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
     <com.meis.widget.radius.RadiusTextView
         android:id="@+id/tv_attention"
@@ -43,7 +46,7 @@
         app:rv_backgroundColor="@color/colorPrimary"
         app:rv_backgroundPressedColor="@color/colorPrimaryDark"
         app:rv_radius="16dp"
-        app:rv_textColor="#FFF" />
+        app:rv_textColor="#FFF"/>
 
     <com.meis.widget.radius.RadiusTextView
         android:id="@+id/tv_comment"
@@ -58,7 +61,7 @@
         android:textColorHint="#FFF"
         android:textSize="16sp"
         app:rv_backgroundColor="#8F000000"
-        app:rv_radius="16dp" />
+        app:rv_radius="16dp"/>
 
     <ImageView
         android:id="@+id/iv_close"
@@ -68,6 +71,6 @@
         android:layout_marginTop="24dp"
         android:scaleType="centerInside"
         android:src="@mipmap/ic_arrow_back_white_24dp"
-        android:tag="dispatch" />
+        android:tag="dispatch"/>
 
 </com.meis.widget.photodrag.VideoDragRelativeLayout>

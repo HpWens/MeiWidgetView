@@ -76,7 +76,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         //parse xml attribute
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VideoDragRelativeLayout);
-        mDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_video_drag_duration, 800);
+        mDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_video_drag_duration, 400);
         mExitTransitionEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_video_drag_transition, true);
         ta.recycle();
     }
@@ -145,14 +145,13 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 setPivotY(getHeight());
 
                 //3、set scale
-                float scaleX = 1.0F - mMoveDy / getHeight() * 9F / 10F;
-                float scaleY = 1.0F - mMoveDy / getHeight() * 6F / 5F;
-                setScaleX(scaleX);
-                //比例判断缩放 平移
-                if (scaleY < 0.2F) {
-                    setY(getY() + dy);
-                } else {
-                    setScaleY(scaleY);
+                float scale = 1.0F - mMoveDy / getHeight();
+                setScaleX(scale);
+                setScaleY(scale);
+
+                //4、drag y translation
+                if (scale < 0.5F) {
+                    setY(getY() + dy / 2);
                 }
 
                 mTouchLastX = x;
@@ -161,13 +160,14 @@ public class VideoDragRelativeLayout extends RelativeLayout {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 mDragEnable = false;
-                //根据垂直比例来实现动画
+                //prevent multi-click call onRelease
                 if (mMoveDy == 0 && mMoveDx == 0) {
                     break;
                 }
 
                 final boolean mDismiss = (mMoveDy / getHeight()) > 0.1F;
 
+                //transitions animation
                 if (mDismiss && mExitTransitionEnable) {
                     if (mListener != null) {
                         mListener.onRelease(mDismiss);
@@ -175,19 +175,20 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                     break;
                 }
 
-                //判定当前动画是否执行
+                //compress animation is running
                 if (mCompressAnimator != null && mCompressAnimator.isRunning()) {
                     break;
                 }
 
-                //组合动画 x缩放 x平移 y缩放 y平移
+                //scale animation translation animation alpha animation
                 PropertyValuesHolder propertyScaleX = PropertyValuesHolder.ofFloat("scaleX", getScaleX(), mDismiss ? 0.1F : 1.0F);
                 PropertyValuesHolder propertyScaleY = PropertyValuesHolder.ofFloat("scaleY", getScaleY(), mDismiss ? 0.1F : 1.0F);
                 PropertyValuesHolder propertyTranslationX = PropertyValuesHolder.ofFloat("X", getX(), 0);
                 PropertyValuesHolder propertyTranslationY = PropertyValuesHolder.ofFloat("Y", getY(), mDismiss ? -getHeight() / 2 : 0);
                 PropertyValuesHolder propertyAlpha = PropertyValuesHolder.ofFloat("alpha", 1.0F, mDismiss ? 0F : 1.0F);
 
-                mCompressAnimator = ObjectAnimator.ofPropertyValuesHolder(this, propertyScaleX, propertyScaleY, propertyTranslationX, propertyTranslationY, propertyAlpha).setDuration(mDuration);
+                mCompressAnimator = ObjectAnimator.ofPropertyValuesHolder(this, propertyScaleX, propertyScaleY, propertyTranslationX, propertyTranslationY, propertyAlpha)
+                        .setDuration(mDuration);
                 mCompressAnimator.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -251,7 +252,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
 
         /**
          * @param dismiss false start current viewGroup default animation
-         *                true  {@link #mExitTransitionEnable true 执行转场动画  false执行内部消失动画}
+         *                true  {@link #mExitTransitionEnable}
          */
         void onRelease(boolean dismiss);
     }
