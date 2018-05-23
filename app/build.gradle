@@ -31,4 +31,6 @@ dependencies {
 
     implementation 'me.relex:photodraweeview:1.1.3'
     implementation 'com.facebook.fresco:fresco:1.9.0'
+
+    implementation 'com.google.android.exoplayer:exoplayer:2.7.3'
 }

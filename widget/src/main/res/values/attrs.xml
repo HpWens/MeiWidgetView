@@ -2,57 +2,64 @@
 <resources>
 
     <declare-styleable name="BounceBallView">
-        <attr name="bounce_count" format="integer"/>
-        <attr name="ball_color" format="color"/>
-        <attr name="ball_radius" format="dimension"/>
-        <attr name="anim_duration" format="integer"/>
-        <attr name="ball_count" format="integer"/>
-        <attr name="ball_delay" format="integer"/>
-        <attr name="physic_mode" format="boolean"/>
-        <attr name="random_color" format="boolean"/>
-        <attr name="random_radius" format="boolean"/>
-        <attr name="random_path" format="boolean"/>
+        <attr name="bounce_count" format="integer" />
+        <attr name="ball_color" format="color" />
+        <attr name="ball_radius" format="dimension" />
+        <attr name="anim_duration" format="integer" />
+        <attr name="ball_count" format="integer" />
+        <attr name="ball_delay" format="integer" />
+        <attr name="physic_mode" format="boolean" />
+        <attr name="random_color" format="boolean" />
+        <attr name="random_radius" format="boolean" />
+        <attr name="random_path" format="boolean" />
     </declare-styleable>
 
     <!-- 风扇线条颜色 -->
     <declare-styleable name="MeiFanView">
-        <attr name="lineColor" format="color"/>
-        <attr name="fanRadiusRatio" format="float"/>
-        <attr name="fanSweepAngle" format="integer"/>
-        <attr name="fanDuration" format="integer"/>
+        <attr name="lineColor" format="color" />
+        <attr name="fanRadiusRatio" format="float" />
+        <attr name="fanSweepAngle" format="integer" />
+        <attr name="fanDuration" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="MeiTextPathView">
-        <attr name="text" format="string"/>
-        <attr name="textSize" format="dimension"/>
-        <attr name="textColor" format="color"/>
-        <attr name="duration" format="integer"/>
-        <attr name="strokeWidth" format="dimension"/>
-        <attr name="cycle" format="boolean"/>
-        <attr name="autoStart" format="boolean"/>
+        <attr name="text" format="string" />
+        <attr name="textSize" format="dimension" />
+        <attr name="textColor" format="color" />
+        <attr name="duration" format="integer" />
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="cycle" format="boolean" />
+        <attr name="autoStart" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="MeiScrollParallaxView">
         <!-- 滚动速率 （0~1） 值越大滚动视差越明显 -->
-        <attr name="parallaxRate" format="float"/>
+        <attr name="parallaxRate" format="float" />
         <!-- 滑动是否显示视差 默认 true -->
-        <attr name="enableParallax" format="boolean"/>
+        <attr name="enableParallax" format="boolean" />
         <!-- 圆角宽度 默认 0  若通过修改父类来实现 则不需要设置此值-->
-        <attr name="roundWidth" format="dimension"/>
+        <attr name="roundWidth" format="dimension" />
         <!-- 是否显示圆形 默认 0  若通过修改父类来实现 则不需要设置此值-->
         <attr name="enableCircle" format="boolean"></attr>
         <!--圆角外的颜色 默认白色  若通过修改父类来实现 则不需要设置此值-->
-        <attr name="outRoundColor" format="color"/>
+        <attr name="outRoundColor" format="color" />
     </declare-styleable>
 
 
     <declare-styleable name="MeiHeartView">
         <!--爱心动画时长-->
-        <attr name="heartDuration" format="integer"/>
+        <attr name="heartDuration" format="integer" />
         <!--是否显示透明度动画-->
-        <attr name="heartEnableAlpha" format="boolean"/>
+        <attr name="heartEnableAlpha" format="boolean" />
         <!--是否显示缩放动画-->
-        <attr name="heartEnableScale" format="boolean"/>
+        <attr name="heartEnableScale" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="VideoDragRelativeLayout">
+        <!--默认的动画时长-->
+        <attr name="video_drag_duration" format="integer" />
+        <!-- true 执行转场动画 false执行自带动画-->
+        <attr name="video_drag_transition" format="boolean" />
     </declare-styleable>
 
 </resources>

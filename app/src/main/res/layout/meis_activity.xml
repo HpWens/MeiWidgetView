@@ -111,4 +111,29 @@
 
     </android.support.v7.widget.CardView>
 
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="onVideoDrag"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="仿头条视频拖拽控件"
+            android:textAllCaps="false"
+            android:textColor="#999999"
+            android:textSize="16sp"/>
+
+    </android.support.v7.widget.CardView>
+
 </LinearLayout>

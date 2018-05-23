@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.demo.widget">
 
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -27,6 +29,9 @@
         <activity android:name=".meis.MeiRadiusActivity"></activity>
         <activity
             android:name=".meis.MeiPhotoDragActivity"
+            android:theme="@style/translucent"></activity>
+        <activity
+            android:name=".meis.MeiVideoDragActivity"
             android:theme="@style/translucent"></activity>
     </application>
 

@@ -46,4 +46,8 @@ public class MainActivity extends AppCompatActivity {
     public void onPhotoDrag(View view) {
         startActivity(new Intent(this, MeiPhotoDragActivity.class));
     }
+
+    public void onVideoDrag(View view) {
+        startActivity(new Intent(this, MeiVideoDragActivity.class));
+    }
 }
