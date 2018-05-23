@@ -275,6 +275,47 @@ app gradle
    }));
 ````
 
+### 8、仿头条小视频拖拽控件
+
+<img src="/gif/mei_video_drag.gif" width="280px"/> 
+
+````
+<com.meis.widget.photodrag.VideoDragRelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+````
+
+属性
+
+````
+    <declare-styleable name="VideoDragRelativeLayout">
+        <!--默认的动画时长-->
+        <attr name="video_drag_duration" format="integer" />
+        <!-- true 执行转场动画 false执行自带动画-->
+        <attr name="video_drag_transition" format="boolean" />
+    </declare-styleable>
+````
+
+VideoDragRelativeLayout 继承 RelativeLayout ，默认拦截事件并消费事件。若子控件想消费事件，请在 xml 布局文件中设置子控件 `android:tag="dispatch"` ，释放拖拽的后续处理请实现以下接口
+
+````
+    mDragVideoLayout.setOnVideoDragListener(new VideoDragRelativeLayout.OnVideoDragListener() {
+        @Override
+        public void onStartDrag() {
+           //开始拖拽  一般隐藏非拖拽控件
+        }
+        @Override
+        public void onRelease(boolean dismiss) {
+            //释放 注意这里以触摸移动高度 / 父控件高度 的比例  小于 0.1 dismiss=false 则恢复动画 大于 0.1 dismiss=true 
+            if (dismiss) {
+	    //可以直接 finish 掉，但也可以通过转场动画返回上一个页面
+               finish();
+            }
+        }
+    });
+````
+
+
 ## Contact
 
 QQ群：478720016
