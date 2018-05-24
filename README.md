@@ -85,7 +85,7 @@ app build.gradle
 
 ````
     <com.meis.widget.ball.BounceBallView
-       ...
+        ...
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 ````
@@ -105,7 +105,7 @@ app build.gradle
 
 #### d、参考文章
 
-[自定义View之小球自由落体弹跳加载控件](https://blog.csdn.net/totond/article/details/79375200)
+[自定义View之小球自由落体弹跳加载控件](http://blog.csdn.net/ccy0122/article/details/77427795)
 
 ### 3、扩散圆（主题切换）
 
@@ -376,6 +376,10 @@ app build.gradle
 ## Contact
 
 QQ群：478720016
+
+## [wiki](https://github.com/HpWens/MeiWidgetView/wiki)
+
+欢迎发邮件或者提issue
 
 ## LICENSE
 ````
