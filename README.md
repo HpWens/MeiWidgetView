@@ -11,7 +11,7 @@
 
 ### Step 1. Add the JitPack repository to your build file
 
-根build.gradle中依赖：
+root build.gradle
 
 ````
     allprojects {
@@ -25,7 +25,7 @@
 
 ### Step 2. Add the dependency
 
-项目下app的build.gradle中依赖：
+app build.gradle
 
 ````
 	dependencies {
@@ -33,19 +33,24 @@
 	}
 ````
 
-## Preview
+## 使用
+
+### 1、文字路径
+
+#### a、效果预览
 
 <img src="/gif/mei_main.gif" width="280px"/> 
 
-文字路径
+#### b、xml布局
 
 ````
     <com.meis.widget.MeiTextPathView
+        ...
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 ````
 
-属性 
+#### c、xml属性 
 
 ````
     <declare-styleable name="MeiTextPathView">
@@ -66,21 +71,26 @@
     </declare-styleable>
 ````
 
-参考文章
+#### d、参考文章
 
 [文字路径动画控件TextPathView解析](https://blog.csdn.net/totond/article/details/79375200)
 
-### 1、弹跳小球
+### 2、弹跳小球
+
+#### a、效果预览
 
 <img src="/gif/bounce_ball.gif" width="280px"/> 
 
+#### b、xml布局
+
 ````
     <com.meis.widget.ball.BounceBallView
+       ...
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 ````
 
-属性
+#### c、属性
 
 - bounce_count :小球弹跳次数
 - ball_color:小球颜色
@@ -93,21 +103,26 @@
 - random_radius: 开启小球大小随机（在基础大小上下浮动）
 - random_path: 开启小球路径随机（在基础路径坐标上下浮动）
 
-参考文章
+#### d、参考文章
 
 [自定义View之小球自由落体弹跳加载控件](https://blog.csdn.net/totond/article/details/79375200)
 
-### 2、扩散圆（主题切换）
+### 3、扩散圆（主题切换）
+
+#### a、效果预览
 
 <img src="/gif/mei_ripple.gif" width="280px"/> 
 
+#### b、xml布局
+
 ````
     <com.meis.widget.MeiRippleView
+        ...
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 ````
 
-方法
+#### c、相关方法
 
 ````
     /**
@@ -118,35 +133,55 @@
     public void startRipple(int startX, int startY, int startRadius)
 ````
 
-参考文章
+#### d、参考文章
 
 [Android自定义View实现炫酷的主题切换动画(仿酷安客户端)](https://blog.csdn.net/u011387817/article/details/79604418)
 
-### 3、酷炫的路径
+### 4、酷炫的路径
+
+#### a、效果预览
 
 <img src="/gif/mei_line_path.gif" width="280px"/> 
 
+#### b、xml布局
+
 ````
     <com.meis.widget.MeiLinePathView
+        ...
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 ````
 
-参考文章
+#### c、相关方法
+
+````
+    //设置路径
+    public void setPath(Path path) {
+        mKeyframes = new Keyframes(path);
+        mAlpha = 0;
+    }
+````
+
+#### d、参考文章
 
 [Android仿bilibili弹幕聊天室后面的线条动画](https://blog.csdn.net/u011387817/article/details/78817827)
 
-### 4、滚动视差
+### 5、MEI-图片滚动视差控件
+
+#### a、效果预览
 
 <img src="/gif/mei_parallax.gif" width="280px"/> 
 
+#### b、xml布局
+
 ````
     <com.meis.widget.MeiScrollParallaxView
+        ...
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>	
 ````
 
-属性
+#### c、属性
 
 ````
     <declare-styleable name="MeiScrollParallaxView">
@@ -163,17 +198,26 @@
     </declare-styleable>
 ````
 
-### 5、直播间送爱心
+#### d、参考文章
+
+[打造丝滑的滑动视差控件（ScrollParallaxView）](https://blog.csdn.net/u012551350/article/details/79275773)
+
+### 6、MEI-直播间送爱心
+
+#### a、效果预览
 
 <img src="/gif/mei_heart.gif" width="280px"/> 
 
+#### b、xml布局
+
 ````
     <com.meis.widget.heart.MeiHeartView
+        ...
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 ````
 
-属性
+#### c、属性
 
 ````
     <declare-styleable name="MeiHeartView">
@@ -186,24 +230,28 @@
     </declare-styleable>
 ````
 
-### 6、selector控件集
+#### d、参考文章
 
-效果图：
+[PathMeasure之直播间送爱心](https://blog.csdn.net/u012551350/article/details/78168459)
+
+### 7、Mei-selector控件集
+
+#### a、效果预览
 
 <img src="/gif/mei_shape.gif" width="280px"/> 
 
-通过 xml 布局的方式替换掉 selector 文件。这么做的优势在于，减少 apk 体积，避免后期维护大量的 selector 文件，扩展性更强，功能更加强大。
+通过`xml`布局的方式替换掉`selector`文件 , 这么做的优势在于 , 减少`apk`体积 , 避免后期维护大量的`selector`文件 , 扩展性更强 , 易修改 , 直观 ， 功能更加强大 
 
-#### 1、特性
+#### b、特性
 
--  支持圆角（四个角度，圆角半径是高度的一半）
--  支持背景Pressed，Disabled，Selected，Checked四种状态
--  支持描边（虚线，四种状态）
--  支持文本（四种状态）
+-  支持圆角（单独设定四个角角度，圆角半径是高度的一半）
+-  支持背景Pressed，Disabled，Selected，Checked四种状态切换
+-  支持描边（虚线，四种状态切换）
+-  支持文本（四种状态切换）
 -  支持涟漪（水波纹）
--  leftDrawable，topDrawable，rightDrawable，bottomDrawable（四种状态）
+-  支持leftDrawable，topDrawable，rightDrawable，bottomDrawable四种状态切换
 
-#### 2、支持原生控件
+#### c、支持原生控件
 
 -  RadiusTextView
 -  RadiusCheckBox
@@ -212,20 +260,20 @@
 -  RadiusLinearLayout
 -  RadiusRelativeLayout
 
-#### 3、扩展
+#### d、扩展
 
-委托的扩展方式（Delegate），参考的是（AppCompatActivity实现方式），具体请参考（RadiusTextView）
+委托的扩展方式（Delegate）, 参考的是（AppCompatActivity实现方式）, 具体请参考（RadiusTextView）
 
-### 7、仿百度浏览器图片拖拽控件
+### 8、MEI-仿百度浏览器图片拖拽控件
 
-效果图
+#### a、效果预览
 
 <img src="/gif/mei_drag.gif" width="280px"/> 
 
-参考代码 xml布局文件
+#### b、xml布局
 
 ````
-//PhotoDragRelativeLayout 委托的方式 易扩展
+//PhotoDragRelativeLayout 继承 RelativeLayout 委托的方式 易扩展
 <com.meis.widget.photodrag.PhotoDragRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pdr_content"
@@ -252,21 +300,24 @@
 </com.meis.widget.photodrag.PhotoDragRelativeLayout>
 ````
 
-代码
+#### c、相关代码
 
 ````
    mPdrLayout.setDragListener(new PhotoDragHelper().setOnDragListener(new PhotoDragHelper.OnDragListener() {
        @Override
        public void onAlpha(float alpha) {
-           mPdrLayout.setAlpha(alpha);
+           //随着拖动透明度的改变
+           mPdrLayout.setAlpha(alpha);
        }
        @Override
        public View getDragView() {
-           return mPdvView;
+           //返回需要拖拽的view
+           return mPdvView;
        }
        @Override
        public void onAnimationEnd(boolean mSlop) {
-           if (mSlop) {
+           //mSlop false执行恢复动画  true直接finish掉当前界面
+           if (mSlop) {
                finish();
                overridePendingTransition(0, 0);
            }
@@ -274,17 +325,22 @@
    }));
 ````
 
-### 8、仿头条小视频拖拽控件
+### 9、MEI-仿头条小视频拖拽控件
+
+#### a、效果预览
 
 <img src="/gif/mei_video_drag.gif" width="280px"/> 
 
+#### b、xml布局
+
 ````
 <com.meis.widget.photodrag.VideoDragRelativeLayout
+    ...
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>
 ````
 
-属性
+#### c、属性
 
 ````
     <declare-styleable name="VideoDragRelativeLayout">
@@ -295,26 +351,27 @@
     </declare-styleable>
 ````
 
-VideoDragRelativeLayout 继承 RelativeLayout ，默认拦截事件并消费事件。若子控件想消费事件，请在 xml 布局文件中设置子控件 `android:tag="dispatch"` ，释放拖拽的后续处理请实现以下接口
+`VideoDragRelativeLayout`继承`RelativeLayout`默认拦截并消费事件 , 若子控件想消费事件请在`xml`布局文件中设置子控件`android:tag="dispatch"`
+
+#### d、相关方法
 
 ````
     mDragVideoLayout.setOnVideoDragListener(new VideoDragRelativeLayout.OnVideoDragListener() {
         @Override
         public void onStartDrag() {
-           //开始拖拽  一般隐藏非拖拽控件
+           //开始拖拽  隐藏非拖拽控件
         }
         @Override
         public void onRelease(boolean dismiss) {
             //释放 注意这里以触摸移动高度 / 父控件高度 的比例  小于 0.1 dismiss=false 则恢复动画 大于 0.1 dismiss=true 
 	    //dismiss=false 显示隐藏的控件
             if (dismiss) {
-	    //可以直接 finish 掉，但也可以通过转场动画返回上一个页面
+	       //可以直接 finish 掉，但也可以通过转场动画返回上一个页面
                finish();
             }
         }
     });
 ````
-
 
 ## Contact
 
