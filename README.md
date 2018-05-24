@@ -240,7 +240,7 @@ app build.gradle
 
 <img src="/gif/mei_shape.gif" width="280px"/> 
 
-通过`xml`布局的方式替换掉`selector`文件 , 这么做的优势在于 , 减少`apk`体积 , 避免后期维护大量的`selector`文件 , 扩展性更强 , 易修改 , 直观 ， 功能更加强大 
+通过 `xml` 布局的方式替换掉 `selector` 文件 , 这么做的优势在于 , 减少 `apk` 体积 , 避免后期维护大量的 `selector` 文件 , 扩展性更强 , 易修改 , 直观 ， 功能更加强大 
 
 #### b、特性
 
@@ -351,7 +351,7 @@ app build.gradle
     </declare-styleable>
 ````
 
-`VideoDragRelativeLayout`继承`RelativeLayout`默认拦截并消费事件 , 若子控件想消费事件请在`xml`布局文件中设置子控件`android:tag="dispatch"`
+`VideoDragRelativeLayout` 继承 `RelativeLayout` 默认拦截并消费事件 , 若子控件想消费事件请在 `xml` 布局文件中设置子控件 `android:tag="dispatch"` 
 
 #### d、相关方法
 
