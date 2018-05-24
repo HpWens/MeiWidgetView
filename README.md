@@ -1,18 +1,17 @@
-# MeiWidgetView
 [![](https://jitpack.io/v/HpWens/MeiWidgetView.svg)](https://jitpack.io/#HpWens/MeiWidgetView)
 [![](https://img.shields.io/scrutinizer/build/g/filp/whoops.svg)](https://blog.csdn.net/u012551350/)
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Hex.pm](https://img.shields.io/github/stars/HpWens/MeiWidgetView.svg)](https://github.com/HpWens/MeiWidgetView)
 
-
 # MeiWidgetView
+
 一款汇总了郭霖，鸿洋，以及自己平时收集的自定义控件的集合库。主旨帮助大家学习自定义控件中的一些技巧，分析问题解决问题的一种思路。
 
 ## 引入
 
 ### Step 1. Add the JitPack repository to your build file
 
-root gradle
+根build.gradle中依赖：
 
 ````
     allprojects {
@@ -26,7 +25,7 @@ root gradle
 
 ### Step 2. Add the dependency
 
-app gradle 
+项目下app的build.gradle中依赖：
 
 ````
 	dependencies {
