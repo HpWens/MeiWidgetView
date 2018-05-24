@@ -10,6 +10,8 @@ import android.graphics.Rect;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.meis.widget.R;
@@ -103,19 +105,53 @@ public class VideoDragRelativeLayout extends RelativeLayout {
      * @return true intercept event , false transfer event
      */
     private boolean childDispatchEvent(int touchX, int touchY) {
-        for (int i = 0; i < getChildCount(); i++) {
-            if (getChildAt(i).getTag() != null &&
-                    getChildAt(i).getTag().toString().equals(TAG_DISPATCH)) {
-                Rect rect = new Rect();
-                getChildAt(i).getGlobalVisibleRect(rect);
-                //current point whether contains current view
-                if (rect.contains(touchX, touchY)) {
-                    return false;
+        return !dispatchChildView(this, touchX, touchY);
+    }
+
+
+    /**
+     * @param parentView
+     * @param touchX
+     * @param touchY
+     * @return
+     */
+    private boolean dispatchChildView(ViewGroup parentView, int touchX, int touchY) {
+        boolean isDispatch = false;
+        for (int i = parentView.getChildCount() - 1; i >= 0; i--) {
+            View childView = parentView.getChildAt(i);
+            if (!childView.isShown()) {
+                continue;
+            }
+            boolean isTouchView = isTouchView(touchX, touchY, childView);
+            if (isTouchView && childView.getTag() != null && TAG_DISPATCH.equals(childView.getTag().toString())) {
+                isDispatch = true;
+                break;
+            }
+            if (childView instanceof ViewGroup) {
+                ViewGroup itemView = (ViewGroup) childView;
+                if (!isTouchView) {
+                    continue;
+                } else {
+                    isDispatch |= dispatchChildView(itemView, touchX, touchY);
+                    break;
                 }
             }
         }
-        return true;
+        return isDispatch;
     }
+
+    /**
+     * @param touchX
+     * @param touchY
+     * @param view
+     * @return
+     */
+    private boolean isTouchView(int touchX, int touchY, View view) {
+        Rect rect = new Rect();
+        view.getGlobalVisibleRect(rect);
+        return rect.contains(touchX, touchY);
+    }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
