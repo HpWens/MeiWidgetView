@@ -375,9 +375,11 @@ app build.gradle
 
 ## Contact
 
+QQ群：478720016
+
 ## [wiki](https://github.com/HpWens/MeiWidgetView/wiki)
 
-QQ群：478720016
+欢迎发邮件或者提issue
 
 ## LICENSE
 ````
