@@ -9,6 +9,7 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -173,8 +174,10 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 mMoveDx += dx;
                 mMoveDy = mMoveDy <= 0 ? 0 : mMoveDy;
 
+                Log.e("-------------", "***************" + mMoveDx + "**" + mMoveDy + "**" + mParentConflictEnable);
+
                 //fix parent view sliding conflict
-                if (Math.abs(mMoveDx) > Math.abs(mMoveDy)) {
+                if (Math.abs(mMoveDx) >= Math.abs(mMoveDy)) {
                     if (mParentConflictEnable) {
                         mParentConflictEnable = true;
                         return super.onTouchEvent(event);
@@ -211,6 +214,8 @@ public class VideoDragRelativeLayout extends RelativeLayout {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 mDragEnable = false;
+                //prevent the second drag
+                mParentConflictEnable = true;
                 //prevent multi-click call onRelease
                 if (mMoveDy == 0 && mMoveDx == 0) {
                     break;
