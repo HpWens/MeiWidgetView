@@ -62,6 +62,11 @@ public class VideoDragRelativeLayout extends RelativeLayout {
      */
     private boolean mExitTransitionEnable;
 
+    /**
+     * handler parent conflict e.g viewpager
+     */
+    private boolean mParentConflictEnable = true;
+
     private static final String TAG_DISPATCH = "dispatch";
 
     public VideoDragRelativeLayout(Context context) {
@@ -128,6 +133,20 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 float dy = y - mTouchLastY;
                 float dx = x - mTouchLastX;
 
+                mMoveDy += dy;
+                mMoveDx += dx;
+                mMoveDy = mMoveDy <= 0 ? 0 : mMoveDy;
+
+                //fix parent view sliding conflict
+                if (Math.abs(mMoveDx) > Math.abs(mMoveDy)) {
+                    if (mParentConflictEnable) {
+                        mParentConflictEnable = true;
+                        return super.onTouchEvent(event);
+                    }
+                } else {
+                    mParentConflictEnable = false;
+                }
+
                 //last two point x , y absolute more than 0
                 if (mListener != null && (Math.abs(dy) > 0 || Math.abs(dx) > 0)) {
                     mListener.onStartDrag();
@@ -135,10 +154,6 @@ public class VideoDragRelativeLayout extends RelativeLayout {
 
                 //1、drag x translation
                 setX(getX() + dx);
-
-                mMoveDy += dy;
-                mMoveDx += dx;
-                mMoveDy = mMoveDy <= 0 ? 0 : mMoveDy;
 
                 //2、set scale pivot (current viewGroup bottom of the middle)
                 setPivotX(getWidth() / 2F);
