@@ -9,7 +9,6 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -162,6 +161,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
             case MotionEvent.ACTION_DOWN:
                 mDragEnable = true;
                 mMoveDy = 0;
+                mMoveDx = 0;
                 mTouchLastX = x;
                 mTouchLastY = y;
                 break;
@@ -173,8 +173,6 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 mMoveDy += dy;
                 mMoveDx += dx;
                 mMoveDy = mMoveDy <= 0 ? 0 : mMoveDy;
-
-                Log.e("-------------", "***************" + mMoveDx + "**" + mMoveDy + "**" + mParentConflictEnable);
 
                 //fix parent view sliding conflict
                 if (Math.abs(mMoveDx) >= Math.abs(mMoveDy)) {
@@ -192,7 +190,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 }
 
                 //1、drag x translation
-                setX(getX() + dx);
+                setTranslationX(getTranslationX() + dx);
 
                 //2、set scale pivot (current viewGroup bottom of the middle)
                 setPivotX(getWidth() / 2F);
@@ -205,14 +203,18 @@ public class VideoDragRelativeLayout extends RelativeLayout {
 
                 //4、drag y translation
                 if (scale < 0.5F) {
-                    setY(getY() + dy / 2);
+                    setTranslationY(getTranslationY() + dy / 2);
                 }
 
                 mTouchLastX = x;
                 mTouchLastY = y;
+
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                if (mParentConflictEnable) {
+                    return super.onTouchEvent(event);
+                }
                 mDragEnable = false;
                 //prevent the second drag
                 mParentConflictEnable = true;
@@ -239,8 +241,8 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 //scale animation translation animation alpha animation
                 PropertyValuesHolder propertyScaleX = PropertyValuesHolder.ofFloat("scaleX", getScaleX(), mDismiss ? 0.1F : 1.0F);
                 PropertyValuesHolder propertyScaleY = PropertyValuesHolder.ofFloat("scaleY", getScaleY(), mDismiss ? 0.1F : 1.0F);
-                PropertyValuesHolder propertyTranslationX = PropertyValuesHolder.ofFloat("X", getX(), 0);
-                PropertyValuesHolder propertyTranslationY = PropertyValuesHolder.ofFloat("Y", getY(), mDismiss ? -getHeight() / 2 : 0);
+                PropertyValuesHolder propertyTranslationX = PropertyValuesHolder.ofFloat("translationX", getTranslationX(), 0);
+                PropertyValuesHolder propertyTranslationY = PropertyValuesHolder.ofFloat("translationY", getTranslationY(), mDismiss ? -getHeight() / 2 : 0);
                 PropertyValuesHolder propertyAlpha = PropertyValuesHolder.ofFloat("alpha", 1.0F, mDismiss ? 0F : 1.0F);
 
                 mCompressAnimator = ObjectAnimator.ofPropertyValuesHolder(this, propertyScaleX, propertyScaleY, propertyTranslationX, propertyTranslationY, propertyAlpha)

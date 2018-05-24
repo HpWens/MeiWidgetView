@@ -3,7 +3,6 @@ package com.demo.widget.meis;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,11 +37,13 @@ import com.google.android.exoplayer2.util.Util;
 import com.meis.widget.photodrag.VideoDragRelativeLayout;
 import com.meis.widget.radius.RadiusTextView;
 
+import me.yokeyword.fragmentation.SupportFragment;
+
 /**
  * Created by wenshi on 2018/5/24.
  * Description
  */
-public class MeiVideoDragFragment extends Fragment implements Player.EventListener {
+public class MeiVideoDragFragment extends SupportFragment implements Player.EventListener {
 
     TextView mTvComment;
     TextView mTvAttention;
@@ -56,7 +57,7 @@ public class MeiVideoDragFragment extends Fragment implements Player.EventListen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = View.inflate(getActivity(), R.layout.mei_video_drag_fragment, null);
+        View view = inflater.inflate(R.layout.mei_video_drag_fragment, container, false);
 
         mTvComment = view.findViewById(R.id.tv_comment);
         mTvAttention = view.findViewById(R.id.tv_attention);
@@ -106,9 +107,15 @@ public class MeiVideoDragFragment extends Fragment implements Player.EventListen
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onSupportVisible() {
+        super.onSupportVisible();
         mVideoPlayer.setPlayWhenReady(true);
+    }
+
+    @Override
+    public void onSupportInvisible() {
+        super.onSupportInvisible();
+        mVideoPlayer.setPlayWhenReady(false);
     }
 
     @Override

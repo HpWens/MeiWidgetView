@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 
 import com.demo.widget.R;
 import com.demo.widget.utils.Eyes;
@@ -14,11 +13,13 @@ import com.demo.widget.utils.Eyes;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.yokeyword.fragmentation.SupportActivity;
+
 /**
  * Created by wenshi on 2018/5/23.
  * Description
  */
-public class MeiVideoDragActivity extends AppCompatActivity {
+public class MeiVideoDragActivity extends SupportActivity {
 
     ViewPager mViewPager;
 
@@ -37,7 +38,7 @@ public class MeiVideoDragActivity extends AppCompatActivity {
         mFragments.add(new MeiVideoDragFragment());
         mFragments.add(new MeiVideoDragFragment());
 
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(0);
         mViewPager.setAdapter(new AdapterFragment(getSupportFragmentManager(), mFragments));
     }
 
@@ -59,9 +60,5 @@ public class MeiVideoDragActivity extends AppCompatActivity {
             return mFragments.size();
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {//选择性实现
-            return mFragments.get(position).getClass().getSimpleName();
-        }
     }
 }
