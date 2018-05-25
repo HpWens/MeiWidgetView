@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:resize_mode="fixed_width"
+        android:transitionName="transition_video_drag"
         app:surface_type="texture_view"
         app:use_controller="false">
     </com.google.android.exoplayer2.ui.SimpleExoPlayerView>

@@ -19,7 +19,6 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -131,8 +130,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="16dp"
                 android:text="按下字体颜色切换"
-                app:rv_textColor="@color/colorAccent"
-                app:rv_textCheckedColor="@color/colorPrimary" />
+                app:rv_textCheckedColor="@color/colorPrimary"
+                app:rv_textColor="@color/colorAccent" />
 
         </LinearLayout>
 

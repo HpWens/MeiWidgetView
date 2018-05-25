@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +12,7 @@
         android:background="@color/colorPrimary"
         app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
         app:title="MEI 控件"
-        app:titleTextColor="#FFF"/>
+        app:titleTextColor="#FFF" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/cv_mei"
@@ -35,7 +34,7 @@
             android:padding="16dp"
             android:text="滚动视差"
             android:textColor="#999999"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </android.support.v7.widget.CardView>
 
@@ -58,7 +57,7 @@
             android:padding="16dp"
             android:text="直播间送爱心"
             android:textColor="#999999"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </android.support.v7.widget.CardView>
 
@@ -82,7 +81,7 @@
             android:text="shape控件集"
             android:textAllCaps="false"
             android:textColor="#999999"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </android.support.v7.widget.CardView>
 
@@ -107,12 +106,13 @@
             android:text="仿百度浏览器图片拖拽"
             android:textAllCaps="false"
             android:textColor="#999999"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </android.support.v7.widget.CardView>
 
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cv_video_drag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -120,6 +120,7 @@
         android:layout_marginTop="16dp"
         android:foreground="?attr/selectableItemBackground"
         android:onClick="onVideoDrag"
+        android:transitionName="transition_video_drag"
         app:cardBackgroundColor="@android:color/white"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true">
@@ -132,7 +133,7 @@
             android:text="仿头条视频拖拽控件"
             android:textAllCaps="false"
             android:textColor="#999999"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </android.support.v7.widget.CardView>
 

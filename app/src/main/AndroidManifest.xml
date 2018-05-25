@@ -24,7 +24,9 @@
         <activity android:name=".guhong.MeiRippleActivity"></activity>
         <activity android:name=".guhong.MeiLinePathActivity"></activity>
         <activity android:name=".meis.MeiScrollParallaxActivity"></activity>
-        <activity android:name=".meis.MainActivity"></activity>
+        <activity
+            android:name=".meis.MainActivity"
+            android:windowContentTransitions="true"></activity>
         <activity android:name=".meis.MeiHeartActivity"></activity>
         <activity android:name=".meis.MeiRadiusActivity"></activity>
         <activity
@@ -32,7 +34,8 @@
             android:theme="@style/translucent"></activity>
         <activity
             android:name=".meis.MeiVideoDragActivity"
-            android:theme="@style/translucent"></activity>
+            android:theme="@style/translucent"
+            android:windowContentTransitions="true"></activity>
     </application>
 
 </manifest>
