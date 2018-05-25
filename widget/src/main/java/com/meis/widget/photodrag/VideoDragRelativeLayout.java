@@ -49,6 +49,12 @@ public class VideoDragRelativeLayout extends RelativeLayout {
      */
     private boolean mDragEnable = true;
 
+
+    /**
+     * self intercept event default false
+     */
+    private boolean mSelfIntercept = false;
+
     /**
      * animation duration , default 800
      */
@@ -85,6 +91,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VideoDragRelativeLayout);
         mDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_video_drag_duration, 400);
         mExitTransitionEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_video_drag_transition, true);
+        mSelfIntercept = ta.getBoolean(R.styleable.VideoDragRelativeLayout_video_drag_self_intercept, false);
         ta.recycle();
     }
 
@@ -94,6 +101,9 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 //whether intercept touch event
+                if (mSelfIntercept) {
+                    return super.onInterceptTouchEvent(ev);
+                }
                 return mChildIntercept = childDispatchEvent((int) ev.getRawX(), (int) ev.getRawY());
         }
         return super.onInterceptTouchEvent(ev);
@@ -284,6 +294,18 @@ public class VideoDragRelativeLayout extends RelativeLayout {
     public VideoDragRelativeLayout setDuration(long duration) {
         mDuration = duration;
         return this;
+    }
+
+    /**
+     * @param selfIntercept
+     */
+    public VideoDragRelativeLayout setSelfIntercept(boolean selfIntercept) {
+        mSelfIntercept = selfIntercept;
+        return this;
+    }
+
+    public boolean getSelfIntercept() {
+        return mSelfIntercept;
     }
 
     public long getDuration() {

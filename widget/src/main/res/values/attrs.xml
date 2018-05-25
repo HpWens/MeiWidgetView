@@ -60,6 +60,8 @@
         <attr name="video_drag_duration" format="integer" />
         <!-- true 执行转场动画 false执行自带动画-->
         <attr name="video_drag_transition" format="boolean" />
+        <!-- 是否自我拦截 onInterceptTouchEvent 事件  默认 false-->
+        <attr name="video_drag_self_intercept" format="boolean" />
     </declare-styleable>
 
 </resources>
