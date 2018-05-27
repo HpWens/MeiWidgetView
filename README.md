@@ -359,15 +359,15 @@ app build.gradle
     mDragVideoLayout.setOnVideoDragListener(new VideoDragRelativeLayout.OnVideoDragListener() {
         @Override
         public void onStartDrag() {
-           //开始拖拽  隐藏非拖拽控件
+           //开始拖拽的业务处理  e.g 隐藏非拖拽控件
         }
         @Override
         public void onRelease(boolean dismiss) {
             //释放 注意这里以触摸移动高度 / 父控件高度 的比例  小于 0.1 dismiss=false 则恢复动画 大于 0.1 dismiss=true 
-	    //dismiss=false 显示隐藏的控件
+	    //dismiss=false 执行恢复动画 e.g 显示隐藏的控件
             if (dismiss) {
-	       //可以直接 finish 掉，但也可以通过转场动画返回上一个页面
-               finish();
+	       //执行消失动画  e.g 关闭当前界面
+               finish();
             }
         }
     });
