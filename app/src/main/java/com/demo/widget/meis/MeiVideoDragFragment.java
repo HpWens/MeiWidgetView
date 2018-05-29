@@ -97,12 +97,22 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
         initPlayer();
         initVideo();
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mDragLayout.setOriginData(bundle.getIntArray("global_rect"));
+            if (bundle.getInt("index") == 0) {
+                mDragLayout.startTransitionAnimator();
+            }
+        }
+
         return view;
     }
 
     public void finish() {
         mVideoPlayer.setPlayWhenReady(false);
         mVideoPlayer.seekTo(0);
+        mVideoPlayer.removeListener(this);
+        mVideoPlayer.release();
         getActivity().finish();
     }
 
@@ -115,12 +125,6 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
     @Override
     public void onSupportInvisible() {
         super.onSupportInvisible();
-        mVideoPlayer.setPlayWhenReady(false);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
         mVideoPlayer.setPlayWhenReady(false);
     }
 
@@ -185,5 +189,11 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
     @Override
     public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
 
+    }
+
+    @Override
+    public boolean onBackPressedSupport() {
+        mDragLayout.onBackPressed();
+        return true;
     }
 }

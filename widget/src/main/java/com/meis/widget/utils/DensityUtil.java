@@ -4,10 +4,14 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.Window;
 import android.view.WindowManager;
+
+import java.lang.reflect.Field;
 
 /**
  * 尺寸转换工具类
@@ -64,5 +68,50 @@ public class DensityUtil {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
 
+    }
+
+    /**
+     * 获取状态栏高度
+     *
+     * @param activity
+     * @return
+     */
+    public static int getStatusBarHeight(Activity activity) {
+        int statusBarHeight = 0;
+        //尝试第一种获取方式
+        int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
+            if (statusBarHeight > 0) {
+                return statusBarHeight;
+            }
+        }
+        if (statusBarHeight <= 0) {
+            //第一种失败时, 尝试第二种获取方式
+            Rect rectangle = new Rect();
+            Window window = activity.getWindow();
+            window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+            statusBarHeight = rectangle.top;
+            if (statusBarHeight > 0) {
+                return statusBarHeight;
+            }
+        }
+        if (statusBarHeight <= 0) {
+            try {
+                Class<?> c = null;
+                Object obj = null;
+                Field field = null;
+                int x = 0;
+                c = Class.forName("com.android.internal.R$dimen");
+                obj = c.newInstance();
+                field = c.getField("status_bar_height");
+                x = Integer.parseInt(field.get(obj).toString());
+                statusBarHeight = activity.getResources().getDimensionPixelSize(x);
+                return statusBarHeight;
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+        return dip2px(activity, 24);
     }
 }

@@ -36,6 +36,7 @@
             android:name=".meis.MeiVideoDragActivity"
             android:theme="@style/translucent"
             android:windowContentTransitions="true"></activity>
+        <activity android:name=".meis.MeiVideoDragListActivity"></activity>
     </application>
 
 </manifest>

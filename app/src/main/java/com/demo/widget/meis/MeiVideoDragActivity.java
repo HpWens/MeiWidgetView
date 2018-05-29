@@ -1,5 +1,6 @@
 package com.demo.widget.meis;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import me.yokeyword.fragmentation.SupportActivity;
 public class MeiVideoDragActivity extends SupportActivity {
 
     ViewPager mViewPager;
+    int[] mGlobalRect = new int[4];
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,16 +33,26 @@ public class MeiVideoDragActivity extends SupportActivity {
 
         mViewPager = findViewById(R.id.view_pager);
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            mGlobalRect = intent.getIntArrayExtra("global_rect");
+        }
+
         List<Fragment> mFragments = new ArrayList<>();
 
-        mFragments.add(new MeiVideoDragFragment());
-        mFragments.add(new MeiVideoDragFragment());
-        mFragments.add(new MeiVideoDragFragment());
-        mFragments.add(new MeiVideoDragFragment());
+        for (int i = 0; i < 4; i++) {
+            MeiVideoDragFragment videoDragFragment = new MeiVideoDragFragment();
+            Bundle bundle = new Bundle();
+            bundle.putIntArray("global_rect", mGlobalRect);
+            bundle.putInt("index", i);
+            videoDragFragment.setArguments(bundle);
+            mFragments.add(videoDragFragment);
+        }
 
-        mViewPager.setOffscreenPageLimit(0);
+        mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(new AdapterFragment(getSupportFragmentManager(), mFragments));
     }
+
 
     public class AdapterFragment extends FragmentPagerAdapter {
         private List<Fragment> mFragments;
@@ -60,5 +72,11 @@ public class MeiVideoDragActivity extends SupportActivity {
             return mFragments.size();
         }
 
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, 0);
     }
 }

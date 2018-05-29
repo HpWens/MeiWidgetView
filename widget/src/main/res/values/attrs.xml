@@ -62,6 +62,8 @@
         <attr name="video_drag_transition" format="boolean" />
         <!-- 是否自我拦截 onInterceptTouchEvent 事件  默认 false-->
         <attr name="video_drag_self_intercept" format="boolean" />
+        <!-- 自动消失比 [0~1]-->
+        <attr name="video_drag_auto_dismiss_ratio" format="float" />
     </declare-styleable>
 
 </resources>
