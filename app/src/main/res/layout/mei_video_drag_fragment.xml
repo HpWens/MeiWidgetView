@@ -71,5 +71,11 @@
         android:src="@mipmap/ic_arrow_back_white_24dp"
         android:tag="dispatch" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_mei_ripple" />
+
 
 </com.meis.widget.photodrag.VideoDragRelativeLayout>

@@ -5,12 +5,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +88,9 @@ public class VideoDragRelativeLayout extends RelativeLayout {
     private int mOriginWidth;
     private int mOriginHeight;
 
+    //improve user experience
+    private int mOriginMaxVisibleHeight;
+
     private static final String TAG_DISPATCH = "dispatch";
 
     public VideoDragRelativeLayout(Context context) {
@@ -102,7 +105,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         //parse xml attribute
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VideoDragRelativeLayout);
-        mDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_video_drag_duration, 400);
+        mDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_video_drag_duration, 1000);
         mExitTransitionEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_video_drag_transition, true);
         mSelfIntercept = ta.getBoolean(R.styleable.VideoDragRelativeLayout_video_drag_self_intercept, false);
         mAutoDismissRatio = ta.getFloat(R.styleable.VideoDragRelativeLayout_video_drag_auto_dismiss_ratio, 0.1F);
@@ -291,53 +294,76 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         return mDragEnable ? mChildIntercept : super.onTouchEvent(event);
     }
 
-    public void setOriginData(Rect rect) {
+    public void setOriginData(Rect rect, int maxVisibleHeight) {
         if (rect != null) {
             mOriginX = rect.left;
             mOriginY = rect.top;
 
             mOriginWidth = rect.right - mOriginX;
             mOriginHeight = rect.bottom - mOriginY;
+
+            mOriginMaxVisibleHeight = maxVisibleHeight;
         }
     }
 
     public void setOriginData(int[] origins) {
-        if (origins != null && origins.length == 4) {
-            setOriginData(new Rect(origins[0], origins[1], origins[2], origins[3]));
+        if (origins != null && origins.length == 5) {
+            setOriginData(new Rect(origins[0], origins[1], origins[2], origins[3]), origins[4]);
         }
     }
 
-    public void setOriginData(int left, int top, int right, int bottom) {
-        setOriginData(new Rect(left, top, right, bottom));
+    public void setOriginData(int left, int top, int right, int bottom, int maxVisibleHeight) {
+        setOriginData(new Rect(left, top, right, bottom), maxVisibleHeight);
     }
 
+    ValueAnimator mEndAnimator;
+
     private void endTransitionAnimator() {
+        if (mEndAnimator != null && mEndAnimator.isRunning()) {
+            return;
+        }
         if (mOriginHeight != 0 && mOriginWidth != 0) {
             final float startTransitionX = getTranslationX();
             final float startTransitionY = getTranslationY();
             final float startScaleX = getScaleX();
             final float startScaleY = getScaleY();
+            final float endScaleX = (float) mOriginWidth / getWidth();
+            final float endScaleY = (float) mOriginMaxVisibleHeight / getHeight();
             //DensityUtil.getStatusBarHeight((Activity) getContext());
             final int statusHeight = 0;
-            ValueAnimator animator = ValueAnimator.ofFloat(0F, 1.0F).setDuration(mDuration);
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            boolean upperOutOfBound = false;
+            // +1 prevent errors
+            if ((mOriginHeight + 1) < mOriginMaxVisibleHeight) {
+                if ((mOriginY + mOriginMaxVisibleHeight) > getHeight()) {
+                    //下边界越界
+                } else {
+                    //上边界越界
+                    upperOutOfBound = true;
+                }
+            }
+
+            final boolean outOfBound = upperOutOfBound;
+            mEndAnimator = ValueAnimator.ofFloat(0F, 1.0F).setDuration(mDuration);
+            mEndAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float value = (float) animation.getAnimatedValue();
 
-                    setScaleX(startScaleX + value * ((float) mOriginWidth / getWidth() - startScaleX));
-                    setScaleY(startScaleY + value * ((float) mOriginHeight / getHeight() - startScaleY));
+                    setScaleX(startScaleX + value * (endScaleX - startScaleX));
+                    setScaleY(startScaleY + value * (endScaleY - startScaleY));
 
-                    setTranslationX(startTransitionX + value * (mOriginX - startTransitionX) - value * mOriginWidth / 2F);
+                    setTranslationX(startTransitionX + value * (mOriginX - startTransitionX) - value * (getWidth() - mOriginWidth) / 2.0F);
                     //注意状态栏的高度 前一个界面无状态栏则去掉 + statusHeight
-                    setTranslationY(startTransitionY - value * (startTransitionY - mOriginY) - value * (getHeight() - mOriginHeight + statusHeight));
+                    setTranslationY(startTransitionY - value * (startTransitionY - mOriginY) - value * (getHeight() - mOriginMaxVisibleHeight + statusHeight) - (outOfBound ? value * (mOriginMaxVisibleHeight - mOriginHeight) : 0));
                 }
             });
-            animator.addListener(new AnimatorListenerAdapter() {
+            mEndAnimator.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
                     mSelfIntercept = false;
+                    mChildIntercept = true;
                     if (mListener != null) {
                         mListener.onRelease(true);
                     }
@@ -347,9 +373,10 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 public void onAnimationStart(Animator animation) {
                     super.onAnimationStart(animation);
                     mSelfIntercept = true;
+                    mChildIntercept = false;
                 }
             });
-            animator.start();
+            mEndAnimator.start();
         }
     }
 
@@ -361,26 +388,55 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         startTransitionAnimator(false);
     }
 
+    ValueAnimator mStartAnimator;
+
     private void startTransitionAnimator(final boolean exitEnable) {
+        if (mStartAnimator != null && mStartAnimator.isRunning()) {
+            return;
+        }
+        if (mEndAnimator != null && mEndAnimator.isRunning()) {
+            return;
+        }
         if (mOriginHeight != 0 && mOriginWidth != 0) {
             setPivotX(0);
             setPivotY(0);
-            // DensityUtil.getStatusBarHeight((Activity) getContext());
+            //DensityUtil.getStatusBarHeight((Activity) getContext());
             final int statusHeight = 0;
-            ValueAnimator animator = ValueAnimator.ofFloat(exitEnable ? 1.0F : 0F, exitEnable ? 0F : 1.0F).setDuration(mDuration);
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            //具体场景 可以替换成  getWidth()  getHeight()
+            boolean upperOutOfBound = false;
+            int screenHeight = DensityUtil.getScreenSize(getContext()).y;
+            final float startScaleX = (float) mOriginWidth / DensityUtil.getScreenSize(getContext()).x;
+            final float startScaleY = (float) mOriginMaxVisibleHeight / screenHeight;
+
+            // +1 prevent errors
+            if ((mOriginHeight + 1) < mOriginMaxVisibleHeight) {
+                //上边界越界 或者 下边界越界
+                if ((mOriginY + mOriginMaxVisibleHeight) > screenHeight) {
+                    //下边界越界
+                } else {
+                    //上边界越界
+                    upperOutOfBound = true;
+                }
+            }
+
+            Log.e("-------------", "***************aaa" + mOriginX + "***" + mOriginY + "****" + mOriginWidth + "***" + mOriginHeight
+                    + "*****" + startScaleX + "*****" + startScaleY + "****" + mOriginMaxVisibleHeight + "****" + DensityUtil.getScreenSize(getContext()).x);
+
+            final boolean outOfBound = upperOutOfBound;
+            mStartAnimator = ValueAnimator.ofFloat(exitEnable ? 1.0F : 0F, exitEnable ? 0F : 1.0F).setDuration(mDuration);
+            mStartAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float value = (float) animation.getAnimatedValue();
                     setTranslationX(mOriginX - value * mOriginX);
-                    setTranslationY((mOriginY - statusHeight) - value * (mOriginY - statusHeight));
-                    float scaleX = (float) mOriginWidth / getWidth();
-                    setScaleX(scaleX + value * (1.0F - scaleX));
-                    float scaleY = (float) mOriginHeight / getHeight();
-                    setScaleY(scaleY + value * (1.0F - scaleY));
+                    setTranslationY((mOriginY - statusHeight) - value * (mOriginY - statusHeight) - (outOfBound ? (1.0F - value) * (mOriginMaxVisibleHeight - mOriginHeight) : 0));
+
+                    setScaleX(startScaleX + value * (1.0F - startScaleX));
+                    setScaleY(startScaleY + value * (1.0F - startScaleY));
                 }
             });
-            animator.addListener(new AnimatorListenerAdapter() {
+            mStartAnimator.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
@@ -396,7 +452,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                     mSelfIntercept = true;
                 }
             });
-            animator.start();
+            mStartAnimator.start();
         }
     }
 

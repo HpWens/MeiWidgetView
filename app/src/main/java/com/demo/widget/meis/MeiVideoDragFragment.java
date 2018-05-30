@@ -77,12 +77,13 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
 
             @Override
             public void onRelease(boolean dismiss) {
-                mTvComment.setVisibility(View.VISIBLE);
-                mTvAttention.setVisibility(View.VISIBLE);
-                mTvName.setVisibility(View.VISIBLE);
-                mIvClose.setVisibility(View.VISIBLE);
                 if (dismiss) {
                     finish();
+                } else {
+                    mTvComment.setVisibility(View.VISIBLE);
+                    mTvAttention.setVisibility(View.VISIBLE);
+                    mTvName.setVisibility(View.VISIBLE);
+                    mIvClose.setVisibility(View.VISIBLE);
                 }
             }
         });

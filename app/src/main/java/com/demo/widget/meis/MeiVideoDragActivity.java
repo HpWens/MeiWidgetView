@@ -23,7 +23,7 @@ import me.yokeyword.fragmentation.SupportActivity;
 public class MeiVideoDragActivity extends SupportActivity {
 
     ViewPager mViewPager;
-    int[] mGlobalRect = new int[4];
+    int[] mGlobalRect = new int[5];
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -3,6 +3,7 @@ package com.meis.widget.utils;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
@@ -12,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * 尺寸转换工具类
@@ -113,5 +115,51 @@ public class DensityUtil {
             }
         }
         return dip2px(activity, 24);
+    }
+
+    /**
+     * 获取导航栏高度
+     *
+     * @param context
+     * @return
+     */
+    public static int getNavigationHeight(Context context) {
+        int resourceId = 0;
+        int rid = context.getResources().getIdentifier("config_showNavigationBar", "bool", "android");
+        if (rid != 0) {
+            resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+            return context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return 0;
+    }
+
+    /**
+     * 是否存在导航栏
+     *
+     * @param context
+     * @return
+     */
+    public static boolean checkDeviceHasNavigationBar(Context context) {
+        if (context instanceof Activity) {
+            WindowManager windowManager = ((Activity) context).getWindowManager();
+            Display d = windowManager.getDefaultDisplay();
+
+            DisplayMetrics realDisplayMetrics = new DisplayMetrics();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                d.getRealMetrics(realDisplayMetrics);
+            }
+
+            int realHeight = realDisplayMetrics.heightPixels;
+            int realWidth = realDisplayMetrics.widthPixels;
+
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            d.getMetrics(displayMetrics);
+
+            int displayHeight = displayMetrics.heightPixels;
+            int displayWidth = displayMetrics.widthPixels;
+
+            return (realWidth - displayWidth) > 0 || (realHeight - displayHeight) > 0;
+        }
+        return false;
     }
 }
