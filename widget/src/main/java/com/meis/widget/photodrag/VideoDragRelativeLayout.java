@@ -10,7 +10,6 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,7 +104,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         //parse xml attribute
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VideoDragRelativeLayout);
-        mDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_video_drag_duration, 1000);
+        mDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_video_drag_duration, 400);
         mExitTransitionEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_video_drag_transition, true);
         mSelfIntercept = ta.getBoolean(R.styleable.VideoDragRelativeLayout_video_drag_self_intercept, false);
         mAutoDismissRatio = ta.getFloat(R.styleable.VideoDragRelativeLayout_video_drag_auto_dismiss_ratio, 0.1F);
@@ -355,7 +354,8 @@ public class VideoDragRelativeLayout extends RelativeLayout {
 
                     setTranslationX(startTransitionX + value * (mOriginX - startTransitionX) - value * (getWidth() - mOriginWidth) / 2.0F);
                     //注意状态栏的高度 前一个界面无状态栏则去掉 + statusHeight
-                    setTranslationY(startTransitionY - value * (startTransitionY - mOriginY) - value * (getHeight() - mOriginMaxVisibleHeight + statusHeight) - (outOfBound ? value * (mOriginMaxVisibleHeight - mOriginHeight) : 0));
+                    setTranslationY(startTransitionY - value * (startTransitionY - mOriginY) - value * (getHeight() - mOriginMaxVisibleHeight + statusHeight) - (outOfBound ?
+                            value * (mOriginMaxVisibleHeight - mOriginHeight) : 0));
                 }
             });
             mEndAnimator.addListener(new AnimatorListenerAdapter() {
@@ -374,6 +374,9 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                     super.onAnimationStart(animation);
                     mSelfIntercept = true;
                     mChildIntercept = false;
+                    if (mListener != null) {
+                        mListener.onGoBack();
+                    }
                 }
             });
             mEndAnimator.start();
@@ -420,9 +423,6 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 }
             }
 
-            Log.e("-------------", "***************aaa" + mOriginX + "***" + mOriginY + "****" + mOriginWidth + "***" + mOriginHeight
-                    + "*****" + startScaleX + "*****" + startScaleY + "****" + mOriginMaxVisibleHeight + "****" + DensityUtil.getScreenSize(getContext()).x);
-
             final boolean outOfBound = upperOutOfBound;
             mStartAnimator = ValueAnimator.ofFloat(exitEnable ? 1.0F : 0F, exitEnable ? 0F : 1.0F).setDuration(mDuration);
             mStartAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -450,6 +450,9 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 public void onAnimationStart(Animator animation) {
                     super.onAnimationStart(animation);
                     mSelfIntercept = true;
+                    if (mListener != null && exitEnable) {
+                        mListener.onGoBack();
+                    }
                 }
             });
             mStartAnimator.start();
@@ -523,5 +526,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
          *                true  {@link #mExitTransitionEnable}
          */
         void onRelease(boolean dismiss);
+
+        void onGoBack();
     }
 }

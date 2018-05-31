@@ -49,10 +49,14 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
     TextView mTvAttention;
     RadiusTextView mTvName;
     ImageView mIvClose;
+    ImageView mIvBg;
     SimpleExoPlayerView mVideoView;
     SimpleExoPlayer mVideoPlayer;
 
+    String mVideoUrl = "";
     VideoDragRelativeLayout mDragLayout;
+
+    boolean mFirstPosition;
 
     @Nullable
     @Override
@@ -65,6 +69,7 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
         mIvClose = view.findViewById(R.id.iv_close);
         mDragLayout = view.findViewById(R.id.rl_drag);
         mVideoView = view.findViewById(R.id.video_view);
+        mIvBg = view.findViewById(R.id.iv_bg);
 
         mDragLayout.setOnVideoDragListener(new VideoDragRelativeLayout.OnVideoDragListener() {
             @Override
@@ -86,6 +91,11 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
                     mIvClose.setVisibility(View.VISIBLE);
                 }
             }
+
+            @Override
+            public void onGoBack() {
+                mIvBg.setVisibility(View.VISIBLE);
+            }
         });
 
         mIvClose.setOnClickListener(new View.OnClickListener() {
@@ -95,16 +105,25 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
             }
         });
 
-        initPlayer();
-        initVideo();
-
         Bundle bundle = getArguments();
         if (bundle != null) {
             mDragLayout.setOriginData(bundle.getIntArray("global_rect"));
-            if (bundle.getInt("index") == 0) {
-                mDragLayout.startTransitionAnimator();
+
+            int position = bundle.getInt("index");
+            mDragLayout.startTransitionAnimator();
+
+            if (position == 0) {
+                mFirstPosition = true;
+            } else {
+                mFirstPosition = false;
             }
+            mIvBg.setBackgroundResource(position % 3 == 0 ? R.mipmap.ic_small_video_0 : position % 3 == 1
+                    ? R.mipmap.ic_small_video_1 : R.mipmap.ic_small_video_2);
+            mVideoUrl = bundle.getString("video_url");
         }
+
+        initPlayer();
+        initVideo(mVideoUrl);
 
         return view;
     }
@@ -120,6 +139,12 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
+        mIvBg.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mIvBg.setVisibility(View.GONE);
+            }
+        }, 400);
         mVideoPlayer.setPlayWhenReady(true);
     }
 
@@ -143,11 +168,13 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
         mVideoPlayer.addListener(this);
     }
 
-    private void initVideo() {
+    private void initVideo(String videoUrl) {
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getActivity(),
                 Util.getUserAgent(getActivity(), "useExoPlayer"), null);
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-        MediaSource videoSource = new ExtractorMediaSource(Uri.parse("http://sv.dingdangyixia.cn/sv/2fced8a5922843c19c038330cb66f505"),
+        //http://sv.dingdangyixia.cn/sv/2fced8a5922843c19c038330cb66f505
+        //由于头条的视频地址 在一定的时间会变化  过期的地址无法访问 后期可以通过 python 抓起实时地址
+        MediaSource videoSource = new ExtractorMediaSource(Uri.parse(videoUrl),
                 dataSourceFactory, extractorsFactory, null, null);
         mVideoPlayer.prepare(videoSource);
     }

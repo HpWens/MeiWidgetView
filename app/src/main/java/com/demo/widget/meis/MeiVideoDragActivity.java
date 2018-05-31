@@ -44,7 +44,8 @@ public class MeiVideoDragActivity extends SupportActivity {
             MeiVideoDragFragment videoDragFragment = new MeiVideoDragFragment();
             Bundle bundle = new Bundle();
             bundle.putIntArray("global_rect", mGlobalRect);
-            bundle.putInt("index", i);
+            bundle.putString("video_url", intent.getStringExtra("video_url"));
+            bundle.putInt("index", intent.getIntExtra("video_index", 0));
             videoDragFragment.setArguments(bundle);
             mFragments.add(videoDragFragment);
         }

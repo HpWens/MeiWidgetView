@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="small_video_title">
+        <item>厉害我的女司机</item>
+        <item>要我爸又何用</item>
+        <item>这个舞可有点意思</item>
+    </string-array>
+
+    <string-array name="small_video_cover_url">
+        <item>http://p1.pstatp.com/list/300x300/7c6b000fb3d37f871859</item>
+        <item>http://p3.pstatp.com/list/300x300/8821000d67bb41184b2e</item>
+        <item>http://p3.pstatp.com/list/300x300/8761000da19aedc1f5fe</item>
+    </string-array>
+
+    <string-array name="small_video_video_url">
+        <item>http://v11-tt.ixigua.com/507b28db2a3a56c087c125b2c7bf29cc/5b0ecc94/video/m/2200a5bc732bf834332bb780a05187b15911156802c00004fd6f23da4b9/</item>
+        <item>http://v11-tt.ixigua.com/b6c3ddd541a8e6db8548f9ab55276c61/5b0ebe81/video/m/22088d8acd5043c4bff9f435846a34b9ee711579b4200005ab03525e686/</item>
+        <item>http://v3-tt.ixigua.com/edfc9bc8aeb0a3fcb426371fd8cae80b/5b0ebf14/video/m/2206581a4eeb5c540f2af6b7fdf10307735115770140000c29d2029396c/</item>
+    </string-array>
+</resources>
