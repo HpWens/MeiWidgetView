@@ -327,6 +327,11 @@ app build.gradle
 
 ### 9、MEI-仿头条小视频拖拽控件
 
+针对头条效果做了如下优化
+
+-  列表图片没有完全展示点击的转场动画图片明显变形压缩
+-  详情页往顶部拖拽有明显的卡顿现象
+
 #### a、效果预览
 
 <img src="/gif/mei_video_drag.gif" width="280px"/> 
@@ -348,6 +353,10 @@ app build.gradle
         <attr name="video_drag_duration" format="integer" />
         <!-- true 执行转场动画 false执行自带动画-->
         <attr name="video_drag_transition" format="boolean" />
+        <!-- 是否自我拦截 onInterceptTouchEvent 事件  默认 false-->
+        <attr name="video_drag_self_intercept" format="boolean" />
+        <!-- 自动消失比 [0~1]-->
+        <attr name="video_drag_auto_dismiss_ratio" format="float" />
     </declare-styleable>
 ````
 
@@ -370,6 +379,11 @@ app build.gradle
                finish();
             }
         }
+       @Override
+       public void onGoBack() {
+          //返回键相关处理
+	  ...
+       }
     });
 ````
 
