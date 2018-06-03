@@ -174,7 +174,8 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         //http://sv.dingdangyixia.cn/sv/2fced8a5922843c19c038330cb66f505
         //由于头条的视频地址 在一定的时间会变化  过期的地址无法访问 后期可以通过 python 抓起实时地址
-        MediaSource videoSource = new ExtractorMediaSource(Uri.parse(videoUrl),
+        MediaSource videoSource = new ExtractorMediaSource(Uri.parse("https://vd3.bdstatic.com/mda-idsf3bv3i0p90zey/sc/mda-idsf3bv3i0p90zey" +
+                ".mp4?auth_key=1528016527-0-0-8536f7bcf109debae7c1ac5625a92d6c&amp;bcevod_channel=searchbox_feed"),
                 dataSourceFactory, extractorsFactory, null, null);
         mVideoPlayer.prepare(videoSource);
     }
