@@ -1,8 +1,13 @@
 package com.meis.widget.mobike;
 
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.meis.widget.R;
+
+import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -136,15 +141,154 @@ public class Mobike {
         bottomBody.createFixture(def);
     }
 
-    public void onSizeChange(int width, int height) {
+    private void createWorldChild(boolean change) {
+        if (null != mViewGroup) {
+            int count = mViewGroup.getChildCount();
+            for (int i = 0; i < count; i++) {
+                View childView = mViewGroup.getChildAt(i);
+                if (!isBodyView(childView) || change) {
+                    createBody(childView);
+                }
+            }
+        }
+    }
 
+    private void createBody(View childView) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyType.DYNAMIC;
+
+        //设置view中心点位置
+        bodyDef.position.set(mappingView2Body(childView.getX() + childView.getWidth() / 2),
+                mappingView2Body(childView.getY() + childView.getHeight() / 2));
+
+        Shape shape = null;
+        Boolean isCircle = (boolean) childView.getTag(R.id.wd_view_circle_tag);
+        if (isCircle != null && isCircle) {
+            shape = createCircleBody(childView);
+        } else {
+            shape = createPolygonBody(childView);
+        }
+
+        //设置系数
+        FixtureDef def = new FixtureDef();
+        def.shape = shape;
+        def.density = density;
+        def.friction = frictionRatio;
+        def.restitution = restitutionRatio;
+
+        Body body = world.createBody(bodyDef);
+        body.createFixture(def);
+
+        childView.setTag(R.id.wd_view_body_tag, body);
+        body.setLinearVelocity(new Vec2(random.nextFloat(), random.nextFloat()));
+    }
+
+    private Shape createPolygonBody(View childView) {
+        PolygonShape polygonShape = new PolygonShape();
+        //形状的大小为 view 的一半 （还可以等比缩放）
+        polygonShape.setAsBox(mappingView2Body(childView.getWidth() / 2), mappingView2Body(childView.getHeight() / 2));
+        return polygonShape;
+    }
+
+    private Shape createCircleBody(View childView) {
+        CircleShape circleShape = new CircleShape();
+        //半径为 宽、高的一半
+        circleShape.setRadius(mappingView2Body(childView.getHeight() / 2));
+        return circleShape;
+    }
+
+    public void onSizeChange(int width, int height) {
+        this.width = width;
+        this.height = height;
     }
 
     public void onDraw() {
-
+        if (world != null) {
+            world.step(dt, velocityIterations, countIterations);
+        }
+        int count = mViewGroup.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View view = mViewGroup.getChildAt(i);
+            if (isBodyView(view)) {
+                view.setX(getViewX(view));
+                view.setY(getViewY(view));
+                view.setRotation(getViewRotation(view));
+            }
+        }
+        mViewGroup.postInvalidate();
     }
 
     public void onLayout(boolean changed) {
+        createWorld();
+        createWorldChild(changed);
+    }
 
+    private boolean isBodyView(View view) {
+        Body body = (Body) view.getTag(R.id.wd_view_body_tag);
+        return body != null;
+    }
+
+    private float getViewX(View view) {
+        Body body = (Body) view.getTag(R.id.wd_view_body_tag);
+        if (null != body) {
+            //注意换算
+            return mappingBody2View(body.getPosition().x) - view.getWidth() / 2;
+        }
+        return 0;
+    }
+
+    private float getViewY(View view) {
+        Body body = (Body) view.getTag(R.id.wd_view_body_tag);
+        if (null != body) {
+            //注意换算
+            return mappingBody2View(body.getPosition().y) - view.getHeight() / 2;
+        }
+        return 0;
+    }
+
+    private float getViewRotation(View view) {
+        Body body = (Body) view.getTag(R.id.wd_view_body_tag);
+        if (null != body) {
+            float angle = body.getAngle();
+            //注意换算
+            return (angle / 3.14f * 180f) % 360;
+        }
+        return 0;
+    }
+
+    public void onSensorChanged(float x, float y) {
+        int childCount = mViewGroup.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View view = mViewGroup.getChildAt(i);
+            if (isBodyView(view)) {
+                applyLinearImpulse(x, y, view);
+            }
+        }
+    }
+
+    public void onRandomChanged() {
+        int childCount = mViewGroup.getChildCount();
+        float x = random.nextInt(800) - 800;
+        float y = random.nextInt(800) - 800;
+        for (int i = 0; i < childCount; i++) {
+            View view = mViewGroup.getChildAt(i);
+            if (isBodyView(view)) {
+                applyLinearImpulse(x, y, view);
+            }
+        }
+    }
+
+    private void applyLinearImpulse(float x, float y, View view) {
+        Body body = (Body) view.getTag(R.id.wd_view_body_tag);
+        if (null != null) {
+            //N秒或kg-m / s为单位
+            Vec2 vec2 = new Vec2(x, y);
+            //对body施加一个冲量
+            /// 应用一个冲量到一个点上，这将立即改变速度。（这句话的意思是突然在一个点上作用一个力）
+            /// 如果这个点不再应用程序的质心上，它还会修改角速度. 唤醒 body.
+            /// @param impulse  world 的矢量冲量, 通常 N-seconds or kg-m/s.
+            /// @param point 应用里面的某个点的 world 位置
+            body.applyLinearImpulse(vec2, body.getPosition(), true);
+        }
     }
 }
