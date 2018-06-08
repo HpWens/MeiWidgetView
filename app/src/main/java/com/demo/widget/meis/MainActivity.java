@@ -53,4 +53,8 @@ public class MainActivity extends AppCompatActivity {
     public void onVideoDrag(View view) {
         startActivity(new Intent(this, MeiVideoDragListActivity.class));
     }
+
+    public void onMokibe(View view) {
+        startActivity(new Intent(this, MeiMobikeActivity.class));
+    }
 }

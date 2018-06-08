@@ -39,7 +39,7 @@ public class Mobike {
     private int proportion = 50;
 
     //密度
-    private float density = 0.6f;
+    private float density = 0.5f;
 
     //摩擦系数
     private float frictionRatio = 0.3f;
@@ -215,7 +215,7 @@ public class Mobike {
                 view.setRotation(getViewRotation(view));
             }
         }
-        mViewGroup.postInvalidate();
+        mViewGroup.invalidate();
     }
 
     public void onLayout(boolean changed) {
@@ -280,7 +280,7 @@ public class Mobike {
 
     private void applyLinearImpulse(float x, float y, View view) {
         Body body = (Body) view.getTag(R.id.wd_view_body_tag);
-        if (null != null) {
+        if (null != body) {
             //N秒或kg-m / s为单位
             Vec2 vec2 = new Vec2(x, y);
             //对body施加一个冲量

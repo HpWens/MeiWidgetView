@@ -43,13 +43,13 @@ public class MeiVideoDragListActivity extends AppCompatActivity {
             @Override
             protected void convert(BaseViewHolder helper, SmallVideoBean item) {
                 helper.addOnClickListener(R.id.iv_bg);
+
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone((ConstraintLayout) helper.itemView);
                 constraintSet.setDimensionRatio(R.id.iv_bg, "H," + DensityUtil.getScreenSize(mContext).x + ":" + DensityUtil.getScreenSize(mContext).y);
                 constraintSet.applyTo((ConstraintLayout) helper.itemView);
 
-                helper.getView(R.id.iv_bg).setBackgroundResource(helper.getAdapterPosition() % 3 == 0 ? R.mipmap.ic_small_video_0 : helper.getAdapterPosition() % 3 == 1
-                        ? R.mipmap.ic_small_video_1 : R.mipmap.ic_small_video_2);
+                helper.getView(R.id.iv_bg).setBackgroundResource(R.mipmap.ic_video_drag_bg);
                 helper.setText(R.id.tv_name, item.title);
             }
         });

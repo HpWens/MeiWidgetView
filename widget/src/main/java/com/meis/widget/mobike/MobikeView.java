@@ -51,4 +51,12 @@ public class MobikeView extends FrameLayout {
     public Mobike getMobike() {
         return mMobike;
     }
+
+    public void onSensorChanged(float x, float y) {
+        mMobike.onSensorChanged(x, y);
+    }
+
+    public void onRandomChanged() {
+        mMobike.onRandomChanged();
+    }
 }

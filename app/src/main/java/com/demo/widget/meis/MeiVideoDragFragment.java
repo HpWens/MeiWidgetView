@@ -117,8 +117,7 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
             } else {
                 mFirstPosition = false;
             }
-            mIvBg.setBackgroundResource(position % 3 == 0 ? R.mipmap.ic_small_video_0 : position % 3 == 1
-                    ? R.mipmap.ic_small_video_1 : R.mipmap.ic_small_video_2);
+            mIvBg.setBackgroundResource(R.mipmap.ic_video_drag_bg);
             mVideoUrl = bundle.getString("video_url");
         }
 
@@ -174,8 +173,8 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         //http://sv.dingdangyixia.cn/sv/2fced8a5922843c19c038330cb66f505
         //由于头条的视频地址 在一定的时间会变化  过期的地址无法访问 后期可以通过 python 抓起实时地址
-        MediaSource videoSource = new ExtractorMediaSource(Uri.parse("https://vd3.bdstatic.com/mda-idsf3bv3i0p90zey/sc/mda-idsf3bv3i0p90zey" +
-                ".mp4?auth_key=1528016527-0-0-8536f7bcf109debae7c1ac5625a92d6c&amp;bcevod_channel=searchbox_feed"),
+        MediaSource videoSource = new ExtractorMediaSource(Uri.parse("https://vd3.bdstatic.com/" +
+                "mda-idip3ibsutbfkae1/sc/mda-idip3ibsutbfkae1.mp4?auth_key=1528440598-0-0-f8eb95c6ad0f5c6b066feef02630cde0&amp;bcevod_channel=searchbox_feed"),
                 dataSourceFactory, extractorsFactory, null, null);
         mVideoPlayer.prepare(videoSource);
     }
