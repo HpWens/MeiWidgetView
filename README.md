@@ -306,7 +306,7 @@ app build.gradle
    mPdrLayout.setDragListener(new PhotoDragHelper().setOnDragListener(new PhotoDragHelper.OnDragListener() {
        @Override
        public void onAlpha(float alpha) {
-           //随着拖动透明度的改变
+           //透明度的改变
            mPdrLayout.setAlpha(alpha);
        }
        @Override
@@ -315,9 +315,9 @@ app build.gradle
            return mPdvView;
        }
        @Override
-       public void onAnimationEnd(boolean mSlop) {
-           //mSlop false执行恢复动画  true直接finish掉当前界面
-           if (mSlop) {
+       public void onAnimationEnd(boolean isRestoration) {
+           //isRestoration true 执行恢复动画  false 执行结束动画
+           if (!isRestoration) {
                finish();
                overridePendingTransition(0, 0);
            }
