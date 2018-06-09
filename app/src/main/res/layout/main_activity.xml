@@ -91,4 +91,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:lineColor="#999999"/>
 
+    <com.meis.widget.mobike.MoBikeView
+        android:id="@+id/mo_bike"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"></com.meis.widget.mobike.MoBikeView>
+
 </android.support.constraint.ConstraintLayout>
