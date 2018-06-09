@@ -400,7 +400,7 @@ app build.gradle
 
 ### 10、仿膜拜单车贴纸效果 
 
-基于[jbox2d](https://github.com/jbox2d/jbox2d)引擎实现
+基于[jbox2d](https://github.com/jbox2d/jbox2d)引擎实现 , 文中有相应的代码注释请查阅
 
 #### a、效果图
 
@@ -412,7 +412,7 @@ app build.gradle
     <com.meis.widget.mobike.MoBikeView
         android:layout_width="0dp"
         android:layout_height="0dp"
-	...
+	...   
 	/>
 ````
 
