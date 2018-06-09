@@ -349,42 +349,53 @@ app build.gradle
 
 ````
     <declare-styleable name="VideoDragRelativeLayout">
-        <!--默认的动画时长-->
-        <attr name="video_drag_duration" format="integer" />
-        <!-- true 执行转场动画 false执行自带动画-->
-        <attr name="video_drag_transition" format="boolean" />
-        <!-- 是否自我拦截 onInterceptTouchEvent 事件  默认 false-->
-        <attr name="video_drag_self_intercept" format="boolean" />
-        <!-- 自动消失比 [0~1]-->
-        <attr name="video_drag_auto_dismiss_ratio" format="float" />
+
+        <!-- 统一前缀 mei 当前父控件是否拦截事件 默认true-->
+        <attr name="mei_self_intercept_event" format="boolean"></attr>
+
+        <!-- 进入动画时长  默认 400 -->
+        <attr name="mei_start_anim_duration" format="integer"></attr>
+
+        <!-- 结束动画时长  默认 400 -->
+        <attr name="mei_end_anim_duration" format="integer"></attr>
+
+        <!-- 恢复系数有关[0~1] 恢复系数越大则需要拖动越大的距离 -->
+        <attr name="mei_restoration_ratio" format="float"></attr>
+
+        <!-- y轴偏移速率 值越大偏移越慢 默认2 -->
+        <attr name="mei_offset_rate_y" format="integer"></attr>
+
+        <!-- y轴开始偏移系数 默认0.5 -->
+        <attr name="mei_start_offset_ratio_y" format="float"></attr>
+
+        <!-- 开始动画是否进入 默认true -->
+        <attr name="mei_start_anim_enable" format="boolean"></attr>
+
     </declare-styleable>
 ````
 
 `VideoDragRelativeLayout` 继承 `RelativeLayout` 默认拦截并消费事件 , 若子控件想消费事件请在 `xml` 布局文件中设置子控件 `android:tag="dispatch"` 
 
-#### d、相关方法
+#### d、回调接口
 
 ````
-    mDragVideoLayout.setOnVideoDragListener(new VideoDragRelativeLayout.OnVideoDragListener() {
-        @Override
-        public void onStartDrag() {
-           //开始拖拽的业务处理  e.g 隐藏非拖拽控件
-        }
-        @Override
-        public void onRelease(boolean dismiss) {
-            //释放 注意这里以触摸移动高度 / 父控件高度 的比例  小于 0.1 dismiss=false 则恢复动画 大于 0.1 dismiss=true 
-	    //dismiss=false 执行恢复动画 e.g 显示隐藏的控件
-            if (dismiss) {
-	       //执行消失动画  e.g 关闭当前界面
-               finish();
-            }
-        }
-       @Override
-       public void onGoBack() {
-          //返回键相关处理
-	  ...
-       }
-    });
+    public interface OnVideoDragListener {
+
+        //开始拖拽
+        void onStartDrag();
+
+        /**
+         * 释放拖拽
+         * @param isRestoration 是否恢复 true 则执行恢复动画  false 则执行结束动画
+         */
+        void onReleaseDrag(boolean isRestoration);
+
+        /**
+         * 动画结束
+         * @param isRestoration 是否恢复 true 执行的恢复动画结束  false执行的结束动画结束
+         */
+        void onCompleteAnimation(boolean isRestoration);
+    }
 ````
 
 ## Contact
