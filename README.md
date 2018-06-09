@@ -398,6 +398,28 @@ app build.gradle
     }
 ````
 
+### 10、仿膜拜单车贴纸效果 
+
+基于[jbox2d](https://github.com/jbox2d/jbox2d)引擎实现
+
+#### a、效果图
+
+<img src="/gif/mei_mo_bike.gif" width="280px"/> 
+
+#### b、xml布局
+
+````
+    <com.meis.widget.mobike.MoBikeView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+	...
+	/>
+````
+
+#### c、相关文章
+
+[JBox2D运用-打造摩拜单车贴纸动画效果](https://www.jianshu.com/p/95cb24a746c5)
+
 ## Contact
 
 QQ群：478720016
