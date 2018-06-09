@@ -15,16 +15,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.demo.widget.R;
-import com.meis.widget.mobike.MobikeView;
+import com.meis.widget.mobike.MoBikeView;
 
 /**
  * Created by wenshi on 2018/6/8.
  * Description
  */
-public class MeiMobikeActivity extends AppCompatActivity implements SensorEventListener {
+public class MeiMoBikeActivity extends AppCompatActivity implements SensorEventListener {
 
     private Toolbar mToolbar;
-    private MobikeView mMobikeView;
+    private MoBikeView mMobikeView;
 
     private SensorManager mSensorManager;
     private Sensor mSensor;

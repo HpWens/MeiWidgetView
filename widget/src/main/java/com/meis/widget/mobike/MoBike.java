@@ -22,7 +22,7 @@ import java.util.Random;
  * author: wens
  * date: 2018/6/6.
  */
-public class Mobike {
+public class MoBike {
 
     private ViewGroup mViewGroup;
 
@@ -57,7 +57,7 @@ public class Mobike {
     private int width;
     private int height;
 
-    public Mobike(ViewGroup viewGroup) {
+    public MoBike(ViewGroup viewGroup) {
         mViewGroup = viewGroup;
         density = mViewGroup.getContext().getResources().getDisplayMetrics().density;
     }
@@ -215,6 +215,7 @@ public class Mobike {
                 view.setRotation(getViewRotation(view));
             }
         }
+        //这里不要使用post会导致界面延迟绘制导致抖动
         mViewGroup.invalidate();
     }
 

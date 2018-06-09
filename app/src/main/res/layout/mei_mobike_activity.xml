@@ -16,13 +16,13 @@
         app:title="仿摩拜单车贴纸动画效果"
         app:titleTextColor="#FFF" />
 
-    <com.meis.widget.mobike.MobikeView
+    <com.meis.widget.mobike.MoBikeView
         android:id="@+id/mo_bike"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"></com.meis.widget.mobike.MobikeView>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"></com.meis.widget.mobike.MoBikeView>
 
 </android.support.constraint.ConstraintLayout>

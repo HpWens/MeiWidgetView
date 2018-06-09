@@ -21,76 +21,74 @@ import com.meis.widget.utils.DensityUtil;
 /**
  * Created by wenshi on 2018/5/22.
  * Description 仿头条视频拖拽控件 委托的方式拓展支持线性布局 帧布局 约束布局
+ * 请添加到布局的最外层 若子类想消费点击事件请设置tag为dispatch
  * Github https://github.com/HpWens/MeiWidgetView
  */
 public class VideoDragRelativeLayout extends RelativeLayout {
 
-    /**
-     * touch x y point
-     */
+    private static final String TAG_DISPATCH = "dispatch";
+
+    //touch x y point
     private float mTouchLastY;
     private float mTouchLastX;
 
-    /**
-     * y move offset
-     */
+    //x y move offset
     private float mMoveDy;
-
-    /**
-     * x move offset
-     */
     private float mMoveDx;
 
-    /**
-     * child view intercept touch events , false not intercept , true intercept
-     */
-    private boolean mChildIntercept = false;
+    //子类是否拦截事件 默认子类不拦截触摸事件 子类想消费事件 设置tag为dispatch
+    private boolean mChildInterceptEventEnable = false;
 
-    /**
-     * view can drag , true can drag
-     */
-    private boolean mDragEnable = true;
+    //是否执行动画
+    private boolean mRunningAnimationEnable = false;
 
+    //自己是否拦截 拦截事件 默认拦截
+    private boolean mSelfInterceptEventEnable = true;
 
-    /**
-     * self intercept event default false
-     */
-    private boolean mSelfIntercept = false;
+    //是否正在拖拽
+    private boolean mDraggingEnable = true;
 
-    /**
-     * animation duration , default 800
-     */
-    private long mDuration;
+    //进入动画时长
+    private long mStartAnimDuration;
+    //结束动画时长
+    private long mEndAnimDuration;
 
-    /**
-     * compress animator (scale and translation and alpha)
-     */
-    private ObjectAnimator mCompressAnimator;
+    //恢复动画 恢复系数有关[0~1] 恢复系数越大则需要拖动越大的距离
+    private ObjectAnimator mRestorationAnimation;
+    //恢复系数 默认0.1f
+    private float mRestorationRatio = 0.1F;
 
-    /**
-     * exit whether execute transition animator , default true
-     */
-    private boolean mExitTransitionEnable;
+    //开始动画
+    private ValueAnimator mStartAnimation;
+    //结束动画
+    private ValueAnimator mEndAnimation;
 
-    /**
-     * [0~1]
-     */
-    private float mAutoDismissRatio;
+    //控制事件冲突 如与viewpager的左右滑动冲突
+    private boolean mOtherViewClashEnable = true;
 
-    /**
-     * handler parent conflict e.g viewpager
-     */
-    private boolean mParentConflictEnable = true;
+    //y轴偏移速率 值越大偏移越慢 前提y偏移量大于y轴开始偏移系数
+    private int mOffsetRateY = 2;
 
-    private int mOriginX;
-    private int mOriginY;
-    private int mOriginWidth;
-    private int mOriginHeight;
+    //y轴开始偏移系数
+    private float mStartOffsetRatioY = 0.5F;
 
-    //improve user experience
-    private int mOriginMaxVisibleHeight;
+    //为了兼容android5.0以下手机 手动实现转场效果  经过测试某些机型5.0以上转场动画达不到UI效果
+    //来源view的x轴坐标 这里是列表图片的坐标以及图片宽高 坐标取值相对屏幕
+    private int mOriginViewX;
+    private int mOriginViewY;
 
-    private static final String TAG_DISPATCH = "dispatch";
+    //来源view可见的宽高
+    private int mOriginViewVisibleWidth;
+    private int mOriginViewVisibleHeight;
+
+    //来源view真实高度 处理上下边界越界问题 头条上下item越界会导致图片挤压变形
+    private int mOriginViewRealHeight;
+
+    //开始动画是否进入  默认true
+    private boolean mStartAnimationEnable = true;
+
+    //回调接口
+    private OnVideoDragListener mListener;
 
     public VideoDragRelativeLayout(Context context) {
         this(context, null);
@@ -102,13 +100,15 @@ public class VideoDragRelativeLayout extends RelativeLayout {
 
     public VideoDragRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        //parse xml attribute
+
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VideoDragRelativeLayout);
-        mDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_video_drag_duration, 400);
-        mExitTransitionEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_video_drag_transition, true);
-        mSelfIntercept = ta.getBoolean(R.styleable.VideoDragRelativeLayout_video_drag_self_intercept, false);
-        mAutoDismissRatio = ta.getFloat(R.styleable.VideoDragRelativeLayout_video_drag_auto_dismiss_ratio, 0.1F);
-        mAutoDismissRatio = mAutoDismissRatio < 0F ? 0F : (mAutoDismissRatio > 1F ? 1F : mAutoDismissRatio);
+        mSelfInterceptEventEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_mei_self_intercept_event, true);
+        mStartAnimDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_start_anim_duration, 400);
+        mEndAnimDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_end_anim_duration, 400);
+        mRestorationRatio = ta.getFloat(R.styleable.VideoDragRelativeLayout_mei_restoration_ratio, 0.1F);
+        mOffsetRateY = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_offset_rate_y, 2);
+        mStartOffsetRatioY = ta.getFloat(R.styleable.VideoDragRelativeLayout_mei_start_offset_ratio_y, 0.5F);
+        mStartAnimationEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_mei_start_anim_enable, true);
         ta.recycle();
     }
 
@@ -117,33 +117,25 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         int action = ev.getAction() & MotionEventCompat.ACTION_MASK;
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                //whether intercept touch event
-                if (mSelfIntercept) {
+                if (!mSelfInterceptEventEnable || mRunningAnimationEnable) {
                     return super.onInterceptTouchEvent(ev);
                 }
-                return mChildIntercept = childDispatchEvent((int) ev.getRawX(), (int) ev.getRawY());
+                return mChildInterceptEventEnable = childInterceptEvent((int) ev.getRawX(), (int) ev.getRawY());
         }
         return super.onInterceptTouchEvent(ev);
     }
 
     /**
-     * @param touchX touch x point
-     * @param touchY touch y point
-     * @return true intercept event , false transfer event
-     */
-    private boolean childDispatchEvent(int touchX, int touchY) {
-        return !dispatchChildView(this, touchX, touchY);
-    }
-
-
-    /**
-     * @param parentView
      * @param touchX
      * @param touchY
-     * @return
+     * @return 子view是否消费事件
      */
-    private boolean dispatchChildView(ViewGroup parentView, int touchX, int touchY) {
-        boolean isDispatch = false;
+    private boolean childInterceptEvent(int touchX, int touchY) {
+        return !childInterceptEvent(this, touchX, touchY);
+    }
+
+    private boolean childInterceptEvent(ViewGroup parentView, int touchX, int touchY) {
+        boolean isConsume = false;
         for (int i = parentView.getChildCount() - 1; i >= 0; i--) {
             View childView = parentView.getChildAt(i);
             if (!childView.isShown()) {
@@ -151,7 +143,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
             }
             boolean isTouchView = isTouchView(touchX, touchY, childView);
             if (isTouchView && childView.getTag() != null && TAG_DISPATCH.equals(childView.getTag().toString())) {
-                isDispatch = true;
+                isConsume = true;
                 break;
             }
             if (childView instanceof ViewGroup) {
@@ -159,26 +151,19 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 if (!isTouchView) {
                     continue;
                 } else {
-                    isDispatch |= dispatchChildView(itemView, touchX, touchY);
+                    isConsume |= childInterceptEvent(itemView, touchX, touchY);
                     break;
                 }
             }
         }
-        return isDispatch;
+        return isConsume;
     }
 
-    /**
-     * @param touchX
-     * @param touchY
-     * @param view
-     * @return
-     */
     private boolean isTouchView(int touchX, int touchY, View view) {
         Rect rect = new Rect();
         view.getGlobalVisibleRect(rect);
         return rect.contains(touchX, touchY);
     }
-
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -186,165 +171,149 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         float x = event.getRawX();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mDragEnable = true;
-                mMoveDy = 0;
-                mMoveDx = 0;
-                mTouchLastX = x;
-                mTouchLastY = y;
+                resetData(y, x);
                 break;
             case MotionEvent.ACTION_MOVE:
-                mDragEnable = true;
+                if (!mSelfInterceptEventEnable) {
+                    return super.onTouchEvent(event);
+                }
                 float dy = y - mTouchLastY;
                 float dx = x - mTouchLastX;
 
                 mMoveDy += dy;
                 mMoveDx += dx;
+
                 mMoveDy = mMoveDy <= 0 ? 0 : mMoveDy;
 
-                //fix parent view sliding conflict
+                //第一步 解决与viewpager的左右冲突 若手指拖动的x轴偏移量大于等于y轴偏移量则不消费事件
                 if (Math.abs(mMoveDx) >= Math.abs(mMoveDy)) {
-                    if (mParentConflictEnable) {
-                        mParentConflictEnable = true;
+                    if (mOtherViewClashEnable) {
+                        mOtherViewClashEnable = true;
                         return super.onTouchEvent(event);
                     }
                 } else {
-                    mParentConflictEnable = false;
+                    mOtherViewClashEnable = false;
                 }
 
-                //last two point x , y absolute more than 0
+                //添加开始拖拽回调
                 if (mListener != null && (Math.abs(dy) > 0 || Math.abs(dx) > 0)) {
                     mListener.onStartDrag();
                 }
 
-                //1、drag x translation
+                //第二步 拖拽
                 setTranslationX(getTranslationX() + dx);
-
-                //2、set scale pivot (current viewGroup bottom of the middle)
+                //设置缩放点 根据需求而定 这里缩放中心点是屏幕底部中点
                 setPivotX(getWidth() / 2F);
                 setPivotY(getHeight());
-
-                //3、set scale
+                //设置缩放
                 float scale = 1.0F - mMoveDy / getHeight();
                 setScaleX(scale);
                 setScaleY(scale);
-
-                //4、drag y translation
-                if (scale < 0.5F) {
-                    setTranslationY(getTranslationY() + dy / 2);
+                //缩放小于0.5时并平移y
+                if (scale < mStartOffsetRatioY) {
+                    setTranslationY(getTranslationY() + dy / mOffsetRateY);
                 }
-
                 mTouchLastX = x;
                 mTouchLastY = y;
-
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                if (mParentConflictEnable) {
+                if (mOtherViewClashEnable) {
                     return super.onTouchEvent(event);
                 }
-                mDragEnable = false;
-                //prevent the second drag
-                mParentConflictEnable = true;
-                //prevent multi-click call onRelease
+                mDraggingEnable = false;
+                mOtherViewClashEnable = true;
+                //防止多次点击屏幕
                 if (mMoveDy == 0 && mMoveDx == 0) {
                     break;
                 }
+                //判定是否执行恢复动画还是结束动画
+                final boolean isEnd = ((mMoveDy / getHeight()) > mRestorationRatio);
 
-                final boolean mDismiss = (mMoveDy / getHeight()) > mAutoDismissRatio;
-
-                //transitions animation
-                if (mDismiss && mExitTransitionEnable) {
-                    endTransitionAnimator();
-                    break;
+                //执行相应回调
+                if (mListener != null) {
+                    mListener.onReleaseDrag(!isEnd);
                 }
 
-                //compress animation is running
-                if (mCompressAnimator != null && mCompressAnimator.isRunning()) {
-                    break;
+                //执行相应动画
+                if (isEnd) {
+                    startEndAnimation();
+                } else {
+                    startRestorationAnimation();
                 }
-
-                //scale animation translation animation alpha animation
-                PropertyValuesHolder propertyScaleX = PropertyValuesHolder.ofFloat("scaleX", getScaleX(), mDismiss ? mAutoDismissRatio : 1.0F);
-                PropertyValuesHolder propertyScaleY = PropertyValuesHolder.ofFloat("scaleY", getScaleY(), mDismiss ? mAutoDismissRatio : 1.0F);
-                PropertyValuesHolder propertyTranslationX = PropertyValuesHolder.ofFloat("translationX", getTranslationX(), 0);
-                PropertyValuesHolder propertyTranslationY = PropertyValuesHolder.ofFloat("translationY", getTranslationY(), mDismiss ? -getHeight() / 2 : 0);
-                PropertyValuesHolder propertyAlpha = PropertyValuesHolder.ofFloat("alpha", 1.0F, mDismiss ? 0F : 1.0F);
-
-                mCompressAnimator = ObjectAnimator.ofPropertyValuesHolder(this, propertyScaleX, propertyScaleY, propertyTranslationX, propertyTranslationY, propertyAlpha)
-                        .setDuration(mDuration);
-                mCompressAnimator.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        if (mListener != null) {
-                            mListener.onRelease(mDismiss);
-                        }
-                        if (!mDismiss) {
-                            mDragEnable = true;
-                        }
-                    }
-                });
-                mCompressAnimator.start();
 
                 mMoveDy = 0;
                 mMoveDx = 0;
                 break;
         }
-        return mDragEnable ? mChildIntercept : super.onTouchEvent(event);
+        return mDraggingEnable ? mChildInterceptEventEnable : super.onTouchEvent(event);
     }
 
-    public void setOriginData(Rect rect, int maxVisibleHeight) {
-        if (rect != null) {
-            mOriginX = rect.left;
-            mOriginY = rect.top;
-
-            mOriginWidth = rect.right - mOriginX;
-            mOriginHeight = rect.bottom - mOriginY;
-
-            mOriginMaxVisibleHeight = maxVisibleHeight;
-        }
-    }
-
-    public void setOriginData(int[] origins) {
-        if (origins != null && origins.length == 5) {
-            setOriginData(new Rect(origins[0], origins[1], origins[2], origins[3]), origins[4]);
-        }
-    }
-
-    public void setOriginData(int left, int top, int right, int bottom, int maxVisibleHeight) {
-        setOriginData(new Rect(left, top, right, bottom), maxVisibleHeight);
-    }
-
-    ValueAnimator mEndAnimator;
-
-    private void endTransitionAnimator() {
-        if (mEndAnimator != null && mEndAnimator.isRunning()) {
+    //执行恢复动画
+    private void startRestorationAnimation() {
+        if (mRestorationAnimation != null && mRestorationAnimation.isRunning()) {
             return;
         }
-        if (mOriginHeight != 0 && mOriginWidth != 0) {
+        PropertyValuesHolder propertyScaleX = PropertyValuesHolder.ofFloat("scaleX", getScaleX(), 1.0F);
+        PropertyValuesHolder propertyScaleY = PropertyValuesHolder.ofFloat("scaleY", getScaleY(), 1.0F);
+        PropertyValuesHolder propertyTranslationX = PropertyValuesHolder.ofFloat("translationX", getTranslationX(), 0);
+        PropertyValuesHolder propertyTranslationY = PropertyValuesHolder.ofFloat("translationY", getTranslationY(), 0);
+
+        mRestorationAnimation = ObjectAnimator.ofPropertyValuesHolder(this, propertyScaleX, propertyScaleY, propertyTranslationX, propertyTranslationY)
+                .setDuration(mStartAnimDuration);
+
+        mRestorationAnimation.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mChildInterceptEventEnable = true;
+                mRunningAnimationEnable = false;
+                mDraggingEnable = true;
+                if (mListener != null) {
+                    mListener.onCompleteAnimation(true);
+                }
+            }
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mChildInterceptEventEnable = false;
+                mRunningAnimationEnable = true;
+            }
+        });
+        mRestorationAnimation.start();
+    }
+
+    //执行结束动画
+    private void startEndAnimation() {
+        if (mEndAnimation != null && mEndAnimation.isRunning()) {
+            return;
+        }
+        //判定来源view宽高
+        if (mOriginViewVisibleHeight != 0 && mOriginViewVisibleWidth != 0) {
             final float startTransitionX = getTranslationX();
             final float startTransitionY = getTranslationY();
             final float startScaleX = getScaleX();
             final float startScaleY = getScaleY();
-            final float endScaleX = (float) mOriginWidth / getWidth();
-            final float endScaleY = (float) mOriginMaxVisibleHeight / getHeight();
-            //DensityUtil.getStatusBarHeight((Activity) getContext());
+            final float endScaleX = (float) mOriginViewVisibleWidth / getWidth();
+            final float endScaleY = (float) mOriginViewRealHeight / getHeight();
+            //状态栏高度 若状态栏隐藏则设置此值 DensityUtil.getStatusBarHeight((Activity) getContext());
             final int statusHeight = 0;
-
-            boolean upperOutOfBound = false;
-            // +1 prevent errors
-            if ((mOriginHeight + 1) < mOriginMaxVisibleHeight) {
-                if ((mOriginY + mOriginMaxVisibleHeight) > getHeight()) {
+            //是否越界
+            boolean isTopOutOfBound = false;
+            //加1是防止精度误差
+            if ((mOriginViewVisibleHeight + 1) < mOriginViewRealHeight) {
+                if ((mOriginViewY + mOriginViewRealHeight) > getHeight()) {
                     //下边界越界
+                    isTopOutOfBound = false;
                 } else {
                     //上边界越界
-                    upperOutOfBound = true;
+                    isTopOutOfBound = true;
                 }
             }
-
-            final boolean outOfBound = upperOutOfBound;
-            mEndAnimator = ValueAnimator.ofFloat(0F, 1.0F).setDuration(mDuration);
-            mEndAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            final boolean topOutOfBound = isTopOutOfBound;
+            mEndAnimation = ValueAnimator.ofFloat(0F, 1.0F).setDuration(mEndAnimDuration);
+            mEndAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float value = (float) animation.getAnimatedValue();
@@ -352,162 +321,195 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                     setScaleX(startScaleX + value * (endScaleX - startScaleX));
                     setScaleY(startScaleY + value * (endScaleY - startScaleY));
 
-                    setTranslationX(startTransitionX + value * (mOriginX - startTransitionX) - value * (getWidth() - mOriginWidth) / 2.0F);
-                    //注意状态栏的高度 前一个界面无状态栏则去掉 + statusHeight
-                    setTranslationY(startTransitionY - value * (startTransitionY - mOriginY) - value * (getHeight() - mOriginMaxVisibleHeight + statusHeight) - (outOfBound ?
-                            value * (mOriginMaxVisibleHeight - mOriginHeight) : 0));
+                    setTranslationX(startTransitionX + value * (mOriginViewX - startTransitionX) - value * (getWidth() - mOriginViewVisibleWidth) / 2.0F);
+                    setTranslationY(startTransitionY - value * (startTransitionY - mOriginViewY) - value * (getHeight() - mOriginViewRealHeight + statusHeight) - (topOutOfBound ?
+                            value * (mOriginViewRealHeight - mOriginViewVisibleHeight) : 0));
                 }
             });
-            mEndAnimator.addListener(new AnimatorListenerAdapter() {
+            mEndAnimation.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    mSelfIntercept = false;
-                    mChildIntercept = true;
+                    mChildInterceptEventEnable = true;
+                    mRunningAnimationEnable = false;
                     if (mListener != null) {
-                        mListener.onRelease(true);
+                        mListener.onCompleteAnimation(false);
                     }
                 }
 
                 @Override
                 public void onAnimationStart(Animator animation) {
                     super.onAnimationStart(animation);
-                    mSelfIntercept = true;
-                    mChildIntercept = false;
-                    if (mListener != null) {
-                        mListener.onGoBack();
-                    }
+                    mRunningAnimationEnable = true;
+                    mChildInterceptEventEnable = false;
                 }
             });
-            mEndAnimator.start();
+            mEndAnimation.start();
+        } else {
+            if (mListener != null) {
+                mListener.onCompleteAnimation(false);
+            }
         }
     }
 
-    public void onBackPressed() {
-        startTransitionAnimator(true);
-    }
-
-    public void startTransitionAnimator() {
-        startTransitionAnimator(false);
-    }
-
-    ValueAnimator mStartAnimator;
-
-    private void startTransitionAnimator(final boolean exitEnable) {
-        if (mStartAnimator != null && mStartAnimator.isRunning()) {
+    //执行开始动画
+    private void startStartAnimation(final boolean isExit) {
+        if (mStartAnimation != null && mStartAnimation.isRunning()) {
             return;
         }
-        if (mEndAnimator != null && mEndAnimator.isRunning()) {
+        if (mEndAnimation != null && mEndAnimation.isRunning()) {
             return;
         }
-        if (mOriginHeight != 0 && mOriginWidth != 0) {
+        //判定来源view宽高
+        if (mOriginViewVisibleHeight != 0 && mOriginViewVisibleWidth != 0 && mStartAnimationEnable) {
             setPivotX(0);
             setPivotY(0);
             //DensityUtil.getStatusBarHeight((Activity) getContext());
             final int statusHeight = 0;
-
-            //具体场景 可以替换成  getWidth()  getHeight()
-            boolean upperOutOfBound = false;
+            //具体场景 可以替换成  getWidth()  getHeight() 这里是以屏幕的宽高来计算的
+            boolean isTopOutOfBound = false;
             int screenHeight = DensityUtil.getScreenSize(getContext()).y;
-            final float startScaleX = (float) mOriginWidth / DensityUtil.getScreenSize(getContext()).x;
-            final float startScaleY = (float) mOriginMaxVisibleHeight / screenHeight;
-
-            // +1 prevent errors
-            if ((mOriginHeight + 1) < mOriginMaxVisibleHeight) {
+            final float startScaleX = (float) mOriginViewVisibleWidth / DensityUtil.getScreenSize(getContext()).x;
+            final float startScaleY = (float) mOriginViewRealHeight / screenHeight;
+            if ((mOriginViewVisibleHeight + 1) < mOriginViewRealHeight) {
                 //上边界越界 或者 下边界越界
-                if ((mOriginY + mOriginMaxVisibleHeight) > screenHeight) {
+                if ((mOriginViewY + mOriginViewRealHeight) > screenHeight) {
                     //下边界越界
+                    isTopOutOfBound = false;
                 } else {
                     //上边界越界
-                    upperOutOfBound = true;
+                    isTopOutOfBound = true;
                 }
             }
-
-            final boolean outOfBound = upperOutOfBound;
-            mStartAnimator = ValueAnimator.ofFloat(exitEnable ? 1.0F : 0F, exitEnable ? 0F : 1.0F).setDuration(mDuration);
-            mStartAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            final boolean topOutOfBound = isTopOutOfBound;
+            mStartAnimation = ValueAnimator.ofFloat(isExit ? 1.0F : 0F, isExit ? 0F : 1.0F).setDuration(isExit ? mEndAnimDuration : mStartAnimDuration);
+            mStartAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float value = (float) animation.getAnimatedValue();
-                    setTranslationX(mOriginX - value * mOriginX);
-                    setTranslationY((mOriginY - statusHeight) - value * (mOriginY - statusHeight) - (outOfBound ? (1.0F - value) * (mOriginMaxVisibleHeight - mOriginHeight) : 0));
+                    setTranslationX(mOriginViewX - value * mOriginViewX);
+                    setTranslationY((mOriginViewY - statusHeight) - value * (mOriginViewY - statusHeight) - (topOutOfBound ? (1.0F - value) * (mOriginViewRealHeight -
+                            mOriginViewVisibleHeight) : 0));
 
                     setScaleX(startScaleX + value * (1.0F - startScaleX));
                     setScaleY(startScaleY + value * (1.0F - startScaleY));
                 }
             });
-            mStartAnimator.addListener(new AnimatorListenerAdapter() {
+            mStartAnimation.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    mSelfIntercept = false;
-                    if (mListener != null && exitEnable) {
-                        mListener.onRelease(true);
+                    mChildInterceptEventEnable = true;
+                    mRunningAnimationEnable = false;
+                    if (mListener != null) {
+                        mListener.onCompleteAnimation(!isExit);
                     }
                 }
 
                 @Override
                 public void onAnimationStart(Animator animation) {
                     super.onAnimationStart(animation);
-                    mSelfIntercept = true;
-                    if (mListener != null && exitEnable) {
-                        mListener.onGoBack();
-                    }
+                    mRunningAnimationEnable = true;
+                    mChildInterceptEventEnable = false;
                 }
             });
-            mStartAnimator.start();
+            mStartAnimation.start();
+        } else {
+            if (mListener != null) {
+                mListener.onCompleteAnimation(!isExit);
+            }
         }
     }
 
     /**
-     * @param exitTransitionEnable
-     * @return
+     * 重置数据
+     * @param y
+     * @param x
      */
-    public VideoDragRelativeLayout setExitTransitionEnable(boolean exitTransitionEnable) {
-        mExitTransitionEnable = exitTransitionEnable;
-        return this;
+    private void resetData(float y, float x) {
+        mDraggingEnable = true;
+        mMoveDy = 0;
+        mMoveDx = 0;
+        mTouchLastX = x;
+        mTouchLastY = y;
     }
 
-    /**
-     * @param duration
-     * @return
-     */
-    public VideoDragRelativeLayout setDuration(long duration) {
-        mDuration = duration;
-        return this;
+    //设置来源数据
+    public void setOriginView(int x, int y, int visibleWidth, int visibleHeight, int realHeight) {
+        mOriginViewX = x;
+        mOriginViewY = y;
+        mOriginViewVisibleWidth = visibleWidth;
+        mOriginViewVisibleHeight = visibleHeight;
+        mOriginViewRealHeight = realHeight;
     }
 
-    /**
-     * @param autoDismissRatio [0~1]
-     * @return
-     */
-    public VideoDragRelativeLayout setAutoDismissRatio(float autoDismissRatio) {
-        autoDismissRatio = autoDismissRatio < 0F ? 0F : (autoDismissRatio > 1F ? 1F : autoDismissRatio);
-        mAutoDismissRatio = autoDismissRatio;
-        return this;
+    //返回键
+    public void onBackPressed() {
+        if (mListener != null) {
+            mListener.onReleaseDrag(false);
+        }
+        startStartAnimation(true);
     }
 
-    /**
-     * @param selfIntercept
-     */
-    public VideoDragRelativeLayout setSelfIntercept(boolean selfIntercept) {
-        mSelfIntercept = selfIntercept;
-        return this;
+    public void startAnimation() {
+        startStartAnimation(false);
     }
 
-    public boolean getSelfIntercept() {
-        return mSelfIntercept;
+    public boolean getStartAnimationEnable() {
+        return mStartAnimationEnable;
     }
 
-    public long getDuration() {
-        return mDuration;
+    public void setStartAnimationEnable(boolean startAnimationEnable) {
+        mStartAnimationEnable = startAnimationEnable;
     }
 
-    public boolean getExitTransitionEnable() {
-        return mExitTransitionEnable;
+    public float getRestorationRatio() {
+        return mRestorationRatio;
     }
 
-    private OnVideoDragListener mListener;
+    public void setRestorationRatio(float restorationRatio) {
+        mRestorationRatio = restorationRatio;
+    }
+
+    public int getOffsetRateY() {
+        return mOffsetRateY;
+    }
+
+    public void setOffsetRateY(int offsetRateY) {
+        mOffsetRateY = offsetRateY;
+    }
+
+    public float getStartOffsetRatioY() {
+        return mStartOffsetRatioY;
+    }
+
+    public void setStartOffsetRatioY(float startOffsetRatioY) {
+        mStartOffsetRatioY = startOffsetRatioY;
+    }
+
+    public boolean getSelfInterceptEventEnable() {
+        return mSelfInterceptEventEnable;
+    }
+
+    public void setSelfInterceptEventEnable(boolean selfInterceptEventEnable) {
+        mSelfInterceptEventEnable = selfInterceptEventEnable;
+    }
+
+    public long getStartAnimDuration() {
+        return mStartAnimDuration;
+    }
+
+    public void setStartAnimDuration(long startAnimDuration) {
+        mStartAnimDuration = startAnimDuration;
+    }
+
+    public long getEndAnimDuration() {
+        return mEndAnimDuration;
+    }
+
+    public void setEndAnimDuration(long endAnimDuration) {
+        mEndAnimDuration = endAnimDuration;
+    }
 
     public VideoDragRelativeLayout setOnVideoDragListener(OnVideoDragListener listener) {
         mListener = listener;
@@ -516,17 +518,21 @@ public class VideoDragRelativeLayout extends RelativeLayout {
 
     public interface OnVideoDragListener {
 
-        /**
-         * start drag
-         */
+        //开始拖拽
         void onStartDrag();
 
         /**
-         * @param dismiss false start current viewGroup default animation
-         *                true  {@link #mExitTransitionEnable}
+         * 释放拖拽
+         * @param isRestoration 是否恢复 true 则执行恢复动画  false 则执行结束动画
          */
-        void onRelease(boolean dismiss);
+        void onReleaseDrag(boolean isRestoration);
 
-        void onGoBack();
+        /**
+         * 动画结束
+         * @param isRestoration 是否恢复 true 执行的恢复动画结束  false执行的结束动画结束
+         */
+        void onCompleteAnimation(boolean isRestoration);
     }
+
+
 }

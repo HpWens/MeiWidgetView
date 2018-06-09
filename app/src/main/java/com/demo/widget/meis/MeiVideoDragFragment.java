@@ -56,8 +56,6 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
     String mVideoUrl = "";
     VideoDragRelativeLayout mDragLayout;
 
-    boolean mFirstPosition;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,42 +79,37 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
             }
 
             @Override
-            public void onRelease(boolean dismiss) {
-                if (dismiss) {
-                    finish();
-                } else {
-                    mTvComment.setVisibility(View.VISIBLE);
-                    mTvAttention.setVisibility(View.VISIBLE);
-                    mTvName.setVisibility(View.VISIBLE);
-                    mIvClose.setVisibility(View.VISIBLE);
+            public void onReleaseDrag(boolean isRestoration) {
+                if (!isRestoration) {
+                    mIvBg.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
-            public void onGoBack() {
-                mIvBg.setVisibility(View.VISIBLE);
+            public void onCompleteAnimation(boolean isRestoration) {
+                if (isRestoration) {
+                    mTvComment.setVisibility(View.VISIBLE);
+                    mTvAttention.setVisibility(View.VISIBLE);
+                    mTvName.setVisibility(View.VISIBLE);
+                    mIvClose.setVisibility(View.VISIBLE);
+                } else {
+                    finish();
+                }
             }
         });
 
         mIvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                mDragLayout.onBackPressed();
             }
         });
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            mDragLayout.setOriginData(bundle.getIntArray("global_rect"));
-
-            int position = bundle.getInt("index");
-            mDragLayout.startTransitionAnimator();
-
-            if (position == 0) {
-                mFirstPosition = true;
-            } else {
-                mFirstPosition = false;
-            }
+            int[] arrays = bundle.getIntArray("global_rect");
+            mDragLayout.setOriginView(arrays[0], arrays[1], arrays[2] - arrays[0], arrays[3] - arrays[1], arrays[4]);
+            mDragLayout.startAnimation();
             mIvBg.setBackgroundResource(R.mipmap.ic_video_drag_bg);
             mVideoUrl = bundle.getString("video_url");
         }

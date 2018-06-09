@@ -12,22 +12,22 @@ import android.widget.FrameLayout;
  * author: wens
  * date: 2018/6/6.
  */
-public class MobikeView extends FrameLayout {
+public class MoBikeView extends FrameLayout {
 
-    private Mobike mMobike;
+    private MoBike mMobike;
 
-    public MobikeView(@NonNull Context context) {
+    public MoBikeView(@NonNull Context context) {
         this(context, null);
     }
 
-    public MobikeView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public MoBikeView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public MobikeView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MoBikeView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setWillNotDraw(false);
-        mMobike = new Mobike(this);
+        mMobike = new MoBike(this);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class MobikeView extends FrameLayout {
         mMobike.onDraw();
     }
 
-    public Mobike getMobike() {
+    public MoBike getMobike() {
         return mMobike;
     }
 
