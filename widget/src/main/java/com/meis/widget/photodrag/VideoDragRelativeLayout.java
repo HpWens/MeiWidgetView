@@ -270,7 +270,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 mRunningAnimationEnable = false;
                 mDraggingEnable = true;
                 if (mListener != null) {
-                    mListener.onCompleteAnimation(true);
+                    mListener.onRestorationAnimationEnd();
                 }
             }
 
@@ -333,7 +333,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                     mChildInterceptEventEnable = true;
                     mRunningAnimationEnable = false;
                     if (mListener != null) {
-                        mListener.onCompleteAnimation(false);
+                        mListener.onExitAnimationEnd();
                     }
                 }
 
@@ -347,7 +347,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
             mEndAnimation.start();
         } else {
             if (mListener != null) {
-                mListener.onCompleteAnimation(false);
+                mListener.onExitAnimationEnd();
             }
         }
     }
@@ -402,7 +402,11 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                     mChildInterceptEventEnable = true;
                     mRunningAnimationEnable = false;
                     if (mListener != null) {
-                        mListener.onCompleteAnimation(!isExit);
+                        if (isExit) {
+                            mListener.onExitAnimationEnd();
+                        } else {
+                            mListener.onEnterAnimationEnd();
+                        }
                     }
                 }
 
@@ -416,13 +420,18 @@ public class VideoDragRelativeLayout extends RelativeLayout {
             mStartAnimation.start();
         } else {
             if (mListener != null) {
-                mListener.onCompleteAnimation(!isExit);
+                if (isExit) {
+                    mListener.onExitAnimationEnd();
+                } else {
+                    mListener.onEnterAnimationEnd();
+                }
             }
         }
     }
 
     /**
      * 重置数据
+     *
      * @param y
      * @param x
      */
@@ -523,15 +532,26 @@ public class VideoDragRelativeLayout extends RelativeLayout {
 
         /**
          * 释放拖拽
+         *
          * @param isRestoration 是否恢复 true 则执行恢复动画  false 则执行结束动画
          */
         void onReleaseDrag(boolean isRestoration);
 
         /**
-         * 动画结束
-         * @param isRestoration 是否恢复 true 执行的恢复动画结束  false执行的结束动画结束
+         * 进入动画结束
          */
-        void onCompleteAnimation(boolean isRestoration);
+        void onEnterAnimationEnd();
+
+
+        /**
+         * 退出动画结束
+         */
+        void onExitAnimationEnd();
+
+        /**
+         * 恢复动画结束
+         */
+        void onRestorationAnimationEnd();
     }
 
 

@@ -86,15 +86,21 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
             }
 
             @Override
-            public void onCompleteAnimation(boolean isRestoration) {
-                if (isRestoration) {
-                    mTvComment.setVisibility(View.VISIBLE);
-                    mTvAttention.setVisibility(View.VISIBLE);
-                    mTvName.setVisibility(View.VISIBLE);
-                    mIvClose.setVisibility(View.VISIBLE);
-                } else {
-                    finish();
-                }
+            public void onEnterAnimationEnd() {
+
+            }
+
+            @Override
+            public void onExitAnimationEnd() {
+                finish();
+            }
+
+            @Override
+            public void onRestorationAnimationEnd() {
+                mTvComment.setVisibility(View.VISIBLE);
+                mTvAttention.setVisibility(View.VISIBLE);
+                mTvName.setVisibility(View.VISIBLE);
+                mIvClose.setVisibility(View.VISIBLE);
             }
         });
 
