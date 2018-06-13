@@ -105,8 +105,8 @@ public class VideoDragRelativeLayout extends RelativeLayout {
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VideoDragRelativeLayout);
         mSelfInterceptEventEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_mei_self_intercept_event, true);
-        mStartAnimDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_start_anim_duration, 1000);
-        mEndAnimDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_end_anim_duration, 1000);
+        mStartAnimDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_start_anim_duration, 400);
+        mEndAnimDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_end_anim_duration, 400);
         mRestorationRatio = ta.getFloat(R.styleable.VideoDragRelativeLayout_mei_restoration_ratio, 0.1F);
         mOffsetRateY = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_offset_rate_y, 2);
         mStartOffsetRatioY = ta.getFloat(R.styleable.VideoDragRelativeLayout_mei_start_offset_ratio_y, 0.5F);
