@@ -8,8 +8,10 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
+import android.os.Build;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,8 +105,8 @@ public class VideoDragRelativeLayout extends RelativeLayout {
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VideoDragRelativeLayout);
         mSelfInterceptEventEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_mei_self_intercept_event, true);
-        mStartAnimDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_start_anim_duration, 400);
-        mEndAnimDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_end_anim_duration, 400);
+        mStartAnimDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_start_anim_duration, 1000);
+        mEndAnimDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_end_anim_duration, 1000);
         mRestorationRatio = ta.getFloat(R.styleable.VideoDragRelativeLayout_mei_restoration_ratio, 0.1F);
         mOffsetRateY = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_offset_rate_y, 2);
         mStartOffsetRatioY = ta.getFloat(R.styleable.VideoDragRelativeLayout_mei_start_offset_ratio_y, 0.5F);
@@ -120,9 +122,10 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 if (!mSelfInterceptEventEnable || mRunningAnimationEnable) {
                     return super.onInterceptTouchEvent(ev);
                 }
-                return mChildInterceptEventEnable = childInterceptEvent((int) ev.getRawX(), (int) ev.getRawY());
+                mChildInterceptEventEnable = childInterceptEvent((int) ev.getRawX(), (int) ev.getRawY());
+                break;
         }
-        return super.onInterceptTouchEvent(ev);
+        return mChildInterceptEventEnable;
     }
 
     /**
@@ -145,6 +148,13 @@ public class VideoDragRelativeLayout extends RelativeLayout {
             if (isTouchView && childView.getTag() != null && TAG_DISPATCH.equals(childView.getTag().toString())) {
                 isConsume = true;
                 break;
+            } else if (isTouchView) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                    isConsume = childView.hasOnClickListeners();
+                    if (isConsume) {
+                        break;
+                    }
+                }
             }
             if (childView instanceof ViewGroup) {
                 ViewGroup itemView = (ViewGroup) childView;
@@ -179,6 +189,9 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 resetData(y, x);
                 break;
             case MotionEvent.ACTION_MOVE:
+                if (!mChildInterceptEventEnable) {
+                    return super.onTouchEvent(event);
+                }
                 if (!mSelfInterceptEventEnable) {
                     return super.onTouchEvent(event);
                 }
@@ -199,12 +212,10 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 } else {
                     mOtherViewClashEnable = false;
                 }
-
                 //添加开始拖拽回调
                 if (mListener != null && (Math.abs(dy) > 0 || Math.abs(dx) > 0)) {
                     mListener.onStartDrag();
                 }
-
                 //第二步 拖拽
                 setTranslationX(getTranslationX() + dx);
                 //设置缩放点 根据需求而定 这里缩放中心点是屏幕底部中点

@@ -3,8 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_drag"
-    app:mei_self_intercept_event="false"
-    app:mei_start_anim_enable="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -40,7 +38,6 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="4dp"
-        android:tag="dispatch"
         android:text="关注"
         android:textSize="16sp"
         app:rv_backgroundColor="@color/colorPrimary"
@@ -57,7 +54,6 @@
         android:gravity="center_vertical"
         android:hint="写评论..."
         android:paddingLeft="16dp"
-        android:tag="dispatch"
         android:textColorHint="#FFF"
         android:textSize="16sp"
         app:rv_backgroundColor="#8F000000"
@@ -70,8 +66,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:scaleType="centerInside"
-        android:src="@mipmap/ic_arrow_back_white_24dp"
-        android:tag="dispatch"/>
+        android:src="@mipmap/ic_arrow_back_white_24dp" />
 
     <ImageView
         android:id="@+id/iv_bg"

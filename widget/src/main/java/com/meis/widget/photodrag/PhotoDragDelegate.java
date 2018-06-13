@@ -19,7 +19,7 @@ public class PhotoDragDelegate {
 
     public PhotoDragDelegate(Context context) {
         ViewConfiguration configuration = ViewConfiguration.get(context);
-        mTouchSlop = configuration.getScaledPagingTouchSlop();
+        mTouchSlop = configuration.getScaledTouchSlop();
     }
 
     public PhotoDragDelegate setDragListener(OnPhotoDragListener listener) {
