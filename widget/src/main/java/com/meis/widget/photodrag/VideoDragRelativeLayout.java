@@ -152,7 +152,9 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                     continue;
                 } else {
                     isConsume |= childInterceptEvent(itemView, touchX, touchY);
-                    break;
+                    if (isConsume) {
+                        break;
+                    }
                 }
             }
         }
@@ -171,6 +173,9 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         float x = event.getRawX();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                if (!mChildInterceptEventEnable) {
+                    return super.onTouchEvent(event);
+                }
                 resetData(y, x);
                 break;
             case MotionEvent.ACTION_MOVE:
