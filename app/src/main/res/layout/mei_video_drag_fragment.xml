@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.meis.widget.photodrag.VideoDragRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.meis.widget.photodrag.VideoDragRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_drag"
     android:layout_width="match_parent"
@@ -24,7 +23,7 @@
         android:layout_marginLeft="16dp"
         android:text="文淑欢迎您的关注"
         android:textColor="#FFF"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <com.meis.widget.radius.RadiusTextView
         android:id="@+id/tv_attention"
@@ -43,7 +42,7 @@
         app:rv_backgroundColor="@color/colorPrimary"
         app:rv_backgroundPressedColor="@color/colorPrimaryDark"
         app:rv_radius="16dp"
-        app:rv_textColor="#FFF"/>
+        app:rv_textColor="#FFF" />
 
     <com.meis.widget.radius.RadiusTextView
         android:id="@+id/tv_comment"
@@ -57,7 +56,7 @@
         android:textColorHint="#FFF"
         android:textSize="16sp"
         app:rv_backgroundColor="#8F000000"
-        app:rv_radius="16dp"/>
+        app:rv_radius="16dp" />
 
     <ImageView
         android:id="@+id/iv_close"
@@ -73,7 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
 
 </com.meis.widget.photodrag.VideoDragRelativeLayout>

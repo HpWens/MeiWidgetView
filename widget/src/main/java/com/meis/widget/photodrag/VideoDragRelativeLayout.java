@@ -8,12 +8,11 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
-import android.os.Build;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
@@ -22,59 +21,48 @@ import com.meis.widget.utils.DensityUtil;
 
 /**
  * Created by wenshi on 2018/5/22.
- * Description 仿头条视频拖拽控件 委托的方式拓展支持线性布局 帧布局 约束布局
- * 请添加到布局的最外层 若子类想消费点击事件请设置tag为dispatch
  * Github https://github.com/HpWens/MeiWidgetView
  */
 public class VideoDragRelativeLayout extends RelativeLayout {
 
-    private static final String TAG_DISPATCH = "dispatch";
-
-    //touch x y point
+    //记录上一次 x y 轴方向的位置
     private float mTouchLastY;
     private float mTouchLastX;
+    //x y 轴方向总的偏移量
+    private float mTotalMoveDy;
+    private float mTotalMoveDx;
 
-    //x y move offset
-    private float mMoveDy;
-    private float mMoveDx;
+    //是否消费touch事件
+    private boolean mIsConsumeTouchEvent = true;
 
-    //子类是否拦截事件 默认子类不拦截触摸事件 子类想消费事件 设置tag为dispatch
-    private boolean mChildInterceptEventEnable = false;
+    //是否消费拦截事件
+    private boolean mIsInterceptTouchEvent;
 
-    //是否执行动画
-    private boolean mRunningAnimationEnable = false;
+    //动画时长
+    private int mAnimationDuration = 400;
 
-    //自己是否拦截 拦截事件 默认拦截
-    private boolean mSelfInterceptEventEnable = true;
-
-    //是否正在拖拽
-    private boolean mDraggingEnable = true;
-
-    //进入动画时长
-    private long mStartAnimDuration;
-    //结束动画时长
-    private long mEndAnimDuration;
-
-    //恢复动画 恢复系数有关[0~1] 恢复系数越大则需要拖动越大的距离
+    //下拉未达到临界值  释放执行的动画
     private ObjectAnimator mRestorationAnimation;
-    //恢复系数 默认0.1f
+
+    //临界值 恢复系数 默认0.1f
     private float mRestorationRatio = 0.1F;
 
-    //开始动画
+    //进入的转场动画
     private ValueAnimator mStartAnimation;
-    //结束动画
+
+    //结束的转场动画
     private ValueAnimator mEndAnimation;
 
-    //控制事件冲突 如与viewpager的左右滑动冲突
-    private boolean mOtherViewClashEnable = true;
+    //滑动事件冲突 如与viewpager的左右滑动冲突
+    private boolean mIsScrollClash = true;
 
-    //y轴偏移速率 值越大偏移越慢 前提y偏移量大于y轴开始偏移系数
+    //y 方向平移速率
     private int mOffsetRateY = 2;
 
-    //y轴开始偏移系数
+    //y 开始平移系数
     private float mStartOffsetRatioY = 0.5F;
 
-    //为了兼容android5.0以下手机 手动实现转场效果  经过测试某些机型5.0以上转场动画达不到UI效果
+    //为了兼容android5.0以下手机 手动实现转场效果
     //来源view的x轴坐标 这里是列表图片的坐标以及图片宽高 坐标取值相对屏幕
     private int mOriginViewX;
     private int mOriginViewY;
@@ -87,10 +75,15 @@ public class VideoDragRelativeLayout extends RelativeLayout {
     private int mOriginViewRealHeight;
 
     //开始动画是否进入  默认true
-    private boolean mStartAnimationEnable = true;
+    private boolean mAnimationEnable = true;
+
+    //滚动最小临界值
+    private int mMinScaledTouchSlop;
 
     //回调接口
     private OnVideoDragListener mListener;
+
+    private static final String TAG_DISPATCH = "dispatch";
 
     public VideoDragRelativeLayout(Context context) {
         this(context, null);
@@ -102,16 +95,32 @@ public class VideoDragRelativeLayout extends RelativeLayout {
 
     public VideoDragRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VideoDragRelativeLayout);
-        mSelfInterceptEventEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_mei_self_intercept_event, true);
-        mStartAnimDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_start_anim_duration, 400);
-        mEndAnimDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_end_anim_duration, 400);
-        mRestorationRatio = ta.getFloat(R.styleable.VideoDragRelativeLayout_mei_restoration_ratio, 0.1F);
-        mOffsetRateY = ta.getInt(R.styleable.VideoDragRelativeLayout_mei_offset_rate_y, 2);
-        mStartOffsetRatioY = ta.getFloat(R.styleable.VideoDragRelativeLayout_mei_start_offset_ratio_y, 0.5F);
-        mStartAnimationEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_mei_start_anim_enable, true);
+        mRestorationRatio = ta.getFloat(R.styleable.VideoDragRelativeLayout_vdr_restoration_ratio, 0.1F);
+        mOffsetRateY = ta.getInt(R.styleable.VideoDragRelativeLayout_vdr_offset_rate_y, 2);
+        mStartOffsetRatioY = ta.getFloat(R.styleable.VideoDragRelativeLayout_vdr_start_offset_ratio_y, 0.5F);
+        mAnimationEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_vdr_anim_enable, true);
         ta.recycle();
+
+        mMinScaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        float y = ev.getRawY();
+        float x = ev.getRawX();
+        switch (ev.getAction() & ev.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                mTouchLastX = x;
+                mTouchLastY = y;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float dy = y - mTouchLastY;
+                float dx = x - mTouchLastX;
+                mIsInterceptTouchEvent = Math.abs(dy) > mMinScaledTouchSlop | Math.abs(dx) > mMinScaledTouchSlop;
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
@@ -119,22 +128,10 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         int action = ev.getAction() & MotionEventCompat.ACTION_MASK;
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                if (!mSelfInterceptEventEnable || mRunningAnimationEnable) {
-                    return super.onInterceptTouchEvent(ev);
-                }
-                mChildInterceptEventEnable = childInterceptEvent((int) ev.getRawX(), (int) ev.getRawY());
+                mIsConsumeTouchEvent = !childInterceptEvent(this, (int) ev.getRawX(), (int) ev.getRawY());
                 break;
         }
-        return mChildInterceptEventEnable;
-    }
-
-    /**
-     * @param touchX
-     * @param touchY
-     * @return 子view是否消费事件
-     */
-    private boolean childInterceptEvent(int touchX, int touchY) {
-        return !childInterceptEvent(this, touchX, touchY);
+        return mIsInterceptTouchEvent & mIsConsumeTouchEvent;
     }
 
     private boolean childInterceptEvent(ViewGroup parentView, int touchX, int touchY) {
@@ -148,13 +145,6 @@ public class VideoDragRelativeLayout extends RelativeLayout {
             if (isTouchView && childView.getTag() != null && TAG_DISPATCH.equals(childView.getTag().toString())) {
                 isConsume = true;
                 break;
-            } else if (isTouchView) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                    isConsume = childView.hasOnClickListeners();
-                    if (isConsume) {
-                        break;
-                    }
-                }
             }
             if (childView instanceof ViewGroup) {
                 ViewGroup itemView = (ViewGroup) childView;
@@ -177,43 +167,45 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         return rect.contains(touchX, touchY);
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (!mIsConsumeTouchEvent) {
+            return super.onTouchEvent(event);
+        }
         float y = event.getRawY();
         float x = event.getRawX();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (!mChildInterceptEventEnable) {
-                    return super.onTouchEvent(event);
-                }
-                resetData(y, x);
+                mTotalMoveDy = 0;
+                mTotalMoveDx = 0;
+                mTouchLastX = x;
+                mTouchLastY = y;
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (!mChildInterceptEventEnable) {
-                    return super.onTouchEvent(event);
-                }
-                if (!mSelfInterceptEventEnable) {
-                    return super.onTouchEvent(event);
-                }
                 float dy = y - mTouchLastY;
                 float dx = x - mTouchLastX;
 
-                mMoveDy += dy;
-                mMoveDx += dx;
+                mTotalMoveDy += dy;
+                mTotalMoveDx += dx;
 
-                mMoveDy = mMoveDy <= 0 ? 0 : mMoveDy;
+                mTotalMoveDy = mTotalMoveDy <= 0 ? 0 : mTotalMoveDy;
+                mTotalMoveDy = mTotalMoveDy >= getHeight() ? getHeight() : mTotalMoveDy;
+
+                mTouchLastX = x;
+                mTouchLastY = y;
 
                 //第一步 解决与viewpager的左右冲突 若手指拖动的x轴偏移量大于等于y轴偏移量则不消费事件
-                if (Math.abs(mMoveDx) >= Math.abs(mMoveDy)) {
-                    if (mOtherViewClashEnable) {
-                        mOtherViewClashEnable = true;
+                if (Math.abs(mTotalMoveDx) >= Math.abs(mTotalMoveDy)) {
+                    if (mIsScrollClash) {
+                        mIsScrollClash = true;
                         return super.onTouchEvent(event);
                     }
                 } else {
-                    mOtherViewClashEnable = false;
+                    mIsScrollClash = false;
                 }
-                //添加开始拖拽回调
-                if (mListener != null && (Math.abs(dy) > 0 || Math.abs(dx) > 0)) {
+                //开始拖拽回调
+                if (mListener != null) {
                     mListener.onStartDrag();
                 }
                 //第二步 拖拽
@@ -222,29 +214,31 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 setPivotX(getWidth() / 2F);
                 setPivotY(getHeight());
                 //设置缩放
-                float scale = 1.0F - mMoveDy / getHeight();
-                setScaleX(scale);
-                setScaleY(scale);
+                float scale = 1.0F - mTotalMoveDy / getHeight();
+
+                if (scale > 0.1F) {
+                    setScaleX(scale);
+                    setScaleY(scale);
+                }
                 //缩放小于0.5时并平移y
                 if (scale < mStartOffsetRatioY) {
                     setTranslationY(getTranslationY() + dy / mOffsetRateY);
                 }
-                mTouchLastX = x;
-                mTouchLastY = y;
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                if (mOtherViewClashEnable) {
+                if (mIsScrollClash) {
                     return super.onTouchEvent(event);
                 }
-                mDraggingEnable = false;
-                mOtherViewClashEnable = true;
+                mIsScrollClash = true;
+
                 //防止多次点击屏幕
-                if (mMoveDy == 0 && mMoveDx == 0) {
+                if (mTotalMoveDy == 0 && mTotalMoveDx == 0) {
                     break;
                 }
+
                 //判定是否执行恢复动画还是结束动画
-                final boolean isEnd = ((mMoveDy / getHeight()) > mRestorationRatio);
+                final boolean isEnd = ((mTotalMoveDy / getHeight()) > mRestorationRatio);
 
                 //执行相应回调
                 if (mListener != null) {
@@ -258,11 +252,11 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                     startRestorationAnimation();
                 }
 
-                mMoveDy = 0;
-                mMoveDx = 0;
+                mTotalMoveDy = 0;
+                mTotalMoveDx = 0;
                 break;
         }
-        return mDraggingEnable ? mChildInterceptEventEnable : super.onTouchEvent(event);
+        return mIsConsumeTouchEvent;
     }
 
     //执行恢复动画
@@ -276,15 +270,13 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         PropertyValuesHolder propertyTranslationY = PropertyValuesHolder.ofFloat("translationY", getTranslationY(), 0);
 
         mRestorationAnimation = ObjectAnimator.ofPropertyValuesHolder(this, propertyScaleX, propertyScaleY, propertyTranslationX, propertyTranslationY)
-                .setDuration(mStartAnimDuration);
+                .setDuration(mAnimationDuration);
 
         mRestorationAnimation.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                mChildInterceptEventEnable = true;
-                mRunningAnimationEnable = false;
-                mDraggingEnable = true;
+                mIsConsumeTouchEvent = true;
                 if (mListener != null) {
                     mListener.onRestorationAnimationEnd();
                 }
@@ -293,8 +285,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
             @Override
             public void onAnimationStart(Animator animation) {
                 super.onAnimationStart(animation);
-                mChildInterceptEventEnable = false;
-                mRunningAnimationEnable = true;
+                mIsConsumeTouchEvent = false;
             }
         });
         mRestorationAnimation.start();
@@ -328,7 +319,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 }
             }
             final boolean topOutOfBound = isTopOutOfBound;
-            mEndAnimation = ValueAnimator.ofFloat(0F, 1.0F).setDuration(mEndAnimDuration);
+            mEndAnimation = ValueAnimator.ofFloat(0F, 1.0F).setDuration(mAnimationDuration);
             mEndAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -346,8 +337,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    mChildInterceptEventEnable = true;
-                    mRunningAnimationEnable = false;
+                    mIsConsumeTouchEvent = true;
                     if (mListener != null) {
                         mListener.onExitAnimationEnd();
                     }
@@ -356,8 +346,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 @Override
                 public void onAnimationStart(Animator animation) {
                     super.onAnimationStart(animation);
-                    mRunningAnimationEnable = true;
-                    mChildInterceptEventEnable = false;
+                    mIsConsumeTouchEvent = false;
                 }
             });
             mEndAnimation.start();
@@ -377,7 +366,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
             return;
         }
         //判定来源view宽高
-        if (mOriginViewVisibleHeight != 0 && mOriginViewVisibleWidth != 0 && mStartAnimationEnable) {
+        if (mOriginViewVisibleHeight != 0 && mOriginViewVisibleWidth != 0 && mAnimationEnable) {
             setPivotX(0);
             setPivotY(0);
             //DensityUtil.getStatusBarHeight((Activity) getContext());
@@ -398,7 +387,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 }
             }
             final boolean topOutOfBound = isTopOutOfBound;
-            mStartAnimation = ValueAnimator.ofFloat(isExit ? 1.0F : 0F, isExit ? 0F : 1.0F).setDuration(isExit ? mEndAnimDuration : mStartAnimDuration);
+            mStartAnimation = ValueAnimator.ofFloat(isExit ? 1.0F : 0F, isExit ? 0F : 1.0F).setDuration(mAnimationDuration);
             mStartAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -415,8 +404,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    mChildInterceptEventEnable = true;
-                    mRunningAnimationEnable = false;
+                    mIsConsumeTouchEvent = true;
                     if (mListener != null) {
                         if (isExit) {
                             mListener.onExitAnimationEnd();
@@ -429,8 +417,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 @Override
                 public void onAnimationStart(Animator animation) {
                     super.onAnimationStart(animation);
-                    mRunningAnimationEnable = true;
-                    mChildInterceptEventEnable = false;
+                    mIsConsumeTouchEvent = false;
                 }
             });
             mStartAnimation.start();
@@ -443,20 +430,6 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 }
             }
         }
-    }
-
-    /**
-     * 重置数据
-     *
-     * @param y
-     * @param x
-     */
-    private void resetData(float y, float x) {
-        mDraggingEnable = true;
-        mMoveDy = 0;
-        mMoveDx = 0;
-        mTouchLastX = x;
-        mTouchLastY = y;
     }
 
     //设置来源数据
@@ -478,62 +451,6 @@ public class VideoDragRelativeLayout extends RelativeLayout {
 
     public void startAnimation() {
         startStartAnimation(false);
-    }
-
-    public boolean getStartAnimationEnable() {
-        return mStartAnimationEnable;
-    }
-
-    public void setStartAnimationEnable(boolean startAnimationEnable) {
-        mStartAnimationEnable = startAnimationEnable;
-    }
-
-    public float getRestorationRatio() {
-        return mRestorationRatio;
-    }
-
-    public void setRestorationRatio(float restorationRatio) {
-        mRestorationRatio = restorationRatio;
-    }
-
-    public int getOffsetRateY() {
-        return mOffsetRateY;
-    }
-
-    public void setOffsetRateY(int offsetRateY) {
-        mOffsetRateY = offsetRateY;
-    }
-
-    public float getStartOffsetRatioY() {
-        return mStartOffsetRatioY;
-    }
-
-    public void setStartOffsetRatioY(float startOffsetRatioY) {
-        mStartOffsetRatioY = startOffsetRatioY;
-    }
-
-    public boolean getSelfInterceptEventEnable() {
-        return mSelfInterceptEventEnable;
-    }
-
-    public void setSelfInterceptEventEnable(boolean selfInterceptEventEnable) {
-        mSelfInterceptEventEnable = selfInterceptEventEnable;
-    }
-
-    public long getStartAnimDuration() {
-        return mStartAnimDuration;
-    }
-
-    public void setStartAnimDuration(long startAnimDuration) {
-        mStartAnimDuration = startAnimDuration;
-    }
-
-    public long getEndAnimDuration() {
-        return mEndAnimDuration;
-    }
-
-    public void setEndAnimDuration(long endAnimDuration) {
-        mEndAnimDuration = endAnimDuration;
     }
 
     public VideoDragRelativeLayout setOnVideoDragListener(OnVideoDragListener listener) {
@@ -570,5 +487,51 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         void onRestorationAnimationEnd();
     }
 
+    public boolean getConsumeTouchEvent() {
+        return mIsConsumeTouchEvent;
+    }
 
+    public void setConsumeTouchEvent(boolean consumeTouchEvent) {
+        mIsConsumeTouchEvent = consumeTouchEvent;
+    }
+
+    public int getAnimationDuration() {
+        return mAnimationDuration;
+    }
+
+    public void setAnimationDuration(int animationDuration) {
+        mAnimationDuration = animationDuration;
+    }
+
+    public float getRestorationRatio() {
+        return mRestorationRatio;
+    }
+
+    public void setRestorationRatio(float restorationRatio) {
+        mRestorationRatio = restorationRatio;
+    }
+
+    public int getOffsetRateY() {
+        return mOffsetRateY;
+    }
+
+    public void setOffsetRateY(int offsetRateY) {
+        mOffsetRateY = offsetRateY;
+    }
+
+    public float getStartOffsetRatioY() {
+        return mStartOffsetRatioY;
+    }
+
+    public void setStartOffsetRatioY(float startOffsetRatioY) {
+        mStartOffsetRatioY = startOffsetRatioY;
+    }
+
+    public boolean getAnimationEnable() {
+        return mAnimationEnable;
+    }
+
+    public void setAnimationEnable(boolean animationEnable) {
+        mAnimationEnable = animationEnable;
+    }
 }
