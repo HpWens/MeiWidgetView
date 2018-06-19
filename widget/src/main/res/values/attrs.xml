@@ -65,7 +65,9 @@
         <!-- y轴开始偏移系数 -->
         <attr name="vdr_start_offset_ratio_y" format="float"></attr>
         <!-- 开始动画是否进入 默认true -->
-        <attr name="vdr_anim_enable" format="boolean"></attr>
+        <attr name="vdr_start_anim_enable" format="boolean"></attr>
+        <!-- 是否可以拖拽 默认true -->
+        <attr name="vdr_drag_enable" format="boolean"></attr>
     </declare-styleable>
 
 </resources>

@@ -75,7 +75,10 @@ public class VideoDragRelativeLayout extends RelativeLayout {
     private int mOriginViewRealHeight;
 
     //开始动画是否进入  默认true
-    private boolean mAnimationEnable = true;
+    private boolean mStartAnimationEnable = true;
+
+    //是否可以拖拽
+    private boolean mIsDragEnable = true;
 
     //滚动最小临界值
     private int mMinScaledTouchSlop;
@@ -99,7 +102,8 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         mRestorationRatio = ta.getFloat(R.styleable.VideoDragRelativeLayout_vdr_restoration_ratio, 0.1F);
         mOffsetRateY = ta.getInt(R.styleable.VideoDragRelativeLayout_vdr_offset_rate_y, 2);
         mStartOffsetRatioY = ta.getFloat(R.styleable.VideoDragRelativeLayout_vdr_start_offset_ratio_y, 0.5F);
-        mAnimationEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_vdr_anim_enable, true);
+        mStartAnimationEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_vdr_start_anim_enable, true);
+        mIsDragEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_vdr_drag_enable, true);
         ta.recycle();
 
         mMinScaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
@@ -131,7 +135,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 mIsConsumeTouchEvent = !childInterceptEvent(this, (int) ev.getRawX(), (int) ev.getRawY());
                 break;
         }
-        return mIsInterceptTouchEvent & mIsConsumeTouchEvent;
+        return mIsDragEnable & mIsInterceptTouchEvent & mIsConsumeTouchEvent;
     }
 
     private boolean childInterceptEvent(ViewGroup parentView, int touchX, int touchY) {
@@ -256,7 +260,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 mTotalMoveDx = 0;
                 break;
         }
-        return mIsConsumeTouchEvent;
+        return mIsDragEnable & mIsConsumeTouchEvent;
     }
 
     //执行恢复动画
@@ -366,7 +370,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
             return;
         }
         //判定来源view宽高
-        if (mOriginViewVisibleHeight != 0 && mOriginViewVisibleWidth != 0 && mAnimationEnable) {
+        if (mOriginViewVisibleHeight != 0 && mOriginViewVisibleWidth != 0 && mStartAnimationEnable) {
             setPivotX(0);
             setPivotY(0);
             //DensityUtil.getStatusBarHeight((Activity) getContext());
@@ -487,14 +491,6 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         void onRestorationAnimationEnd();
     }
 
-    public boolean getConsumeTouchEvent() {
-        return mIsConsumeTouchEvent;
-    }
-
-    public void setConsumeTouchEvent(boolean consumeTouchEvent) {
-        mIsConsumeTouchEvent = consumeTouchEvent;
-    }
-
     public int getAnimationDuration() {
         return mAnimationDuration;
     }
@@ -527,11 +523,19 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         mStartOffsetRatioY = startOffsetRatioY;
     }
 
-    public boolean getAnimationEnable() {
-        return mAnimationEnable;
+    public boolean getStartAnimationEnable() {
+        return mStartAnimationEnable;
     }
 
-    public void setAnimationEnable(boolean animationEnable) {
-        mAnimationEnable = animationEnable;
+    public void setStartAnimationEnable(boolean startAnimationEnable) {
+        mStartAnimationEnable = startAnimationEnable;
+    }
+
+    public boolean getDragEnable() {
+        return mIsDragEnable;
+    }
+
+    public void setDragEnable(boolean dragEnable) {
+        mIsDragEnable = dragEnable;
     }
 }
