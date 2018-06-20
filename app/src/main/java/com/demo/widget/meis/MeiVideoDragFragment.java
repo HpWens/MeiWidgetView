@@ -3,7 +3,6 @@ package com.demo.widget.meis;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +91,6 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
             @Override
             public void onEnterAnimationEnd(boolean isOutOfBound) {
                 EventBus.getDefault().post(new ScrollTopEvent(isOutOfBound));
-                mIvBg.setVisibility(View.GONE);
             }
 
             @Override
@@ -146,6 +144,12 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
     public void onSupportVisible() {
         super.onSupportVisible();
         mVideoPlayer.setPlayWhenReady(true);
+        mIvBg.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mIvBg.setVisibility(View.GONE);
+            }
+        }, 400);
     }
 
     @Override

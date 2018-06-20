@@ -110,7 +110,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         mStartAnimationEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_vdr_start_anim_enable, true);
         mIsDragEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_vdr_drag_enable, true);
 
-        mAnimationDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_vdr_anim_duration, 1000);
+        mAnimationDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_vdr_anim_duration, 400);
         mTopNavHeight = ta.getDimension(R.styleable.VideoDragRelativeLayout_vdr_top_nav_height, 0);
         mBottomNavHeight = ta.getDimension(R.styleable.VideoDragRelativeLayout_vdr_bottom_nav_height, 0);
         ta.recycle();
