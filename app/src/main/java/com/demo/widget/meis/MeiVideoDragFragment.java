@@ -3,6 +3,7 @@ package com.demo.widget.meis;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.demo.widget.R;
+import com.demo.widget.event.ScrollTopEvent;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -36,6 +38,8 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.meis.widget.photodrag.VideoDragRelativeLayout;
 import com.meis.widget.radius.RadiusTextView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -86,8 +90,9 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
             }
 
             @Override
-            public void onEnterAnimationEnd() {
-
+            public void onEnterAnimationEnd(boolean isOutOfBound) {
+                EventBus.getDefault().post(new ScrollTopEvent(isOutOfBound));
+                mIvBg.setVisibility(View.GONE);
             }
 
             @Override
@@ -114,8 +119,11 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
         Bundle bundle = getArguments();
         if (bundle != null) {
             int[] arrays = bundle.getIntArray("global_rect");
+            mDragLayout.setIsLastRow(bundle.getBoolean("is_last_row"));
             mDragLayout.setOriginView(arrays[0], arrays[1], arrays[2] - arrays[0], arrays[3] - arrays[1], arrays[4]);
-            mDragLayout.startAnimation();
+            if (bundle.getInt("index") == 0) {
+                mDragLayout.startAnimation();
+            }
             mIvBg.setBackgroundResource(R.mipmap.ic_video_drag_bg);
             mVideoUrl = bundle.getString("video_url");
         }
@@ -137,12 +145,6 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-        mIvBg.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mIvBg.setVisibility(View.GONE);
-            }
-        }, 400);
         mVideoPlayer.setPlayWhenReady(true);
     }
 
@@ -195,7 +197,6 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-
     }
 
     @Override

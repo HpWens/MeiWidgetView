@@ -68,6 +68,10 @@
         <attr name="vdr_start_anim_enable" format="boolean"></attr>
         <!-- 是否可以拖拽 默认true -->
         <attr name="vdr_drag_enable" format="boolean"></attr>
+
+        <!-- 模仿头条获取新增顶部导航栏高度(不包含状态栏的高度) 底部导航栏高度 -->
+        <attr name="vdr_top_nav_height" format="dimension"></attr>
+        <attr name="vdr_bottom_nav_height" format="dimension"></attr>
     </declare-styleable>
 
 </resources>

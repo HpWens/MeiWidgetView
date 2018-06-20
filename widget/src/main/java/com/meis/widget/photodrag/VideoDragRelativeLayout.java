@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
@@ -39,7 +40,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
     private boolean mIsInterceptTouchEvent;
 
     //动画时长
-    private int mAnimationDuration = 400;
+    private int mAnimationDuration = 200;
 
     //下拉未达到临界值  释放执行的动画
     private ObjectAnimator mRestorationAnimation;
@@ -86,6 +87,10 @@ public class VideoDragRelativeLayout extends RelativeLayout {
     //回调接口
     private OnVideoDragListener mListener;
 
+    private float mTopNavHeight;
+    private float mBottomNavHeight;
+    private boolean mIsLastRow = false;
+
     private static final String TAG_DISPATCH = "dispatch";
 
     public VideoDragRelativeLayout(Context context) {
@@ -104,6 +109,10 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         mStartOffsetRatioY = ta.getFloat(R.styleable.VideoDragRelativeLayout_vdr_start_offset_ratio_y, 0.5F);
         mStartAnimationEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_vdr_start_anim_enable, true);
         mIsDragEnable = ta.getBoolean(R.styleable.VideoDragRelativeLayout_vdr_drag_enable, true);
+
+        mAnimationDuration = ta.getInt(R.styleable.VideoDragRelativeLayout_vdr_anim_duration, 1000);
+        mTopNavHeight = ta.getDimension(R.styleable.VideoDragRelativeLayout_vdr_top_nav_height, 0);
+        mBottomNavHeight = ta.getDimension(R.styleable.VideoDragRelativeLayout_vdr_bottom_nav_height, 0);
         ta.recycle();
 
         mMinScaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
@@ -309,7 +318,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
             final float endScaleX = (float) mOriginViewVisibleWidth / getWidth();
             final float endScaleY = (float) mOriginViewRealHeight / getHeight();
             //状态栏高度 若状态栏隐藏则设置此值 DensityUtil.getStatusBarHeight((Activity) getContext());
-            final int statusHeight = 0;
+            final int statusHeight = DensityUtil.getStatusBarHeight((Activity) getContext());
             //是否越界
             boolean isTopOutOfBound = false;
             //加1是防止精度误差
@@ -317,9 +326,15 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 if ((mOriginViewY + mOriginViewRealHeight) > getHeight()) {
                     //下边界越界
                     isTopOutOfBound = false;
+                    if (mIsLastRow) {
+                        mOriginViewY = getHeight() - (int) mBottomNavHeight - mOriginViewRealHeight;
+                    } else {
+                        mOriginViewY = statusHeight + (int) mTopNavHeight;
+                    }
                 } else {
                     //上边界越界
                     isTopOutOfBound = true;
+                    mOriginViewVisibleHeight = mOriginViewRealHeight;
                 }
             }
             final boolean topOutOfBound = isTopOutOfBound;
@@ -328,13 +343,12 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float value = (float) animation.getAnimatedValue();
-
                     setScaleX(startScaleX + value * (endScaleX - startScaleX));
                     setScaleY(startScaleY + value * (endScaleY - startScaleY));
 
                     setTranslationX(startTransitionX + value * (mOriginViewX - startTransitionX) - value * (getWidth() - mOriginViewVisibleWidth) / 2.0F);
-                    setTranslationY(startTransitionY - value * (startTransitionY - mOriginViewY) - value * (getHeight() - mOriginViewRealHeight + statusHeight) - (topOutOfBound ?
-                            value * (mOriginViewRealHeight - mOriginViewVisibleHeight) : 0));
+                    //setTranslationY(startTransitionY - value * (startTransitionY - mOriginViewY) - value * (getHeight() - mOriginViewRealHeight + statusHeight) - (topOutOfBound ? value * (mOriginViewRealHeight - mOriginViewVisibleHeight) : 0));
+                    setTranslationY(startTransitionY - value * (startTransitionY - mOriginViewY) - value * (getHeight() - mOriginViewRealHeight) - (topOutOfBound ? value * (mOriginViewRealHeight - mOriginViewVisibleHeight) : 0));
                 }
             });
             mEndAnimation.addListener(new AnimatorListenerAdapter() {
@@ -373,23 +387,30 @@ public class VideoDragRelativeLayout extends RelativeLayout {
         if (mOriginViewVisibleHeight != 0 && mOriginViewVisibleWidth != 0 && mStartAnimationEnable) {
             setPivotX(0);
             setPivotY(0);
-            //DensityUtil.getStatusBarHeight((Activity) getContext());
-            final int statusHeight = 0;
+            final int statusHeight = DensityUtil.getStatusBarHeight((Activity) getContext());
             //具体场景 可以替换成  getWidth()  getHeight() 这里是以屏幕的宽高来计算的
             boolean isTopOutOfBound = false;
             int screenHeight = DensityUtil.getScreenSize(getContext()).y;
             final float startScaleX = (float) mOriginViewVisibleWidth / DensityUtil.getScreenSize(getContext()).x;
             final float startScaleY = (float) mOriginViewRealHeight / screenHeight;
-            if ((mOriginViewVisibleHeight + 1) < mOriginViewRealHeight) {
+            final boolean outOfBound = (mOriginViewVisibleHeight + 1) < mOriginViewRealHeight;
+            if (outOfBound) {
                 //上边界越界 或者 下边界越界
                 if ((mOriginViewY + mOriginViewRealHeight) > screenHeight) {
                     //下边界越界
                     isTopOutOfBound = false;
+                    if (mIsLastRow) {
+                        mOriginViewY = isExit ? (screenHeight - (int) mBottomNavHeight - mOriginViewRealHeight) : mOriginViewY;
+                    } else {
+                        mOriginViewY = isExit ? (statusHeight + (int) mTopNavHeight) : mOriginViewY;
+                    }
                 } else {
                     //上边界越界
                     isTopOutOfBound = true;
+                    mOriginViewVisibleHeight = isExit ? mOriginViewRealHeight : mOriginViewVisibleHeight;
                 }
             }
+
             final boolean topOutOfBound = isTopOutOfBound;
             mStartAnimation = ValueAnimator.ofFloat(isExit ? 1.0F : 0F, isExit ? 0F : 1.0F).setDuration(mAnimationDuration);
             mStartAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -397,8 +418,8 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float value = (float) animation.getAnimatedValue();
                     setTranslationX(mOriginViewX - value * mOriginViewX);
-                    setTranslationY((mOriginViewY - statusHeight) - value * (mOriginViewY - statusHeight) - (topOutOfBound ? (1.0F - value) * (mOriginViewRealHeight -
-                            mOriginViewVisibleHeight) : 0));
+                    //setTranslationY((mOriginViewY - statusHeight) - value * (mOriginViewY - statusHeight) - (topOutOfBound ? (1.0F - value) * (mOriginViewRealHeight - mOriginViewVisibleHeight) : 0));
+                    setTranslationY(mOriginViewY - value * mOriginViewY - (topOutOfBound ? (1.0F - value) * (mOriginViewRealHeight - mOriginViewVisibleHeight) : 0));
 
                     setScaleX(startScaleX + value * (1.0F - startScaleX));
                     setScaleY(startScaleY + value * (1.0F - startScaleY));
@@ -413,7 +434,7 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                         if (isExit) {
                             mListener.onExitAnimationEnd();
                         } else {
-                            mListener.onEnterAnimationEnd();
+                            mListener.onEnterAnimationEnd(outOfBound);
                         }
                     }
                 }
@@ -430,10 +451,15 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 if (isExit) {
                     mListener.onExitAnimationEnd();
                 } else {
-                    mListener.onEnterAnimationEnd();
+                    mListener.onEnterAnimationEnd(false);
                 }
             }
         }
+    }
+
+    //mRecyclerView.canScrollVertically(1) 判定是否滑动到底部
+    public void setIsLastRow(boolean lastRow) {
+        this.mIsLastRow = lastRow;
     }
 
     //设置来源数据
@@ -476,8 +502,10 @@ public class VideoDragRelativeLayout extends RelativeLayout {
 
         /**
          * 进入动画结束
+         *
+         * @param isOutOfBound 是否越界
          */
-        void onEnterAnimationEnd();
+        void onEnterAnimationEnd(boolean isOutOfBound);
 
 
         /**
@@ -537,5 +565,21 @@ public class VideoDragRelativeLayout extends RelativeLayout {
 
     public void setDragEnable(boolean dragEnable) {
         mIsDragEnable = dragEnable;
+    }
+
+    public float getTopNavHeight() {
+        return mTopNavHeight;
+    }
+
+    public void setTopNavHeight(float topNavHeight) {
+        mTopNavHeight = topNavHeight;
+    }
+
+    public float getBottomNavHeight() {
+        return mBottomNavHeight;
+    }
+
+    public void setBottomNavHeight(float bottomNavHeight) {
+        mBottomNavHeight = bottomNavHeight;
     }
 }
