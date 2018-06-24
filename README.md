@@ -33,6 +33,10 @@ app build.gradle
 	}
 ````
 
+## 下载
+
+[apk下载](https://github.com/HpWens/MeiWidgetView/blob/master/gif/app.apk)
+
 ## 使用
 
 ### 1、文字路径
