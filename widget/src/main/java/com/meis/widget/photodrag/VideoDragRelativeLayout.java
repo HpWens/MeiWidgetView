@@ -334,8 +334,8 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 } else {
                     //上边界越界
                     isTopOutOfBound = true;
-                    mOriginViewVisibleHeight = mOriginViewRealHeight;
                 }
+                mOriginViewVisibleHeight = mOriginViewRealHeight;
             }
             final boolean topOutOfBound = isTopOutOfBound;
             mEndAnimation = ValueAnimator.ofFloat(0F, 1.0F).setDuration(mAnimationDuration);
@@ -407,8 +407,8 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                 } else {
                     //上边界越界
                     isTopOutOfBound = true;
-                    mOriginViewVisibleHeight = isExit ? mOriginViewRealHeight : mOriginViewVisibleHeight;
                 }
+                mOriginViewVisibleHeight = isExit ? mOriginViewRealHeight : mOriginViewVisibleHeight;
             }
 
             final boolean topOutOfBound = isTopOutOfBound;
