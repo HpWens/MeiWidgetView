@@ -33,9 +33,7 @@ app build.gradle
 	}
 ````
 
-## 下载
-
-[apk下载](https://github.com/HpWens/MeiWidgetView/blob/master/gif/app.apk)
+## [Download APK](https://github.com/HpWens/MeiWidgetView/blob/master/gif/app)
 
 ## 使用
 
