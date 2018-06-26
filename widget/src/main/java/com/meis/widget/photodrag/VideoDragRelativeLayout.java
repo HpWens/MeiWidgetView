@@ -327,7 +327,8 @@ public class VideoDragRelativeLayout extends RelativeLayout {
                     //下边界越界
                     isTopOutOfBound = false;
                     if (mIsLastRow) {
-                        mOriginViewY = getHeight() - (int) mBottomNavHeight - mOriginViewRealHeight;
+                        //mOriginViewY = getHeight() - (int) mBottomNavHeight - mOriginViewRealHeight;
+                        mOriginViewY -= (mOriginViewRealHeight - mOriginViewVisibleHeight);
                     } else {
                         mOriginViewY = statusHeight + (int) mTopNavHeight;
                     }
@@ -480,7 +481,12 @@ public class VideoDragRelativeLayout extends RelativeLayout {
     }
 
     public void startAnimation() {
-        startStartAnimation(false);
+        post(new Runnable() {
+            @Override
+            public void run() {
+                startStartAnimation(false);
+            }
+        });
     }
 
     public VideoDragRelativeLayout setOnVideoDragListener(OnVideoDragListener listener) {

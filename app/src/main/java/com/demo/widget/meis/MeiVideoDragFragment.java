@@ -72,6 +72,18 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
         mVideoView = view.findViewById(R.id.video_view);
         mIvBg = view.findViewById(R.id.iv_bg);
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            int[] arrays = bundle.getIntArray("global_rect");
+            mDragLayout.setIsLastRow(bundle.getBoolean("is_last_row"));
+            mDragLayout.setOriginView(arrays[0], arrays[1], arrays[2] - arrays[0], arrays[3] - arrays[1], arrays[4]);
+            if (bundle.getInt("index") == 0) {
+                mDragLayout.startAnimation();
+            }
+            mIvBg.setBackgroundResource(R.mipmap.ic_video_drag_bg);
+            mVideoUrl = bundle.getString("video_url");
+        }
+
         mDragLayout.setOnVideoDragListener(new VideoDragRelativeLayout.OnVideoDragListener() {
             @Override
             public void onStartDrag() {
@@ -113,18 +125,6 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
                 mDragLayout.onBackPressed();
             }
         });
-
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            int[] arrays = bundle.getIntArray("global_rect");
-            mDragLayout.setIsLastRow(bundle.getBoolean("is_last_row"));
-            mDragLayout.setOriginView(arrays[0], arrays[1], arrays[2] - arrays[0], arrays[3] - arrays[1], arrays[4]);
-            if (bundle.getInt("index") == 0) {
-                mDragLayout.startAnimation();
-            }
-            mIvBg.setBackgroundResource(R.mipmap.ic_video_drag_bg);
-            mVideoUrl = bundle.getString("video_url");
-        }
 
         initPlayer();
         initVideo(mVideoUrl);
