@@ -54,4 +54,8 @@ public class MainActivity extends AppCompatActivity {
     public void onMokibe(View view) {
         startActivity(new Intent(this, MeiMoBikeActivity.class));
     }
+
+    public void onRose(View view) {
+        startActivity(new Intent(this, MeiRoseActivity.class));
+    }
 }

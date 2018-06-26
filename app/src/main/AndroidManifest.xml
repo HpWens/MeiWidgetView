@@ -38,6 +38,7 @@
             android:windowContentTransitions="true"></activity>
         <activity android:name=".meis.MeiVideoDragListActivity"></activity>
         <activity android:name=".meis.MeiMoBikeActivity"></activity>
+        <activity android:name=".meis.MeiRoseActivity"></activity>
     </application>
 
 </manifest>
