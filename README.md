@@ -29,7 +29,7 @@ app build.gradle
 
 ````
 	dependencies {
-	       implementation 'com.github.HpWens:MeiWidgetView:v0.0.9'
+	       implementation 'com.github.HpWens:MeiWidgetView:v0.1.0'
 	}
 ````
 
@@ -418,9 +418,27 @@ app build.gradle
 	/>
 ````
 
-#### c、相关文章
+### 11、LOVE玫瑰
 
-[JBox2D运用-打造摩拜单车贴纸动画效果](https://www.jianshu.com/p/95cb24a746c5)
+#### a、效果预览
+
+<img src="/gif/mei_rose.gif" width="280px"/> 
+
+#### b、xml布局
+
+````
+    <com.meis.widget.rose.RoseGiftSurfaceView
+        android:id="@+id/rose"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        ... />
+````
+
+#### c、开始动画
+
+````
+ mRoseGiftSurfaceView.startAnimation();
+````
 
 ## Contact
 
