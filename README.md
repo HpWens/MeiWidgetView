@@ -33,7 +33,7 @@ app build.gradle
 	}
 ````
 
-## [Download APK](https://github.com/HpWens/MeiWidgetView/blob/master/gif/app.apk)
+## [Download APK](https://www.pgyer.com/zKF4)
 
 ## 使用
 
