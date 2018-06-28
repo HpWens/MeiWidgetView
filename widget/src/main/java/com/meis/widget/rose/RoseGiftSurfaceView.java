@@ -265,7 +265,7 @@ public class RoseGiftSurfaceView extends SurfaceView implements SurfaceHolder.Ca
         animator.start();
     }
 
-    public void endAnimation() {
+    public void stopAnimation() {
         if (animator != null && animator.isRunning()) {
             animator.cancel();
         }
@@ -315,7 +315,7 @@ public class RoseGiftSurfaceView extends SurfaceView implements SurfaceHolder.Ca
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-
+        stopAnimation();
     }
 
 }
