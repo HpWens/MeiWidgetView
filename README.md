@@ -449,6 +449,7 @@ QQ群：478720016
 欢迎发邮件或者提issue
 
 ## LICENSE
+
 ````
 Copyright 2018 文淑
 
@@ -464,4 +465,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ````
+
+## 赞赏
+
+**扫描打赏，再接再厉**
+
+![wx.png](https://upload-images.jianshu.io/upload_images/2258857-70b90a2b5cfc8828.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
