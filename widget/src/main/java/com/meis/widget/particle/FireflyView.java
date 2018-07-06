@@ -82,11 +82,6 @@ public class FireflyView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        int measuredWidth = getMeasuredWidth();
-        int measureHeight = getMeasuredHeight();
-
-        initParticlesData(measuredWidth, measureHeight);
-        startAnimation();
     }
 
     // 初始化浮点粒子数据
@@ -102,7 +97,8 @@ public class FireflyView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+        initParticlesData(width, height);
+        startAnimation();
     }
 
     @Override
@@ -115,7 +111,7 @@ public class FireflyView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void startAnimation() {
-        if (mHandler != null) return;
+        //if (mHandler != null) return;
         HandlerThread fireThread = new HandlerThread(this.getClass().getName());
         fireThread.start();
         mHandler = new Handler(fireThread.getLooper()) {
