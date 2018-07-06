@@ -442,7 +442,32 @@ app build.gradle
 
 ### 12、浮动粒子
 
+通过三阶贝塞尔曲线，绘制每个粒子的运动轨迹
 
+<img src="/gif/mei_float_particle.gif" width="280px"/> 
+
+#### b、xml布局
+
+````
+    <com.meis.widget.particle.FireflyView
+        android:id="@+id/firfly"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        ... />
+````
+
+#### c、属性
+
+````
+    <declare-styleable name="FireflyView">
+        <!-- 浮点粒子数量 默认400 -->
+        <attr name="firefly_num" format="integer"></attr>
+        <!-- 浮点粒子的最大半径 默认5 -->
+        <attr name="firefly_max_radius" format="integer"></attr>
+        <!-- 浮点粒子的移动速率 默认5 越大移动越慢 -->
+        <attr name="firefly_move_rate" format="integer"></attr>
+    </declare-styleable>
+````
 
 ## Contact
 
