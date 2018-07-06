@@ -446,6 +446,8 @@ app build.gradle
 
 <img src="/gif/mei_float_particle.gif" width="280px"/> 
 
+[请下载apk查看实际效果](https://www.pgyer.com/zKF4)
+
 #### b、xml布局
 
 ````
