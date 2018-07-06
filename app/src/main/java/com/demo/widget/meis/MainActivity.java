@@ -58,4 +58,8 @@ public class MainActivity extends AppCompatActivity {
     public void onRose(View view) {
         startActivity(new Intent(this, MeiRoseActivity.class));
     }
+
+    public void onFirefly(View view) {
+        startActivity(new Intent(this, MeiFireflyActivity.class));
+    }
 }

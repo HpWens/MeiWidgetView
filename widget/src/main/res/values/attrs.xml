@@ -74,4 +74,13 @@
         <attr name="vdr_bottom_nav_height" format="dimension"></attr>
     </declare-styleable>
 
+    <declare-styleable name="FireflyView">
+        <!-- 浮点粒子数量 默认400 -->
+        <attr name="firefly_num" format="integer"></attr>
+        <!-- 浮点粒子的最大半径 默认5 -->
+        <attr name="firefly_max_radius" format="integer"></attr>
+        <!-- 浮点粒子的移动速率 默认5 越大移动越慢 -->
+        <attr name="firefly_move_rate" format="integer"></attr>
+    </declare-styleable>
+
 </resources>
