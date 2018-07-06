@@ -29,7 +29,7 @@ app build.gradle
 
 ````
 	dependencies {
-	       implementation 'com.github.HpWens:MeiWidgetView:v0.1.0'
+	       implementation 'com.github.HpWens:MeiWidgetView:v0.1.1'
 	}
 ````
 
@@ -439,6 +439,10 @@ app build.gradle
 ````
  mRoseGiftSurfaceView.startAnimation();
 ````
+
+### 12、浮动粒子
+
+
 
 ## Contact
 
