@@ -40,6 +40,7 @@
         <activity android:name=".meis.MeiMoBikeActivity"></activity>
         <activity android:name=".meis.MeiRoseActivity"></activity>
         <activity android:name=".meis.MeiFireflyActivity"></activity>
+        <activity android:name=".meis.MeiPraiseActivity"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,7 +15,7 @@
         app:layout_collapseMode="pin"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="MEI_S 控件"
-        app:titleTextColor="#FFF"/>
+        app:titleTextColor="#FFF" />
 
     <com.meis.widget.mobike.MoBikeView
         android:id="@+id/mo_bike"
@@ -39,7 +37,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:text="欢迎来到 MEI_S "
-        app:textColor="#999999"/>
+        app:textColor="#999999" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/cv_mei"
@@ -62,7 +60,7 @@
             android:padding="16dp"
             android:text="MEI控件"
             android:textColor="#999999"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </android.support.v7.widget.CardView>
 
@@ -87,7 +85,7 @@
             android:padding="16dp"
             android:text="郭霖 , 鸿洋控件"
             android:textColor="#999999"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </android.support.v7.widget.CardView>
 
@@ -98,8 +96,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:lineColor="#999999"/>
+        app:lineColor="#999999" />
 
+    <com.meis.widget.praise.BezierPraiseView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
+    </com.meis.widget.praise.BezierPraiseView>
 
 </android.support.constraint.ConstraintLayout>

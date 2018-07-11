@@ -62,4 +62,8 @@ public class MainActivity extends AppCompatActivity {
     public void onFirefly(View view) {
         startActivity(new Intent(this, MeiFireflyActivity.class));
     }
+
+    public void onPraise(View view) {
+        startActivity(new Intent(this, MeiPraiseActivity.class));
+    }
 }
