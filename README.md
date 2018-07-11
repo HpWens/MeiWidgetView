@@ -480,7 +480,9 @@ app build.gradle
 #### b、相关代码
 
 ````
+// 初始化
 mPraiseAnimator = new BezierPraiseAnimator(this);
+// 开始动画
 mPraiseAnimator.startAnimation(mIvPraise);
 ````
 
