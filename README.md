@@ -29,7 +29,7 @@ app build.gradle
 
 ````
 	dependencies {
-	       implementation 'com.github.HpWens:MeiWidgetView:v0.1.1'
+	       implementation 'com.github.HpWens:MeiWidgetView:v0.1.2'
 	}
 ````
 
@@ -469,6 +469,19 @@ app build.gradle
         <!-- 浮点粒子的移动速率 默认5 越大移动越慢 -->
         <attr name="firefly_move_rate" format="integer"></attr>
     </declare-styleable>
+````
+
+### 13、直播间点赞控件
+
+贝塞尔曲线来计算点赞小图标的位置
+
+<img src="/gif/mei_praise.gif" width="280px"/> 
+
+#### b、相关代码
+
+````
+mPraiseAnimator = new BezierPraiseAnimator(this);
+mPraiseAnimator.startAnimation(mIvPraise);
 ````
 
 ## Contact
