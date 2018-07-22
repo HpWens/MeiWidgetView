@@ -511,15 +511,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ````
-
-## 赞赏
-
-**扫描打赏，再接再厉**
-
-### 微信
-
-![wx.png](https://upload-images.jianshu.io/upload_images/2258857-70b90a2b5cfc8828.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-### 支付宝
-
-![qq.png](https://upload-images.jianshu.io/upload_images/2258857-78268380c9a5d364.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
