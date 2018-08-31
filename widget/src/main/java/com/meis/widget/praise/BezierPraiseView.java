@@ -25,6 +25,7 @@ public class BezierPraiseView extends FrameLayout {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            if (getWidth() <= 0 || getHeight() <= 0) return;
             mBezierPraiseAnimator.startAnimation(mRandom.nextInt(getWidth()), mRandom.nextInt(getHeight()));
             mHandler.sendEmptyMessageDelayed(1, 200);
         }

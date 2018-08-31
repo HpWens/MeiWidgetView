@@ -11,6 +11,7 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -139,12 +140,13 @@ public class VideoDragRelativeLayout extends RelativeLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getAction() & MotionEventCompat.ACTION_MASK;
+        boolean childIntercept = true;
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                mIsConsumeTouchEvent = !childInterceptEvent(this, (int) ev.getRawX(), (int) ev.getRawY());
+                childIntercept = !childInterceptEvent(this, (int) ev.getRawX(), (int) ev.getRawY());
                 break;
         }
-        return mIsDragEnable & mIsInterceptTouchEvent & mIsConsumeTouchEvent;
+        return mIsDragEnable & mIsInterceptTouchEvent & childIntercept;
     }
 
     private boolean childInterceptEvent(ViewGroup parentView, int touchX, int touchY) {

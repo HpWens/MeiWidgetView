@@ -37,8 +37,8 @@
                 android:text="按下背景切换"
                 android:textColor="#FFF"
                 android:textSize="18sp"
-                app:rv_backgroundColor="@color/colorAccent"
-                app:rv_backgroundPressedColor="@color/colorPrimary">
+                app:rv_bottomRightRadius="10dp"
+                app:rv_backgroundColor="@color/colorAccent">
 
             </com.meis.widget.radius.RadiusTextView>
 
