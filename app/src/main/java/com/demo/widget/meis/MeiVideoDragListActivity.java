@@ -17,7 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.demo.widget.R;
 import com.demo.widget.bean.SmallVideoBean;
-import com.demo.widget.event.ScrollTopEvent;
+import com.demo.widget.event.ScrollToPositionEvent;
 import com.meis.widget.utils.DensityUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -59,7 +59,6 @@ public class MeiVideoDragListActivity extends AppCompatActivity {
             @Override
             protected void convert(BaseViewHolder helper, SmallVideoBean item) {
                 helper.addOnClickListener(R.id.iv_bg);
-
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone((ConstraintLayout) helper.itemView);
                 constraintSet.setDimensionRatio(R.id.iv_bg, "H," + DensityUtil.getScreenSize(mContext).x + ":" + DensityUtil.getScreenSize(mContext).y);
@@ -89,22 +88,15 @@ public class MeiVideoDragListActivity extends AppCompatActivity {
                 Intent intent = new Intent(MeiVideoDragListActivity.this, MeiVideoDragActivity.class);
                 Rect globalRect = new Rect();
                 view.getGlobalVisibleRect(globalRect);
-                intent.putExtra("global_rect", new int[]{globalRect.left, globalRect.top, globalRect.right, globalRect.bottom, view.getHeight()});
+                // 设置转场信息  传值根据具体需求而定
+                intent.putExtra("region", new int[]{globalRect.left, globalRect.top, globalRect.right, globalRect.bottom, view.getWidth(), view.getHeight()});
                 intent.putExtra("video_url", mData.get(position % 3).video_url);
-                intent.putExtra("video_index", position);
-                //判定点击的是不是最后一行的item
-                intent.putExtra("is_last_row", mClickPosition >= mAdapter.getData().size() - 2);
-
+                intent.putExtra("position", position);
                 startActivity(intent);
                 overridePendingTransition(0, 0);
             }
         });
-    }
-
-    private void moveToPosition(LinearLayoutManager layoutManager, int selectedPosition) {
-        int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
-        int top = mRecyclerView.getChildAt(selectedPosition - firstVisiblePosition).getTop();
-        mRecyclerView.scrollBy(0, top);
+        mAdapter.bindToRecyclerView(mRecyclerView);
     }
 
     private List<SmallVideoBean> getData() {
@@ -120,9 +112,39 @@ public class MeiVideoDragListActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ScrollTopEvent event) {
-        if (event.isScroll) {
-            moveToPosition((LinearLayoutManager) mRecyclerView.getLayoutManager(), mClickPosition);
+    public void onMessageEvent(final ScrollToPositionEvent event) {
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                moveToPosition(event.position);
+                View childView = mAdapter.getViewByPosition(event.position, R.id.iv_bg);
+                if (childView != null && event.listener != null) {
+                    Rect rect = new Rect();
+                    childView.getGlobalVisibleRect(rect);
+                    event.listener.onRegion(rect.left, rect.top, rect.right, rect.bottom, childView.getWidth(), childView.getHeight());
+                }
+            }
+        }, event.delayEnable ? event.delayDuration : 0);
+    }
+
+    // 列表滚动到指定位置
+    private void moveToPosition(int n) {
+        if (mRecyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+            int firstItem = linearLayoutManager.findFirstVisibleItemPosition();
+            int lastItem = linearLayoutManager.findLastVisibleItemPosition();
+            // 然后区分情况
+            if (n <= firstItem) {
+                // 当要置顶的项在当前显示的第一个项的前面时
+                int top = mRecyclerView.getChildAt(0).getTop();
+                mRecyclerView.scrollBy(0, top);
+            } else if (n <= lastItem) {
+                // 当要置顶的项已经在屏幕上显示时
+                mRecyclerView.scrollToPosition(n);
+            } else {
+                // 当要置顶的项在当前显示的最后一项的后面时
+                mRecyclerView.scrollToPosition(n);
+            }
         }
     }
 

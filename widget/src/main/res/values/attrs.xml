@@ -55,23 +55,19 @@
         <attr name="heartEnableScale" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="VideoDragRelativeLayout">
+    <declare-styleable name="DragRelativeLayout">
         <!-- 动画时长  默认 400 -->
-        <attr name="vdr_anim_duration" format="integer"></attr>
-        <!-- 恢复系数 [0~1] -->
-        <attr name="vdr_restoration_ratio" format="float"></attr>
-        <!-- y轴偏移速率 -->
-        <attr name="vdr_offset_rate_y" format="integer"></attr>
-        <!-- y轴开始偏移系数 -->
-        <attr name="vdr_start_offset_ratio_y" format="float"></attr>
-        <!-- 开始动画是否进入 默认true -->
-        <attr name="vdr_start_anim_enable" format="boolean"></attr>
+        <attr name="drl_duration" format="integer"></attr>
+        <!-- 恢复系数 [0~1] 默认0.1-->
+        <attr name="drl_resume_ratio" format="float"></attr>
+        <!-- y方向开始平移系数 0~1.0 默认 0.5 -->
+        <attr name="drl_translationY_ratio" format="float"></attr>
+        <!-- y方向平移速率 1~oo 默认 2 -->
+        <attr name="drl_translationY_rate" format="integer"></attr>
         <!-- 是否可以拖拽 默认true -->
-        <attr name="vdr_drag_enable" format="boolean"></attr>
-
-        <!-- 模仿头条获取新增顶部导航栏高度(不包含状态栏的高度) 底部导航栏高度 -->
-        <attr name="vdr_top_nav_height" format="dimension"></attr>
-        <attr name="vdr_bottom_nav_height" format="dimension"></attr>
+        <attr name="drl_drag_enable" format="boolean"></attr>
+        <!--是否是头条样式 默认false-->
+        <attr name="drl_tt_style_enable" format="boolean"></attr>
     </declare-styleable>
 
     <declare-styleable name="FireflyView">

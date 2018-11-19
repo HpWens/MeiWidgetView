@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.demo.widget.R;
-import com.demo.widget.event.ScrollTopEvent;
+import com.demo.widget.event.ScrollToPositionEvent;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -35,12 +35,14 @@ import com.google.android.exoplayer2.upstream.DefaultAllocator;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
-import com.meis.widget.photodrag.VideoDragRelativeLayout;
+import com.meis.widget.photodrag.DragRelativeLayout;
+import com.meis.widget.photodrag.OnDragListener;
 import com.meis.widget.radius.RadiusTextView;
 
 import org.greenrobot.eventbus.EventBus;
 
 import me.yokeyword.fragmentation.SupportFragment;
+
 
 /**
  * Created by wenshi on 2018/5/24.
@@ -57,7 +59,7 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
     SimpleExoPlayer mVideoPlayer;
 
     String mVideoUrl = "";
-    VideoDragRelativeLayout mDragLayout;
+    DragRelativeLayout mDragLayout;
 
     @Nullable
     @Override
@@ -74,19 +76,29 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            int[] arrays = bundle.getIntArray("global_rect");
-            mDragLayout.setIsLastRow(bundle.getBoolean("is_last_row"));
-            mDragLayout.setOriginView(arrays[0], arrays[1], arrays[2] - arrays[0], arrays[3] - arrays[1], arrays[4]);
-            if (bundle.getInt("index") == 0) {
-                mDragLayout.startAnimation();
+            int[] loc = bundle.getIntArray("region");
+            int pos = bundle.getInt("position");
+            if (loc != null) {
+                mDragLayout.setTransitionsRegion(loc[0], loc[1], loc[2], loc[3], loc[4], loc[5]);
+            }
+            int index = bundle.getInt("index", 0);
+            if (index == 0) {
+                mDragLayout.startTransitions();
+                EventBus.getDefault().post(new ScrollToPositionEvent(pos, mDragLayout.getDuration(), index == 0, new ScrollToPositionEvent.OnRegionListener() {
+                    @Override
+                    public void onRegion(int l, int t, int r, int b, int w, int h) {
+                        mDragLayout.setTransitionsRegion(l, t, r, b, w, h);
+                    }
+                }));
             }
             mIvBg.setBackgroundResource(R.mipmap.ic_video_drag_bg);
             mVideoUrl = bundle.getString("video_url");
         }
 
-        mDragLayout.setOnVideoDragListener(new VideoDragRelativeLayout.OnVideoDragListener() {
+        mDragLayout.setOnoDragListener(new OnDragListener() {
             @Override
             public void onStartDrag() {
+                super.onStartDrag();
                 mTvComment.setVisibility(View.GONE);
                 mTvAttention.setVisibility(View.GONE);
                 mTvName.setVisibility(View.GONE);
@@ -94,35 +106,41 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
             }
 
             @Override
-            public void onReleaseDrag(boolean isRestoration) {
-                if (!isRestoration) {
+            public void onStartEnter(boolean outOfBound) {
+                super.onStartEnter(outOfBound);
+            }
+
+            @Override
+            public void onRelease(boolean isResume) {
+                super.onRelease(isResume);
+                if (!isResume) {
                     mIvBg.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
-            public void onEnterAnimationEnd(boolean isOutOfBound) {
-                EventBus.getDefault().post(new ScrollTopEvent(isOutOfBound));
-            }
-
-            @Override
-            public void onExitAnimationEnd() {
+            public void onEndExit() {
+                super.onEndExit();
                 finish();
             }
 
             @Override
-            public void onRestorationAnimationEnd() {
+            public void onEndEnter() {
+                super.onEndEnter();
+            }
+
+            @Override
+            public void onStartExit(boolean outOfBound) {
+                super.onStartExit(outOfBound);
+            }
+
+            @Override
+            public void onEndResume() {
+                super.onEndResume();
                 mTvComment.setVisibility(View.VISIBLE);
                 mTvAttention.setVisibility(View.VISIBLE);
                 mTvName.setVisibility(View.VISIBLE);
                 mIvClose.setVisibility(View.VISIBLE);
-            }
-        });
-
-        mIvClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDragLayout.onBackPressed();
             }
         });
 
@@ -149,7 +167,7 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
             public void run() {
                 mIvBg.setVisibility(View.GONE);
             }
-        }, 400);
+        }, mDragLayout.getDuration());
     }
 
     @Override
@@ -225,7 +243,8 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
 
     @Override
     public boolean onBackPressedSupport() {
-        mDragLayout.onBackPressed();
+        mDragLayout.endTransitions();
         return true;
     }
+
 }

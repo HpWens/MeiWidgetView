@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.demo.widget.R;
-import com.demo.widget.utils.Eyes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +28,13 @@ public class MeiVideoDragActivity extends SupportActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mei_video_drag_activity);
-        Eyes.translucentStatusBar(this, true);
+        // Eyes.translucentStatusBar(this, true);
 
         mViewPager = findViewById(R.id.view_pager);
 
         Intent intent = getIntent();
         if (intent != null) {
-            mGlobalRect = intent.getIntArrayExtra("global_rect");
+            mGlobalRect = intent.getIntArrayExtra("region");
         }
 
         List<Fragment> mFragments = new ArrayList<>();
@@ -43,10 +42,10 @@ public class MeiVideoDragActivity extends SupportActivity {
         for (int i = 0; i < 4; i++) {
             MeiVideoDragFragment videoDragFragment = new MeiVideoDragFragment();
             Bundle bundle = new Bundle();
-            bundle.putIntArray("global_rect", mGlobalRect);
+            bundle.putIntArray("region", mGlobalRect);
             bundle.putString("video_url", intent.getStringExtra("video_url"));
             bundle.putInt("index", i);
-            bundle.putBoolean("is_last_row", intent.getBooleanExtra("is_last_row", false));
+            bundle.putInt("position", intent.getIntExtra("position", 0));
             videoDragFragment.setArguments(bundle);
             mFragments.add(videoDragFragment);
         }
