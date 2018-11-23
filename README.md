@@ -29,7 +29,7 @@ app build.gradle
 
 ````
 	dependencies {
-	       implementation 'com.github.HpWens:MeiWidgetView:v0.1.2'
+	       implementation 'com.github.HpWens:MeiWidgetView:v0.1.３'
 	}
 ````
 
