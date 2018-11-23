@@ -66,4 +66,8 @@ public class MainActivity extends AppCompatActivity {
     public void onPraise(View view) {
         startActivity(new Intent(this, MeiPraiseActivity.class));
     }
+
+    public void onEva(View view) {
+        startActivity(new Intent(this, MeiEvaporateActivity.class));
+    }
 }
