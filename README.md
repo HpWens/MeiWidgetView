@@ -486,6 +486,12 @@ mPraiseAnimator = new BezierPraiseAnimator(this);
 mPraiseAnimator.startAnimation(mIvPraise);
 ````
 
+### 14、文本跳动控件
+
+一款炫酷的文本跳动控件
+
+<img src="/gif/mei_evaporate.gif" width="280px"/> 
+
 ## Contact
 
 QQ群：478720016
