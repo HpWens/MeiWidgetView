@@ -10,11 +10,15 @@ import java.util.Set;
  * Description
  */
 public class CharacterUtils {
-    public static List<CharacterDiffResult> diff(CharSequence oldText, CharSequence newText) {
 
+    /**
+     * @param oldText
+     * @param newText
+     * @return
+     */
+    public static List<CharacterDiffResult> diff(CharSequence oldText, CharSequence newText) {
         List<CharacterDiffResult> differentList = new ArrayList<>();
         Set<Integer> skip = new HashSet<>();
-
         for (int i = 0; i < oldText.length(); i++) {
             char c = oldText.charAt(i);
             for (int j = 0; j < newText.length(); j++) {
