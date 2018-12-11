@@ -11,7 +11,7 @@
 
 打开支付宝，扫一扫，有你的蛋，世界更加美好。
 
-<img src="/gif/wenshu.png" width="280px"/> 
+<img src="/gif/wenshu.jpg" width="280px"/> 
 
 ## 引入
 
