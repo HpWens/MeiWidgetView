@@ -11,9 +11,9 @@
 
 打开支付宝，扫一扫，有你的蛋，世界更加美好。
 
-<img src="/gif/wen.png" width="280px"/> 
-
 <img src="/gif/shu.png" width="280px"/> 
+
+<img src="/gif/wen.png" width="280px"/> 
 
 ## 引入
 
