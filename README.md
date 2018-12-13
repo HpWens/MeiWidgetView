@@ -35,7 +35,7 @@ app build.gradle
 
 ````
 	dependencies {
-	       implementation 'com.github.HpWens:MeiWidgetView:v0.1.3'
+	       implementation 'com.github.HpWens:MeiWidgetView:v0.1.4'
 	}
 ````
 
@@ -499,6 +499,12 @@ mPraiseAnimator.startAnimation(mIvPraise);
 <img src="/gif/mei_evaporate.gif" width="280px"/> 
 
 文章博客地址：[一篇文本跳动控件，为你打开一扇大门，学会这两点心得，控件你也会写](https://www.jianshu.com/p/2a549c5f0a82)
+
+### 15、豆瓣弹性滑动控件
+
+<img src="/gif/mei_scroll.gif" width="280px"/> 
+
+文章博客地址：[仿豆瓣弹性滑动控件，史上最全方位讲解事件滑动冲突](https://www.jianshu.com/p/2d7a63455c83)
 
 ## Contact
 
