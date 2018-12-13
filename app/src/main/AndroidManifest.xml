@@ -42,6 +42,7 @@
         <activity android:name=".meis.MeiFireflyActivity"></activity>
         <activity android:name=".meis.MeiPraiseActivity"></activity>
         <activity android:name=".meis.MeiEvaporateActivity"></activity>
+        <activity android:name=".meis.MeiScrollViewActivity"></activity>
     </application>
 
 </manifest>

@@ -70,4 +70,8 @@ public class MainActivity extends AppCompatActivity {
     public void onEva(View view) {
         startActivity(new Intent(this, MeiEvaporateActivity.class));
     }
+
+    public void onScroll(View view) {
+        startActivity(new Intent(this, MeiScrollViewActivity.class));
+    }
 }

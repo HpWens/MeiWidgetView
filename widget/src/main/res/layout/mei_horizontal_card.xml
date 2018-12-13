@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.meis.widget.horizontal.HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:tag="viewpager_dispatch">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <com.meis.widget.horizontal.VerticalTextView
+        android:id="@+id/tv_more"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/recycler"
+        android:layout_alignTop="@+id/recycler"
+        android:layout_marginRight="-65dp"
+        android:layout_toRightOf="@+id/recycler"
+        android:drawableLeft="@drawable/mei_left_arrow"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="20dp"
+        android:textSize="13sp" />
+
+</com.meis.widget.horizontal.HorizontalScrollView>

@@ -228,7 +228,6 @@ public class EvaporateTextView extends android.support.v7.widget.AppCompatTextVi
             gapList.add(mPaint.measureText(String.valueOf(mText.charAt(i))));
         }
 
-
         mOldPaint.setTextSize(mTextSize);
         mOldPaint.setColor(getCurrentTextColor());
         mOldPaint.setTypeface(getTypeface());
