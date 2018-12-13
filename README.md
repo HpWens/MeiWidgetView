@@ -498,6 +498,8 @@ mPraiseAnimator.startAnimation(mIvPraise);
 
 <img src="/gif/mei_evaporate.gif" width="280px"/> 
 
+文章博客地址：[一篇文本跳动控件，为你打开一扇大门，学会这两点心得，控件你也会写](https://www.jianshu.com/p/2a549c5f0a82)
+
 ## Contact
 
 QQ群：478720016
