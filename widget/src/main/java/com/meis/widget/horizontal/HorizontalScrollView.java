@@ -60,7 +60,8 @@ public class HorizontalScrollView extends RelativeLayout {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (mMoreTextView != null) {
-            mOffsetWidth = mMoreTextView.getWidth();
+            mOffsetWidth = -mMoreTextView.getWidth();
+            mOffsetWidth = mOffsetWidth == 0 ? -DensityUtil.dip2px(getContext(), 65) : mOffsetWidth;
         }
     }
 
@@ -159,7 +160,7 @@ public class HorizontalScrollView extends RelativeLayout {
                     break;
                 }
 
-                if (mHintLeftMargin <= mOffsetWidth && mListener != null) {
+                if (mOffsetWidth != 0 && mHintLeftMargin <= mOffsetWidth && mListener != null) {
                     mListener.onRelease();
                 }
 
