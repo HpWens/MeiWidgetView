@@ -113,6 +113,13 @@ public class VerticalTextView extends AppCompatTextView {
 //        setVerticalText(text);
 //    }
 
+
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        mDefaultText = text;
+        super.setText("", type);
+    }
+
     public void setVerticalText(CharSequence text) {
         if (TextUtils.isEmpty(text)) return;
         mDefaultText = text;

@@ -52,6 +52,19 @@ public class HorizontalScrollView extends RelativeLayout {
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        if (mMoreTextView != null) {
+            mOffsetWidth = mMoreTextView.getWidth();
+        }
+    }
+
+    @Override
     public void addView(View child, ViewGroup.LayoutParams params) {
         child.setLayoutParams(params);
         addView(child);
