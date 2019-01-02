@@ -7,12 +7,6 @@
 
 一款汇总了郭霖，鸿洋，以及自己平时收集的自定义控件的集合库。主旨帮助大家学习自定义控件中的一些技巧，分析问题解决问题的一种思路。
 
-## 能给小编午饭加个蛋吗？
-
-打开支付宝，扫一扫，有你的蛋，世界更加美好。
-
-<img src="/gif/wenshu.jpg" width="640px"/> 
-
 ## 引入
 
 ### Step 1. Add the JitPack repository to your build file
