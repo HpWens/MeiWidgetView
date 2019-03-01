@@ -3,6 +3,12 @@
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Hex.pm](https://img.shields.io/github/stars/HpWens/MeiWidgetView.svg)](https://github.com/HpWens/MeiWidgetView)
 
+### 最新动态-小红书图片裁剪控件
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225141450923.gif)![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225141507355.gif)
+
+博客地址：[第一站小红书图片裁剪控件，深度解析大厂炫酷控件](https://blog.csdn.net/u012551350/article/details/87928720)
+
 # MeiWidgetView
 
 一款汇总了郭霖，鸿洋，以及自己平时收集的自定义控件的集合库。主旨帮助大家学习自定义控件中的一些技巧，分析问题解决问题的一种思路。
