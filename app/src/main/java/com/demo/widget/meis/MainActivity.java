@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private MeiViewAdapter mMeiViewAdapter;
 
     private Class[] targetArray = {
+            MeiCropImageActivity.class,
             MeiScrollParallaxActivity.class,
             MeiHeartActivity.class,
             MeiRadiusActivity.class,
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             MeiEvaporateActivity.class,
             MeiScrollViewActivity.class};
     private String[] nameArray = {
+            "小红书图片裁剪",
             "滚动视差",
             "直播间送爱心",
             "shape控件集",

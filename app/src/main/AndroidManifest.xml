@@ -43,6 +43,7 @@
         <activity android:name=".meis.MeiPraiseActivity"></activity>
         <activity android:name=".meis.MeiEvaporateActivity"></activity>
         <activity android:name=".meis.MeiScrollViewActivity"></activity>
+        <activity android:name=".meis.MeiCropImageActivity"></activity>
     </application>
 
 </manifest>
