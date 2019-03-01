@@ -81,7 +81,7 @@ app build.gradle
 
 #### a、效果预览
 
-<img src="/gif/bounce_ball.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/bounce_ball.gif" width="280px"/> 
 
 #### b、xml布局
 
@@ -113,7 +113,7 @@ app build.gradle
 
 #### a、效果预览
 
-<img src="/gif/mei_ripple.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_ripple.gif" width="280px"/> 
 
 #### b、xml布局
 
@@ -143,7 +143,7 @@ app build.gradle
 
 #### a、效果预览
 
-<img src="/gif/mei_line_path.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_line_path.gif" width="280px"/> 
 
 #### b、xml布局
 
@@ -172,7 +172,7 @@ app build.gradle
 
 #### a、效果预览
 
-<img src="/gif/mei_parallax.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_parallax.gif" width="280px"/> 
 
 #### b、xml布局
 
@@ -208,7 +208,7 @@ app build.gradle
 
 #### a、效果预览
 
-<img src="/gif/mei_heart.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_heart.gif" width="280px"/> 
 
 #### b、xml布局
 
@@ -240,7 +240,7 @@ app build.gradle
 
 #### a、效果预览
 
-<img src="/gif/mei_shape.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_shape.gif" width="280px"/> 
 
 通过 `xml` 布局的方式替换掉 `selector` 文件 , 这么做的优势在于 , 减少 `apk` 体积 , 避免后期维护大量的 `selector` 文件 , 扩展性更强 , 易修改 , 直观 ， 功能更加强大 
 
@@ -270,7 +270,7 @@ app build.gradle
 
 #### a、效果预览
 
-<img src="/gif/mei_drag.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_drag.gif" width="280px"/> 
 
 #### b、xml布局
 
@@ -336,7 +336,7 @@ app build.gradle
 
 #### a、效果预览
 
-<img src="/gif/mei_video_drag.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_video_drag.gif" width="280px"/> 
 
 #### b、xml布局
 
@@ -406,7 +406,7 @@ app build.gradle
 
 #### a、效果图
 
-<img src="/gif/mei_mo_bike.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_mo_bike.gif" width="280px"/> 
 
 #### b、xml布局
 
@@ -422,7 +422,7 @@ app build.gradle
 
 #### a、效果预览
 
-<img src="/gif/mei_rose.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_rose.gif" width="280px"/> 
 
 #### b、xml布局
 
@@ -444,7 +444,7 @@ app build.gradle
 
 通过三阶贝塞尔曲线，绘制每个粒子的运动轨迹
 
-<img src="/gif/mei_float_particle.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_float_particle.gif" width="280px"/> 
 
 [请下载apk查看实际效果](https://www.pgyer.com/zKF4)
 
@@ -475,7 +475,7 @@ app build.gradle
 
 贝塞尔曲线来计算点赞小图标的位置
 
-<img src="/gif/mei_praise.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_praise.gif" width="280px"/> 
 
 #### b、相关代码
 
@@ -490,13 +490,13 @@ mPraiseAnimator.startAnimation(mIvPraise);
 
 一款炫酷的文本跳动控件
 
-<img src="/gif/mei_evaporate.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_evaporate.gif" width="280px"/> 
 
 文章博客地址：[一篇文本跳动控件，为你打开一扇大门，学会这两点心得，控件你也会写](https://www.jianshu.com/p/2a549c5f0a82)
 
 ### 15、豆瓣弹性滑动控件
 
-<img src="/gif/mei_scroll.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_scroll.gif" width="280px"/> 
 
 文章博客地址：[仿豆瓣弹性滑动控件，史上最全方位讲解事件滑动冲突](https://www.jianshu.com/p/2d7a63455c83)
 
