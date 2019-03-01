@@ -41,7 +41,7 @@ app build.gradle
 
 #### a、效果预览
 
-<img src="/gif/mei_main.gif" width="280px"/> 
+<img src="https://github.com/HpWens/MCropImageView/blob/master/gif/mei_main.gif" width="280px"/> 
 
 #### b、xml布局
 
