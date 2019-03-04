@@ -9,6 +9,10 @@
 
 博客地址：[第一站小红书图片裁剪控件，深度解析大厂炫酷控件](https://blog.csdn.net/u012551350/article/details/87928720)
 
+想了解更多大厂炫酷控件，请关注微信号：控件人生
+
+![文淑控件人生](https://upload-images.jianshu.io/upload_images/2258857-f4e8bad1c59a5f35.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 # MeiWidgetView
 
 一款汇总了郭霖，鸿洋，以及自己平时收集的自定义控件的集合库。主旨帮助大家学习自定义控件中的一些技巧，分析问题解决问题的一种思路。
