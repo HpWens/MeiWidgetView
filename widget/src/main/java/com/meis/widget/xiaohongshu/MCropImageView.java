@@ -2,6 +2,7 @@ package com.meis.widget.xiaohongshu;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -14,12 +15,15 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.util.LruCache;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
+
+import com.meis.widget.xiaohongshu.BitmapUtils;
 
 /**
  * Created by wenshi on 2019/2/26.
@@ -50,6 +54,15 @@ public class MCropImageView extends AppCompatImageView implements ViewTreeObserv
     private Paint mLinePaint;
     // 是否绘制线条
     private boolean mIsDragging;
+
+    private boolean mIsWidthLarger = false;
+    private boolean mIsCrop = false;
+
+    // 是否留白
+    private boolean mIsLeaveBlank = false;
+
+    // 图片缓存
+    private LruCache<String, Bitmap> mLruCache;
 
     private static int MAX_SCROLL_FACTOR = 3;
     // 阻尼系数
@@ -83,6 +96,9 @@ public class MCropImageView extends AppCompatImageView implements ViewTreeObserv
         mLinePaint.setAntiAlias(true);
         mLinePaint.setColor(Color.WHITE);
         mLinePaint.setStrokeWidth(dip2px(context, 0.5f));
+
+        // 根据实际情况 设置 maxSize 大小
+        mLruCache = new LruCache<>(Integer.MAX_VALUE);
     }
 
     @Override
@@ -129,24 +145,39 @@ public class MCropImageView extends AppCompatImageView implements ViewTreeObserv
         // 获取图片矩阵
         RectF rectF = getMatrixRectF();
 
-        if (rectF.left >= 0) {
+        float rectWidth = rectF.right - rectF.left;
+        float rectHeight = rectF.bottom - rectF.top;
+
+        // 获取到左右留白的长度
+        int leftLeaveBlankLength = (int) ((getWidth() - rectWidth) / 2);
+        leftLeaveBlankLength = leftLeaveBlankLength <= 0 ? 0 : leftLeaveBlankLength;
+
+        float leftBound = mIsLeaveBlank ? leftLeaveBlankLength : 0;
+        if (rectF.left >= leftBound) {
             // 左越界
-            startBoundAnimator(rectF.left, 0, true);
+            startBoundAnimator(rectF.left, leftBound, true);
         }
 
-        if (rectF.top >= 0) {
-            // 上越界
-            startBoundAnimator(rectF.top, 0, false);
-        }
-
-        if (rectF.right <= getWidth()) {
+        float rightBound = mIsLeaveBlank ? getWidth() - leftLeaveBlankLength : getWidth();
+        if (rectF.right <= rightBound) {
             // 右越界
-            startBoundAnimator(rectF.left, rectF.left + getWidth() - rectF.right, true);
+            startBoundAnimator(rectF.left, rightBound - rectWidth, true);
         }
 
-        if (rectF.bottom <= getHeight()) {
+        // 同理获取上下留白的长度
+        int topLeaveBlankLength = (int) ((getHeight() - rectHeight) / 2);
+        topLeaveBlankLength = topLeaveBlankLength <= 0 ? 0 : topLeaveBlankLength;
+
+        float topBound = mIsLeaveBlank ? topLeaveBlankLength : 0;
+        if (rectF.top >= topBound) {
+            // 上越界
+            startBoundAnimator(rectF.top, topBound, false);
+        }
+
+        float bottomBound = mIsLeaveBlank ? getHeight() - topLeaveBlankLength : getHeight();
+        if (rectF.bottom <= bottomBound) {
             // 下越界
-            startBoundAnimator(rectF.top, getHeight() - rectF.bottom + rectF.top, false);
+            startBoundAnimator(rectF.top, bottomBound - rectHeight, false);
         }
     }
 
@@ -189,6 +220,42 @@ public class MCropImageView extends AppCompatImageView implements ViewTreeObserv
         }
     }
 
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+    }
+
+    @Override
+    public void layout(int l, int t, int r, int b) {
+        if (mIsCrop && l == 0 && t == 0) {
+            float scaleRatio = 1.0F;
+            float defaultRatio = 1.0F;
+
+            if (mIsWidthLarger) {
+                // 高度为原高度 3/4 居中
+                scaleRatio = defaultRatio + defaultRatio / 4F;
+            } else {
+                // 宽度为原宽度 3/4 居中
+                scaleRatio = defaultRatio - defaultRatio / 4F;
+            }
+
+            int width = r - l;
+            int height = b - t;
+
+            if (scaleRatio > defaultRatio) {
+                int offsetY = (int) (height * (scaleRatio - defaultRatio) / 2F);
+                // 除了2  上加下减
+                t += offsetY;
+                b -= offsetY;
+            } else if (scaleRatio < defaultRatio) {
+                int offsetX = (int) (width * (defaultRatio - scaleRatio) / 2F);
+                // 左加右减
+                l += offsetX;
+                r -= offsetX;
+            }
+        }
+        super.layout(l, t, r, b);
+    }
 
     @Override
     public void onGlobalLayout() {
@@ -208,20 +275,24 @@ public class MCropImageView extends AppCompatImageView implements ViewTreeObserv
             int drawableWidth = drawable.getIntrinsicWidth();
             int drawableHeight = drawable.getIntrinsicHeight();
 
+            mIsWidthLarger = drawableWidth > drawableHeight;
+
             // 将图片移动到屏幕的中点位置
             float dx = (viewWidth - drawableWidth) / 2;
             float dy = (viewHeight - drawableHeight) / 2;
 
-            mBaseScale = Math.max((float) viewWidth / drawableWidth, (float) viewHeight / drawableHeight);
+            float maxBaseScale = Math.max((float) viewWidth / drawableWidth, (float) viewHeight / drawableHeight);
+            float minBaseScale = Math.min((float) viewWidth / drawableWidth, (float) viewHeight / drawableHeight);
+            mBaseScale = mIsLeaveBlank ? minBaseScale : maxBaseScale;
             // 平移居中
             mMatrix.postTranslate(dx, dy);
             // 缩放
             mMatrix.postScale(mBaseScale, mBaseScale, viewWidth / 2, viewHeight / 2);
             setImageMatrix(mMatrix);
 
-            if (mBaseScale >= mMaxScale) {
+            if (maxBaseScale >= mMaxScale) {
                 mMaxScale = (int) Math.floor(mBaseScale) + 2;
-            } else if (mBaseScale < 1.0f) {
+            } else if (maxBaseScale < 1.0f) {
                 mMaxScale = 1.0f;
             }
         }
@@ -244,6 +315,10 @@ public class MCropImageView extends AppCompatImageView implements ViewTreeObserv
             getViewTreeObserver().removeOnGlobalLayoutListener(this);
         } else {
             getViewTreeObserver().removeGlobalOnLayoutListener(this);
+        }
+        // 清除缓存
+        if (mLruCache != null) {
+            mLruCache.evictAll();
         }
     }
 
@@ -293,6 +368,41 @@ public class MCropImageView extends AppCompatImageView implements ViewTreeObserv
         }
     };
 
+    /**
+     * 恢复位置信息
+     *
+     * @param x     图片平移x坐标
+     * @param y     图片平移y坐标
+     * @param scale 图片当前缩放比
+     */
+    public void restoreLocation(float x, float y, float scale) {
+        float[] values = new float[9];
+        mMatrix.getValues(values);
+
+        values[Matrix.MSCALE_X] = scale;
+        values[Matrix.MSCALE_Y] = scale;
+
+        values[Matrix.MTRANS_X] = x;
+        values[Matrix.MTRANS_Y] = y;
+
+        mMatrix.setValues(values);
+        setImageMatrix(mMatrix);
+    }
+
+    /**
+     * 获取到位置信息
+     *
+     * @return float[2] = { x坐标, y坐标 }
+     */
+    public float[] getLocation() {
+        float[] values = new float[9];
+        mMatrix.getValues(values);
+        return new float[]{values[Matrix.MTRANS_X], values[Matrix.MTRANS_Y]};
+    }
+
+    /**
+     * @return 获取图片缩放比
+     */
     private float getScale() {
         float[] values = new float[9];
         mMatrix.getValues(values);
@@ -319,7 +429,6 @@ public class MCropImageView extends AppCompatImageView implements ViewTreeObserv
         count = 1 / count;
         return (float) Math.pow(d, count);
     }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -369,6 +478,58 @@ public class MCropImageView extends AppCompatImageView implements ViewTreeObserv
         mHandler.postDelayed(lineRunnable, 400);
     }
 
+    /**
+     * @param path 图片地址
+     */
+    public synchronized void setImagePath(String path) {
+        if (path != null && !path.equals("")) {
+            Bitmap lruBitmap = mLruCache.get(path);
+            if (lruBitmap == null) {
+                // 图片压缩
+                Bitmap bitmap = BitmapUtils.getCompressBitmap(getContext(), path);
+                mLruCache.put(path, bitmap);
+                lruBitmap = bitmap;
+            }
+            if (lruBitmap != null) {
+                mFirstLayout = true;
+                mMaxScale = 3.0F;
+                // 根据实际情况改变留白裁切状态
+                setImageBitmap(lruBitmap);
+                onGlobalLayout();
+            }
+        }
+    }
+
+    // 本地测试方法
+    @Deprecated
+    public void setImageRes(int resId) {
+        setImageResource(resId);
+        mFirstLayout = true;
+        mMaxScale = 3.0F;
+        onGlobalLayout();
+    }
+
+    /**
+     * @return view转换成bitmap
+     */
+    public Bitmap convertToBitmap() {
+        return convertToBitmap(Color.WHITE);
+    }
+
+    /**
+     * @param leaveBlankColor 留白区域颜色
+     * @return @return view转换成bitmap
+     */
+    public Bitmap convertToBitmap(int leaveBlankColor) {
+        int w = getWidth();
+        int h = getHeight();
+        Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bmp);
+        c.drawColor(leaveBlankColor);
+        layout(0, 0, w, h);
+        draw(c);
+        return bmp;
+    }
 
     // 处理手指滑动
     private GestureDetector.SimpleOnGestureListener mSimpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
@@ -511,6 +672,7 @@ public class MCropImageView extends AppCompatImageView implements ViewTreeObserv
                 } else if (mCurrentScaleAnimCount >= SCALE_ANIM_COUNT) {
                     float[] values = new float[9];
                     mMatrix.getValues(values);
+                    mCurrentScaleAnimCount = 0;
                     if (msg.what == ZOOM_OUT_ANIM_WHIT) {
                         values[Matrix.MSCALE_X] = mMaxScale;
                         values[Matrix.MSCALE_Y] = mMaxScale;

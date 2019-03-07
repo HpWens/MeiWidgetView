@@ -14,10 +14,28 @@
         app:title="小红书图片裁剪"
         app:titleTextColor="#FFF" />
 
-    <com.meis.widget.xiaohongshu.MCropImageView
+
+    <com.meis.widget.xiaohongshu.CoordinatorLinearLayout
+        android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_gril" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.meis.widget.xiaohongshu.MCropImageView
+            android:id="@+id/crop_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_gril" />
+
+        <com.meis.widget.xiaohongshu.CoordinatorRecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.meis.widget.xiaohongshu.CoordinatorRecyclerView>
+
+
+    </com.meis.widget.xiaohongshu.CoordinatorLinearLayout>
 
 
 </LinearLayout>

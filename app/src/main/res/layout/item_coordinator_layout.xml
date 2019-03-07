@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.meis.widget.xiaohongshu.SquareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0.5px"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_gril2" />
+
+</com.meis.widget.xiaohongshu.SquareLinearLayout>

@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         mMeiViewAdapter.setNewData(getData());
     }
 
-
     public List<IntentBean> getData() {
         List<IntentBean> beanList = new ArrayList<>();
         for (int i = 0; i < targetArray.length; i++) {
