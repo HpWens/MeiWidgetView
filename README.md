@@ -3,15 +3,24 @@
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Hex.pm](https://img.shields.io/github/stars/HpWens/MeiWidgetView.svg)](https://github.com/HpWens/MeiWidgetView)
 
-### 最新动态-小红书图片裁剪控件
+### 最新动态-小红书图片裁剪控件之二，自定义CoordinatorLayout联动效果
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225141450923.gif)![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225141507355.gif)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190305114726481.gif)![在这里插入图片描述](https://img-blog.csdnimg.cn/20190305114735124.gif)
 
-博客地址：[第一站小红书图片裁剪控件，深度解析大厂炫酷控件](https://blog.csdn.net/u012551350/article/details/87928720)
+博客地址：[第一站小红书图片裁剪控件之二，自定义CoordinatorLayout联动效果](https://blog.csdn.net/u012551350/article/details/88173578)
 
 想了解更多大厂炫酷控件，请关注微信号：控件人生
 
 ![文淑控件人生](https://upload-images.jianshu.io/upload_images/2258857-f4e8bad1c59a5f35.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+<center > 扫一扫 关注我的公众号 </center> 
+<center> 新号希望大家能够多多支持我~ </center>
+
+### 小红书图片裁剪控件
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225141450923.gif)![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225141507355.gif)
+
+博客地址：[第一站小红书图片裁剪控件，深度解析大厂炫酷控件](https://blog.csdn.net/u012551350/article/details/87928720)
 
 # MeiWidgetView
 
