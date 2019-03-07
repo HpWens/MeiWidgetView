@@ -5,7 +5,7 @@
 
 ### 最新动态-小红书自定义CoordinatorLayout联动效果
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190305114726481.gif)![在这里插入图片描述](https://img-blog.csdnimg.cn/20190305114735124.gif)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190305114642699.gif)![在这里插入图片描述](https://img-blog.csdnimg.cn/20190305114735124.gif)
 
 博客地址：[第一站小红书图片裁剪控件之二，自定义CoordinatorLayout联动效果](https://blog.csdn.net/u012551350/article/details/88173578)
 
