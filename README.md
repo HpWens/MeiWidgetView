@@ -9,7 +9,7 @@
 
 博客地址：[第一站小红书图片裁剪控件之二，自定义CoordinatorLayout联动效果](https://blog.csdn.net/u012551350/article/details/88173578)
 
-想了解更多大厂炫酷控件，请关注微信号：控件人生
+想了解更多大厂炫酷控件，请关注微信公众号：控件人生
 
 <img src="https://upload-images.jianshu.io/upload_images/2258857-196f00b808ab8668.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="200px"/> 
 
