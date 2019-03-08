@@ -11,7 +11,7 @@
 
 想了解更多大厂炫酷控件，请关注微信号：控件人生
 
-![文淑控件人生](https://upload-images.jianshu.io/upload_images/2258857-f4e8bad1c59a5f35.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![控件人生](https://upload-images.jianshu.io/upload_images/2258857-27f4e8c3d79e6204.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 <center> 扫一扫 关注我的公众号 </center> 
 <center> 新号希望大家能够多多支持我~ </center>
