@@ -13,11 +13,13 @@
 
 <div align=center><img src="https://upload-images.jianshu.io/upload_images/2258857-196f00b808ab8668.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="200px"/></div>
 
-<font color=gray size=5>gray</font>
-
 <div align=center>扫一扫 关注我的公众号</div>
 
 <div align=center>新号希望大家能够多多支持我~</div>
+
+<font color=#7E7129>中间写上想说的话</font>
+
+
 
 ### 小红书图片裁剪控件
 
