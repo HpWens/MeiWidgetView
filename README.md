@@ -17,10 +17,6 @@
 
 <div align=center>新号希望大家能够多多支持我~</div>
 
-<font color=#7E7129>中间写上想说的话</font>
-
-
-
 ### 小红书图片裁剪控件
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225141450923.gif)![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225141507355.gif)
