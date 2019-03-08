@@ -13,7 +13,7 @@
 
 <div align=center><img src="https://upload-images.jianshu.io/upload_images/2258857-196f00b808ab8668.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="200px"/></div>
 
-<div align=center>扫一扫 关注我的公众号</div>
+<div align=center> <b style='color:red'>扫一扫</b> 关注我的公众号</div>
 
 <div align=center>新号希望大家能够多多支持我~</div>
 
