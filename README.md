@@ -11,9 +11,9 @@
 
 想了解更多大厂炫酷控件，请关注微信公众号：控件人生
 
-<img src="https://upload-images.jianshu.io/upload_images/2258857-196f00b808ab8668.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="200px"/> 
+<div align=center><img src="https://upload-images.jianshu.io/upload_images/2258857-196f00b808ab8668.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="200px"/></div>
 
-<div align=center>扫一扫 关注我的公众号 新号希望大家能够多多支持我~<div/>
+扫一扫 关注我的公众号 新号希望大家能够多多支持我~ 
 
 ### 小红书图片裁剪控件
 
