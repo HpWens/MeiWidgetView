@@ -33,7 +33,7 @@ public class MeiCropImageActivity extends AppCompatActivity {
     CoordinatorRecyclerView mRecyclerView;
     MyAdapter mMyAdapter;
     CoordinatorLinearLayout mCoordinatorLayout;
-
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

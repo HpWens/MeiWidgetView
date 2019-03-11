@@ -257,6 +257,42 @@ public class MCropImageView extends AppCompatImageView implements ViewTreeObserv
         super.layout(l, t, r, b);
     }
 
+    /**
+     * 设置留白样式
+     */
+    public void changeLeaveBlankStyle() {
+        mIsLeaveBlank = true;
+        mIsCrop = false;
+        mMatrix.reset();
+        mFirstLayout = true;
+        mMaxScale = 3.0F;
+        requestLayout();
+    }
+
+    /**
+     * 设置充满样式
+     */
+    public void changeFullStyle() {
+        mIsLeaveBlank = false;
+        mIsCrop = false;
+        mMatrix.reset();
+        mFirstLayout = true;
+        mMaxScale = 3.0F;
+        requestLayout();
+    }
+
+    /**
+     * 设置裁切样式
+     */
+    public void changeCuttingStyle() {
+        mIsLeaveBlank = false;
+        mIsCrop = true;
+        mMatrix.reset();
+        mFirstLayout = true;
+        mMaxScale = 3.0F;
+        requestLayout();
+    }
+
     @Override
     public void onGlobalLayout() {
         if (mFirstLayout) {
@@ -515,6 +551,7 @@ public class MCropImageView extends AppCompatImageView implements ViewTreeObserv
     public Bitmap convertToBitmap() {
         return convertToBitmap(Color.WHITE);
     }
+
 
     /**
      * @param leaveBlankColor 留白区域颜色
