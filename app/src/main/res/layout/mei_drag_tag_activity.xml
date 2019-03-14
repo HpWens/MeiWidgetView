@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
+        app:title="小红书标签"
+        app:titleTextColor="#FFF" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000"
+        android:clipChildren="false">
+
+        <ImageView
+            android:id="@+id/iv_girl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_gril" />
+
+        <TextView
+            android:id="@+id/tv_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_add"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@+id/tv_add"
+            android:background="#ABC"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="保存标签" />
+
+        <TextView
+            android:id="@+id/tv_restore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_add"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/tv_add"
+            android:background="#ABC"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="恢复标签" />
+
+
+        <TextView
+            android:id="@+id/tv_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="#ABC"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="添加标签" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:background="#FF0000"
+            android:gravity="center"
+            android:text="标签删除区域"
+            android:textColor="#FFF"
+            android:textSize="16sp"></TextView>
+
+        <com.meis.widget.xiaohongshu.tag.RandomDragTagLayout
+            android:id="@+id/tag_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/iv_girl"
+            android:layout_alignTop="@+id/iv_girl"
+            android:clipChildren="false">
+
+        </com.meis.widget.xiaohongshu.tag.RandomDragTagLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

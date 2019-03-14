@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <!-- 左侧标签 -->
+    <LinearLayout
+        android:id="@+id/left_tag_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/random_tag_text_bg_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
+        <ImageView
+            android:id="@+id/left_iv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:src="@mipmap/ic_tag_position"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/left_tv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_tag"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="欢迎关注控件人生公众号"
+            android:textColor="#FFFFFF"
+            android:textSize="11dp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/left_line_view"
+        android:layout_width="13.5dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="-3.5dp"
+        android:background="#FFFFFF"></View>
+
+    <!-- 中点呼吸灯 -->
+    <FrameLayout
+        android:id="@+id/fl_breathing"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <View
+            android:id="@+id/white_breathing_view"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_gravity="center"
+            android:background="@drawable/tag_round_white_selector"></View>
+
+        <View
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_gravity="center"
+            android:background="@drawable/tag_round_red_selector"></View>
+
+    </FrameLayout>
+
+    <View
+        android:id="@+id/right_line_view"
+        android:layout_width="13.5dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="-3.5dp"
+        android:background="#FFFFFF"></View>
+
+    <!-- 右侧标签 -->
+    <LinearLayout
+        android:id="@+id/right_tag_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/random_tag_text_bg_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
+        <ImageView
+            android:id="@+id/right_iv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:src="@mipmap/ic_tag_position"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/right_tv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_tag"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="标签"
+            android:textColor="#FFFFFF"
+            android:textSize="11dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

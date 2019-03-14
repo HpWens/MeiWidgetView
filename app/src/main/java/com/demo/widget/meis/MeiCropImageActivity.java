@@ -33,12 +33,12 @@ public class MeiCropImageActivity extends AppCompatActivity {
     CoordinatorRecyclerView mRecyclerView;
     MyAdapter mMyAdapter;
     CoordinatorLinearLayout mCoordinatorLayout;
-    
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mei_crop_activity);
-
+        
         mToolbar = findViewById(R.id.toolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +116,7 @@ public class MeiCropImageActivity extends AppCompatActivity {
         }
     }
 
-    // 触摸点是否view区域内
+    // 触摸点是否view区域内 parent.isPointInChildBounds(child, x, y)
     private boolean isTouchView(int touchX, int touchY, View view) {
         Rect rect = new Rect();
         view.getGlobalVisibleRect(rect);
