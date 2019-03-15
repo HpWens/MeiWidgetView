@@ -116,6 +116,7 @@ public class MCropImageView extends AppCompatImageView implements ViewTreeObserv
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
+                mPreScaleFactor = 1.0F;
                 mCurrentScaleAnimCount = 0;
                 mIsDragging = false;
                 invalidate();
