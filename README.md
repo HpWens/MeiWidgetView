@@ -55,7 +55,7 @@ app build.gradle
 
 ````
 	dependencies {
-	       implementation 'com.github.HpWens:MeiWidgetView:v0.1.4'
+	       implementation 'com.github.HpWens:MeiWidgetView:v0.1.5'
 	}
 ````
 
