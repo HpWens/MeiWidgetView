@@ -74,5 +74,4 @@
         android:scaleType="centerCrop"
         android:visibility="visible" />
 
-
 </com.meis.widget.photodrag.DragRelativeLayout>

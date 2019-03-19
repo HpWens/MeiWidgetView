@@ -3,6 +3,7 @@ package com.demo.widget.meis;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,13 @@ public class MeiVideoDragFragment extends SupportFragment implements Player.Even
         mDragLayout = view.findViewById(R.id.rl_drag);
         mVideoView = view.findViewById(R.id.video_view);
         mIvBg = view.findViewById(R.id.iv_bg);
+
+        mIvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         Bundle bundle = getArguments();
         if (bundle != null) {

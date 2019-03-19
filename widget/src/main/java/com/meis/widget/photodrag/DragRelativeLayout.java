@@ -157,7 +157,7 @@ public class DragRelativeLayout extends RelativeLayout {
                 if (up()) return super.dispatchTouchEvent(event);
                 break;
         }
-        return true;
+        return super.dispatchTouchEvent(event) | true;
     }
 
     // 手指触摸
@@ -507,6 +507,13 @@ public class DragRelativeLayout extends RelativeLayout {
             Rect locRect = new Rect();
             view.getGlobalVisibleRect(locRect);
             setTransitionsRegion(locRect.left, locRect.top, locRect.right, locRect.bottom, view.getWidth(), view.getHeight());
+        }
+        return this;
+    }
+
+    public DragRelativeLayout setTransitionsView(Rect rect) {
+        if (rect != null) {
+            setTransitionsRegion(rect.left, rect.top, rect.right, rect.bottom, rect.width(), rect.height());
         }
         return this;
     }
