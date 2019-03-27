@@ -3,11 +3,11 @@
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Hex.pm](https://img.shields.io/github/stars/HpWens/MeiWidgetView.svg)](https://github.com/HpWens/MeiWidgetView)
 
-### 最新动态-小红书任意拖拽标签控件
+### 最新动态-网页动态背景“五彩蛛网”
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190311165834470.gif)![在这里插入图片描述](https://img-blog.csdnimg.cn/20190313182236310.gif)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326164627600.gif)![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326164634380.gif)
 
-博客地址：[Android控件人生第一站，小红书任意拖拽标签控件](https://blog.csdn.net/u012551350/article/details/88395427)
+博客地址：[Android实现网页动态背景“五彩蛛网”](https://blog.csdn.net/u012551350/article/details/88821610)
 
 想了解更多大厂炫酷控件，请关注微信公众号：控件人生
 
@@ -16,6 +16,12 @@
 <div align=center>扫一扫 关注我的公众号</div>
 
 <div align=center>新号希望大家能够多多支持我~</div>
+
+### 小红书任意拖拽标签控件
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190311165834470.gif)![在这里插入图片描述](https://img-blog.csdnimg.cn/20190313182236310.gif)
+
+博客地址：[Android控件人生第一站，小红书任意拖拽标签控件](https://blog.csdn.net/u012551350/article/details/88395427)
 
 ### 小红书自定义CoordinatorLayout联动效果
 
