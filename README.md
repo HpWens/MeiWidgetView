@@ -15,7 +15,7 @@
 
 <div align=center>扫一扫 关注我的公众号</div>
 
-<div align=center>新号希望大家能够多多支持我~</div>
+<div align=center>想了解更多炫酷控件吗~</div>
 
 ### 小红书任意拖拽标签控件
 
