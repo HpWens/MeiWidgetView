@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private MeiViewAdapter mMeiViewAdapter;
 
     private Class[] targetArray = {
+            MeiSpiderWebActivity.class,
             MeiRandomDragTagActivity.class,
             MeiCropImageActivity.class,
             MeiScrollParallaxActivity.class,
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             MeiEvaporateActivity.class,
             MeiScrollViewActivity.class};
     private String[] nameArray = {
+            "五彩蛛网",
             "小红书标签",
             "小红书图片裁剪",
             "滚动视差",

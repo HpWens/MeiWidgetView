@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.text.Layout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.meis.widget.utils.DensityUtil;
@@ -149,7 +150,7 @@ public class MeiTextPathView extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 mCurrentLength = (float) valueAnimator.getAnimatedValue();
-                postInvalidate();
+                invalidate();
             }
         });
         mAnimation.start();

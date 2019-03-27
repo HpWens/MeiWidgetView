@@ -21,10 +21,20 @@
         android:id="@+id/mo_bike"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"></com.meis.widget.mobike.MoBikeView>
+
+    <com.meis.widget.spiderweb.SpiderWebView
+        android:id="@+id/spider_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <com.meis.widget.MeiTextPathView
         android:id="@+id/mpv"
@@ -32,26 +42,27 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         app:cycle="true"
-        app:duration="12000"
+        app:duration="8000"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:text="欢迎来到 MEI_S "
-        app:textColor="#999999" />
+        app:textColor="@color/colorAccent"
+        app:textSize="32sp" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/cv_mei"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="16dp"
         android:foreground="?attr/selectableItemBackground"
         android:onClick="onMei"
         app:cardBackgroundColor="@android:color/white"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
-        app:layout_constraintTop_toBottomOf="@+id/mpv">
+        app:layout_constraintLeft_toLeftOf="@+id/cv_hong"
+        app:layout_constraintRight_toRightOf="@+id/cv_hong"
+        app:layout_constraintTop_toBottomOf="@+id/cv_hong">
 
         <TextView
             android:layout_width="match_parent"
@@ -60,23 +71,26 @@
             android:padding="16dp"
             android:text="MEI控件"
             android:textColor="#999999"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="visible" />
 
     </android.support.v7.widget.CardView>
 
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
+        android:id="@+id/cv_hong"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="16dp"
         android:foreground="?attr/selectableItemBackground"
         android:onClick="onGuHong"
         app:cardBackgroundColor="@android:color/white"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
-        app:layout_constraintTop_toBottomOf="@+id/cv_mei">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mpv">
 
         <TextView
             android:layout_width="match_parent"

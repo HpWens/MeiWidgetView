@@ -45,6 +45,7 @@
         <activity android:name=".meis.MeiScrollViewActivity"></activity>
         <activity android:name=".meis.MeiCropImageActivity"></activity>
         <activity android:name=".meis.MeiRandomDragTagActivity"></activity>
+        <activity android:name=".meis.MeiSpiderWebActivity"></activity>
     </application>
 
 </manifest>

@@ -92,4 +92,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
 
+    <string name="drawer_open">开</string>
+    <string name="drawer_close">关</string>
+
 </resources>
