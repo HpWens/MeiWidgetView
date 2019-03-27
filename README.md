@@ -5,7 +5,7 @@
 
 ### 最新动态-网页动态背景“五彩蛛网”
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326164627600.gif)![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326164634380.gif)
+![01.gif](https://upload-images.jianshu.io/upload_images/2258857-b5747963102ba096.gif?imageMogr2/auto-orient/strip)![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326164634380.gif)
 
 博客地址：[Android实现网页动态背景“五彩蛛网”](https://blog.csdn.net/u012551350/article/details/88821610)
 
