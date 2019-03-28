@@ -15,7 +15,7 @@
 
 <div align=center>扫一扫 关注我的公众号</div>
 
-<div align=center>不定期的发放现金红包，快到碗里来~</div>
+<div align=center>不定期的发放现金红包 快到碗里来~</div>
 
 ### 小红书任意拖拽标签控件
 
