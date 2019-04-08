@@ -1,4 +1,4 @@
-<div align="center">
+<div align="left">
 <a href="https://jitpack.io/#HpWens/MeiWidgetView">
     <img src="https://jitpack.io/v/HpWens/MeiWidgetView.svg">
 </a>		
