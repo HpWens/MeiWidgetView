@@ -1,9 +1,9 @@
 [![](https://jitpack.io/v/HpWens/MeiWidgetView.svg)](https://jitpack.io/#HpWens/MeiWidgetView)
 [![](https://img.shields.io/scrutinizer/build/g/filp/whoops.svg)](https://blog.csdn.net/u012551350/)
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![Hex.pm](https://img.shields.io/github/stars/HpWens/MeiWidgetView.svg)](https://github.com/HpWens/MeiWidgetView)
+[![Hex.pm](https://img.shields.io/github/stars/HpWens/MeiWidgetView.svg?color=ff69b4)](https://github.com/HpWens/MeiWidgetView)
 <a href="https://developer.android.com/about/versions/android-4.0.3.html">
-    <img src="https://img.shields.io/badge/API-15+-blue.svg" alt="Min Sdk Version">
+    <img src="https://img.shields.io/badge/API-15+-blue.svg?color=orange" alt="Min Sdk Version">
 </a>
 
 ### 最新动态-网页动态背景“五彩蛛网”
