@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private MeiViewAdapter mMeiViewAdapter;
 
     private Class[] targetArray = {
+            MeiCornersGifActivity.class,
             MeiSpiderWebActivity.class,
             MeiRandomDragTagActivity.class,
             MeiCropImageActivity.class,
@@ -40,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
             MeiFireflyActivity.class,
             MeiPraiseActivity.class,
             MeiEvaporateActivity.class,
-            MeiScrollViewActivity.class};
+            MeiScrollViewActivity.class,
+            MeiTextPathActivity.class};
     private String[] nameArray = {
+            "GIF圆角",
             "五彩蛛网",
             "小红书标签",
             "小红书图片裁剪",
@@ -55,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
             "浮动粒子",
             "直播间点赞",
             "跳动的文本",
-            "豆瓣弹性滑动卡片"};
+            "豆瓣弹性滑动卡片",
+            "文字路径"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

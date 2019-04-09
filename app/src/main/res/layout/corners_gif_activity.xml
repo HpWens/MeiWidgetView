@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
+        app:title="GIF圆角"
+        app:titleTextColor="#FFF" />
+
+
+    <com.meis.widget.corners.CornersGifView
+        android:id="@+id/iv_gif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:src="@mipmap/gif_01"
+        android:text="Hello World!"
+        app:cornerSize="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <TextView
+        android:id="@+id/tv_01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:text="左上圆角：8"
+        app:layout_constraintBottom_toTopOf="@+id/seek_01"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seek_01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="48dp"
+        android:max="100"
+        android:progress="8"
+        app:layout_constraintTop_toBottomOf="@+id/iv_gif" />
+
+
+    <TextView
+        android:id="@+id/tv_02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:text="左下圆角：8"
+        app:layout_constraintBottom_toTopOf="@+id/seek_02"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:text="右上圆角：8"
+        app:layout_constraintBottom_toTopOf="@+id/seek_03"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_04"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:text="右下圆角：8"
+        app:layout_constraintBottom_toTopOf="@+id/seek_04"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+
+    <SeekBar
+        android:id="@+id/seek_02"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="36dp"
+        android:max="100"
+        android:progress="8"
+        app:layout_constraintTop_toBottomOf="@+id/seek_01" />
+
+    <SeekBar
+        android:id="@+id/seek_03"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="36dp"
+        android:max="100"
+        android:progress="8"
+        app:layout_constraintTop_toBottomOf="@+id/seek_02" />
+
+    <SeekBar
+        android:id="@+id/seek_04"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="36dp"
+        android:max="100"
+        android:progress="8"
+        app:layout_constraintTop_toBottomOf="@+id/seek_03" />
+
+</android.support.constraint.ConstraintLayout>

@@ -64,8 +64,8 @@ public class MeiEvaporateActivity extends AppCompatActivity {
             "interact",
             "divides space",
             "fundamentals",
-            "欢迎关注文淑",
-            "文淑博客",
-            "Android"
+            "欢迎关注",
+            "控件人生",
+            "公众号"
     };
 }

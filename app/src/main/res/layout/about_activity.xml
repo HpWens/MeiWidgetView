@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
+        app:title="关于我"
+        app:titleTextColor="#FFF" />
+
+    <com.meis.widget.evaporate.EvaporateTextView
+        android:id="@+id/etv"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="100dp"
+        android:gravity="center_horizontal"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+
+</LinearLayout>

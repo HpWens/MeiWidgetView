@@ -97,4 +97,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onGuHong(View view) {
         startActivity(new Intent(this, com.demo.widget.guhong.MainActivity.class));
     }
+
+    public void onAbout(View view) {
+        startActivity(new Intent(this, AboutActivity.class));
+    }
 }

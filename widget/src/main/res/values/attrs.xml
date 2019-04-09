@@ -79,4 +79,12 @@
         <attr name="firefly_move_rate" format="integer"></attr>
     </declare-styleable>
 
+    <declare-styleable name="CornersGifView">
+        <attr name="leftBottomCorner" format="dimension"></attr>
+        <attr name="leftTopCorner" format="dimension"></attr>
+        <attr name="rightBottomCorner" format="dimension"></attr>
+        <attr name="rightTopCorner" format="dimension"></attr>
+        <attr name="cornerSize" format="dimension"></attr>
+    </declare-styleable>
+
 </resources>
