@@ -31,6 +31,14 @@
 
 <div align=center>不定期的发放现金红包 快到碗里来~</div>
 
+### GIF圆角控件
+
+<div align="center">
+<img src="https://img-blog.csdnimg.cn/20190407133537583.gif">
+</div>	
+
+博客地址：[探一探，非常实用的GIF图圆角控件（3行代码）](https://blog.csdn.net/u012551350/article/details/89068414)
+
 ### 小红书任意拖拽标签控件
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190311165834470.gif)![在这里插入图片描述](https://img-blog.csdnimg.cn/20190313182236310.gif)
