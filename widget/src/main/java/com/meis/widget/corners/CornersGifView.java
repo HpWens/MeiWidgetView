@@ -77,72 +77,67 @@ public class CornersGifView extends android.support.v7.widget.AppCompatImageView
     }
 
     /**
-     * 获取父控件颜色
-     *
-     * @param parent
-     * @return
+     * @param vp parent view
+     * @return paint color
      */
-    private int getParentBackGroundColor(ViewParent parent) {
-        if (parent == null) {
-            return Color.WHITE;
+    private int getPaintColor(ViewParent vp) {
+        if (null == vp) {
+            return Color.TRANSPARENT;
         }
-        if (parent instanceof View) {
-            View parentView = (View) parent;
-            int parentColor = getViewBackGroundColor(parentView);
-            if (parentColor != Color.TRANSPARENT) {
-                return parentColor;
+
+        if (vp instanceof View) {
+            View parentView = (View) vp;
+            int color = getViewBackgroundColor(parentView);
+
+            if (Color.TRANSPARENT != color) {
+                return color;
             } else {
-                getParentBackGroundColor(parentView.getParent());
+                getPaintColor(parentView.getParent());
             }
         }
-        // 获取主题背景色
-        TypedArray array = getContext().getTheme().obtainStyledAttributes(new int[]{
-                android.R.attr.colorBackground
-        });
-        int backgroundColor = array.getColor(0, Color.WHITE);
-        array.recycle();
-        return backgroundColor;
+
+        return Color.TRANSPARENT;
     }
 
     /**
-     * 获取 View 的背景色
-     *
      * @param view
      * @return
      */
-    private int getViewBackGroundColor(View view) {
+    private int getViewBackgroundColor(View view) {
         Drawable drawable = view.getBackground();
-        if (drawable != null) {
-            Class<Drawable> mDrawable_class = (Class<Drawable>) drawable.getClass();
+
+        if (null != drawable) {
+            Class<Drawable> drawableClass = (Class<Drawable>) drawable.getClass();
+            if (null == drawableClass) {
+                return Color.TRANSPARENT;
+            }
+
             try {
-                Field mField = mDrawable_class.getDeclaredField("mColorState");
-                mField.setAccessible(true);
-                Object mColorState = mField.get(drawable);
-                Class mColorState_class = mColorState.getClass();
-                Field mColorState_field = mColorState_class.getDeclaredField("mUseColor");
-                mColorState_field.setAccessible(true);
-                int color = (int) mColorState_field.get(mColorState);
-                if (color != Color.TRANSPARENT) {
-                    return color;
+                Field field = drawableClass.getDeclaredField("mColorState");
+                field.setAccessible(true);
+                Object colorState = field.get(drawable);
+                Class colorStateClass = colorState.getClass();
+                Field colorStateField = colorStateClass.getDeclaredField("mUseColor");
+                colorStateField.setAccessible(true);
+                int viewColor = (int) colorStateField.get(colorState);
+                if (Color.TRANSPARENT != viewColor) {
+                    return viewColor;
                 }
-            } catch (Exception e) {
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-        } else {
-            TypedArray array = getContext().getTheme().obtainStyledAttributes(new int[]{
-                    android.R.attr.colorBackground
-            });
-            int backgroundColor = array.getColor(0, Color.WHITE);
-            array.recycle();
-            return backgroundColor;
         }
-        return Color.WHITE;
+
+        return Color.TRANSPARENT;
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        // change skin
+
         canvas.save();
         canvas.drawPath(mPath, mPaint);
         canvas.restore();
@@ -152,17 +147,36 @@ public class CornersGifView extends android.support.v7.widget.AppCompatImageView
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        if (mPaint != null) {
-            mPaint.setColor(getParentBackGroundColor(getParent()));
+        initPaintColor();
+        addRoundRectPath(w, h);
+    }
+
+    private void initPaintColor() {
+        int paintColor = getPaintColor(getParent());
+        if (Color.TRANSPARENT == paintColor) {
+            // get theme background color
+            TypedArray array = getContext().getTheme().obtainStyledAttributes(new int[]{
+                    android.R.attr.colorBackground
+            });
+            paintColor = array.getColor(0, Color.TRANSPARENT);
+            array.recycle();
         }
 
-        addRoundRectPath(w, h);
+        mPaint.setColor(paintColor);
     }
 
     private void addRoundRectPath(int w, int h) {
         mPath.reset();
-        // add round rect
+
+        //add round rect
         mPath.addRoundRect(new RectF(0, 0, w, h), mCorners, Path.Direction.CCW);
+
+//        Path brainPath = new Path();
+//        brainPath.addRect(new RectF(0, 0, w, h), Path.Direction.CCW);
+//        brainPath.addCircle(w / 2, h / 2, Math.min(w, h) / 2, Path.Direction.CW);
+//
+//        mPath.setFillType(Path.FillType.WINDING);
+//        mPath.addPath(brainPath);
     }
 
     private void setCornerSize(int leftTop, int leftBottom, int rightTop, int rightBottom) {
