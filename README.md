@@ -59,7 +59,9 @@
 
 ### Flutter“蛛网”控件
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190418165735299.gif)
+<div align="center">
+<img src="https://img-blog.csdnimg.cn/20190418165735299.gif">
+</div>	
 
 博客地址：[Flutter自定义控件第一式，炫酷“蛛网”控件](https://blog.csdn.net/u012551350/article/details/89383421)
 
