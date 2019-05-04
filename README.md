@@ -15,6 +15,7 @@
     <img src="https://img.shields.io/badge/API-15+-blue.svg?color=orange" alt="Min Sdk Version">
 </a>
 <img src="https://img.shields.io/badge/Gamil-wsboy.code@gmail.com-blue.svg">
+<a href="#交流"><img src="https://img.shields.io/badge/QQ%E7%BE%A4-478720016-blue.svg"></a>
 </div>
 
 ### 最新动态-网页动态背景“五彩蛛网”
