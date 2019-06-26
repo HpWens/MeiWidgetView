@@ -37,7 +37,7 @@ public class AboutActivity extends AppCompatActivity {
     };
 
     private int index = 0;
-    private String[] sentences = {"我曾经有一个梦想", "梦想着有一天", "能够站在你的面前", "微信搜索", "公众号「控件人生」"};
+    private String[] sentences = {"我曾经有一个梦想", "梦想着有一天", "能够站在你的面前", "对我说", "我爱你"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
