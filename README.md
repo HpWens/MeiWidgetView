@@ -32,6 +32,13 @@
 
 <div align=center>不定期的发放现金红包 快到碗里来~</div>
 
+### 自定义LayoutManager
+
+![01](https://img-blog.csdnimg.cn/20190627175756545.gif)
+![02](https://img-blog.csdnimg.cn/20190627175806441.gif)
+
+博客正在整理...
+
 ### GIF圆角控件
 
 <div align="center">
