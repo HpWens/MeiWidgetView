@@ -49,6 +49,7 @@
         <activity android:name=".meis.MeiCornersGifActivity"></activity>
         <activity android:name=".meis.MeiTextPathActivity"></activity>
         <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".meis.MeiStackLayoutManagerActivity"></activity>
     </application>
 
 </manifest>

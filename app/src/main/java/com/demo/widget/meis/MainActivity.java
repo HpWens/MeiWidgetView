@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
             MeiPraiseActivity.class,
             MeiEvaporateActivity.class,
             MeiScrollViewActivity.class,
-            MeiTextPathActivity.class};
+            MeiTextPathActivity.class,
+            MeiStackLayoutManagerActivity.class};
     private String[] nameArray = {
             "GIF圆角",
             "五彩蛛网",
@@ -59,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
             "直播间点赞",
             "跳动的文本",
             "豆瓣弹性滑动卡片",
-            "文字路径"};
+            "文字路径",
+            "自定义LayoutManager"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -21,16 +21,16 @@ class SpiderWidget extends State<SpiderStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new MaterialApp(
+    return MaterialApp(
       title: 'spider demo',
-      home: new Scaffold(
+      home: Scaffold(
         appBar: AppBar(
           title: Text('欢迎关注「控件人生」公众号'),
         ),
-        body: new Column(
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new GestureDetector(
+            GestureDetector(
               child: Container(
                 color: Colors.purpleAccent,
                 width: 100,
@@ -38,9 +38,9 @@ class SpiderWidget extends State<SpiderStatefulWidget> {
                 margin: EdgeInsets.all(8),
                 child: Center(
                     child: Text(
-                  '增加边数',
-                  style: new TextStyle(fontSize: 20, color: Colors.white),
-                )),
+                      '增加边数',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    )),
               ),
               onTap: () {
                 setState(() {
@@ -50,7 +50,7 @@ class SpiderWidget extends State<SpiderStatefulWidget> {
                 });
               },
             ),
-            new GestureDetector(
+            GestureDetector(
               child: Container(
                 color: Colors.blue,
                 width: 100,
@@ -58,9 +58,9 @@ class SpiderWidget extends State<SpiderStatefulWidget> {
                 margin: EdgeInsets.all(8),
                 child: Center(
                     child: Text(
-                  '减少边数',
-                  style: new TextStyle(fontSize: 20, color: Colors.white),
-                )),
+                      '减少边数',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    )),
               ),
               onTap: () {
                 setState(() {
@@ -70,10 +70,10 @@ class SpiderWidget extends State<SpiderStatefulWidget> {
                 });
               },
             ),
-            new Center(
-              child: new CustomPaint(
+            Center(
+              child: CustomPaint(
                 painter: SpiderView(edge),
-                size: new Size(300, 300),
+                size: Size(300, 300),
               ),
             ),
           ],
@@ -118,21 +118,21 @@ class SpiderView extends CustomPainter {
 
   SpiderView(this.mEdgeSize) {
     // 初始化画笔
-    mPaint = new Paint();
+    mPaint = Paint();
     mPaint.color = randomRGB();
     // 设置抗锯齿
     mPaint.isAntiAlias = true;
     // 样式为描边
     mPaint.style = PaintingStyle.stroke;
 
-    mPath = new Path();
+    mPath = Path();
 
-    mCoverPaint = new Paint();
+    mCoverPaint = Paint();
     mCoverPaint.isAntiAlias = true;
     mCoverPaint.style = PaintingStyle.fill;
     mCoverPaint.color = randomARGB();
 
-    mTextPaint = new Paint();
+    mTextPaint = Paint();
     mTextPaint.isAntiAlias = true;
     mTextPaint.style = PaintingStyle.fill;
     mTextPaint.color = Colors.blue;
@@ -208,7 +208,7 @@ class SpiderView extends CustomPainter {
    */
   void drawCover(Canvas canvas) {
     mPath.reset();
-    Random random = new Random();
+    Random random = Random();
 
     double angle = CIRCLE_ANGLE / mEdgeSize;
     double radiusMaxLimit = min(mCenterY, mCenterY);
@@ -237,13 +237,13 @@ class SpiderView extends CustomPainter {
    * @return 获取到随机颜色值
    */
   Color randomARGB() {
-    Random random = new Random();
+    Random random = Random();
     return Color.fromARGB(
         125, random.nextInt(255), random.nextInt(255), random.nextInt(255));
   }
 
   Color randomRGB() {
-    Random random = new Random();
+    Random random = Random();
     return Color.fromARGB(
         255, random.nextInt(255), random.nextInt(255), random.nextInt(255));
   }
