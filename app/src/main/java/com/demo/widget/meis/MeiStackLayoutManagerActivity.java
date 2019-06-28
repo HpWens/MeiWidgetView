@@ -46,7 +46,7 @@ public class MeiStackLayoutManagerActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.recycler);
         // new StackLayoutManager(this,-56) 堆叠模式
-        mRecyclerView.setLayoutManager(stackLayoutManager = new StackLayoutManager(this, -56));
+        mRecyclerView.setLayoutManager(stackLayoutManager = new StackLayoutManager(this, 0));
 
         mRecyclerView.setAdapter(new RecyclerView.Adapter() {
             @NonNull

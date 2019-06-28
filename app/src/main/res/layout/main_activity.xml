@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,14 +9,15 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
         android:background="@color/colorPrimary"
         android:visibility="visible"
         app:layout_collapseMode="pin"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="MEI_S 控件"
-        app:titleTextColor="#FFF" />
+        app:titleTextColor="#FFF"
+        tools:ignore="MissingConstraints" />
 
     <com.meis.widget.mobike.MoBikeView
         android:id="@+id/mo_bike"
@@ -57,6 +59,7 @@
         android:layout_height="wrap_content"
         android:foreground="?attr/selectableItemBackground"
         android:onClick="onMei"
+        android:visibility="gone"
         app:cardBackgroundColor="@android:color/white"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
@@ -82,10 +85,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginRight="8dp"
         android:foreground="?attr/selectableItemBackground"
         android:onClick="onGuHong"
+        android:visibility="gone"
         app:cardBackgroundColor="@android:color/white"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
@@ -111,6 +115,7 @@
         android:layout_marginTop="16dp"
         android:foreground="?attr/selectableItemBackground"
         android:onClick="onAbout"
+        android:visibility="gone"
         app:cardBackgroundColor="@android:color/white"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
@@ -149,5 +154,14 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
     </com.meis.widget.praise.BezierPraiseView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>

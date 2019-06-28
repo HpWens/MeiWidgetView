@@ -23,6 +23,11 @@ public class StackLayoutManager extends RecyclerView.LayoutManager {
     private float onceCompleteScrollLength = -1;
 
     /**
+     * 第一个子view的偏移量
+     */
+    private float firstChildCompleteScrollLength = -1;
+
+    /**
      * 屏幕可见第一个view的position
      */
     private int mFirstVisiPos;
@@ -175,16 +180,16 @@ public class StackLayoutManager extends RecyclerView.LayoutManager {
         }
 
         // 修正第一个可见view mFirstVisiPos 已经滑动了多少个完整的onceCompleteScrollLength就代表滑动了多少个item
-        float secondChildOffsetStartX = getWidth() / 2 + childWidth / 2;
-        if (mHorizontalOffset >= secondChildOffsetStartX) {
+        firstChildCompleteScrollLength = getWidth() / 2 + childWidth / 2;
+        if (mHorizontalOffset >= firstChildCompleteScrollLength) {
             startX = normalViewGap;
             onceCompleteScrollLength = childWidth + normalViewGap;
-            mFirstVisiPos = (int) Math.floor(Math.abs(mHorizontalOffset - secondChildOffsetStartX) / onceCompleteScrollLength) + 1;
-            fraction = (Math.abs(mHorizontalOffset - secondChildOffsetStartX) % onceCompleteScrollLength) / (onceCompleteScrollLength * 1.0f);
+            mFirstVisiPos = (int) Math.floor(Math.abs(mHorizontalOffset - firstChildCompleteScrollLength) / onceCompleteScrollLength) + 1;
+            fraction = (Math.abs(mHorizontalOffset - firstChildCompleteScrollLength) % onceCompleteScrollLength) / (onceCompleteScrollLength * 1.0f);
         } else {
             mFirstVisiPos = 0;
             startX = getMinOffset();
-            onceCompleteScrollLength = secondChildOffsetStartX;
+            onceCompleteScrollLength = firstChildCompleteScrollLength;
             fraction = (Math.abs(mHorizontalOffset) % onceCompleteScrollLength) / (onceCompleteScrollLength * 1.0f);
         }
 

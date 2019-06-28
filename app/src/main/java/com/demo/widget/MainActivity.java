@@ -8,11 +8,14 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.demo.widget.adapter.StackLayoutMangerAdapter;
+import com.meis.widget.manager.StackLayoutManager;
 import com.meis.widget.mobike.MoBikeView;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -32,12 +35,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             R.mipmap.ic_share_weibo
     };
 
+    private RecyclerView mRecyclerView;
+    private StackLayoutMangerAdapter mAdapter;
+    private StackLayoutManager mStackLayoutManager;
+    private String[] mTitles = {
+            "MEI控件",
+            "郭鸿控件",
+            "关于我",
+    };
+    private Class[] mJumpActivities = {
+            com.demo.widget.meis.MainActivity.class,
+            com.demo.widget.guhong.MainActivity.class,
+            AboutActivity.class,};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
         mMobikeView = findViewById(R.id.mo_bike);
+        mRecyclerView = findViewById(R.id.recycler);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -50,6 +67,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 mMobikeView.onRandomChanged();
             }
         });
+
+        mRecyclerView.setLayoutManager(mStackLayoutManager = new StackLayoutManager(this));
+        mRecyclerView.setAdapter(mAdapter = new StackLayoutMangerAdapter(mTitles, new StackLayoutMangerAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(View view, final int position) {
+                mStackLayoutManager.smoothScrollToPosition(position);
+                view.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(MainActivity.this, mJumpActivities[position]));
+                    }
+                }, 300);
+            }
+        }));
     }
 
     @Override

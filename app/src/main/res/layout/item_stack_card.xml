@@ -4,7 +4,6 @@
     android:layout_height="240dp"
     android:layout_marginTop="25dp"
     android:layout_marginBottom="25dp"
-    android:background="#abc"
     android:gravity="center">
 
     <TextView
@@ -12,6 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="0" />
+        android:gravity="center"
+        android:text="0"
+        android:textColor="#FFF"
+        android:textSize="16sp" />
 
 </LinearLayout>
