@@ -37,7 +37,7 @@
 ![01](https://img-blog.csdnimg.cn/20190627175756545.gif)
 ![02](https://img-blog.csdnimg.cn/20190627175806441.gif)
 
-博客正在整理...
+博客地址：[Android自定义控件进阶篇，自定义LayoutManager](https://blog.csdn.net/u012551350/article/details/93971801)
 
 ### GIF圆角控件
 
