@@ -469,7 +469,9 @@ public class RandomDragTagView extends LinearLayout {
 
     /**
      * 调整索引 位于其他标签之上
+     * moveToTop(View target) 方法的性能更好
      */
+    @Deprecated
     private void adjustIndex() {
         ViewParent parent = getParent();
         if (parent != null) {
@@ -484,6 +486,32 @@ public class RandomDragTagView extends LinearLayout {
                 }
             }
         }
+    }
+
+    private void moveToTop(View target) {
+        //先确定现在在哪个位置
+        int startIndex = indexOfChild(target);
+        //计算一共需要几次交换，就可到达最上面
+        int count = getChildCount() - 1 - startIndex;
+        for (int i = 0; i < count; i++) {
+            //更新索引
+            int fromIndex = indexOfChild(target);
+            //目标是它的上层
+            int toIndex = fromIndex + 1;
+            //获取需要交换位置的两个子View
+            View from = target;
+            View to = getChildAt(toIndex);
+
+            //先把它们拿出来
+            detachViewFromParent(toIndex);
+            detachViewFromParent(fromIndex);
+
+            //再放回去，但是放回去的位置(索引)互换了
+            attachViewToParent(to, fromIndex, to.getLayoutParams());
+            attachViewToParent(from, toIndex, from.getLayoutParams());
+        }
+        //刷新
+        invalidate();
     }
 
     // 移除标签view
