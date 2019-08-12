@@ -68,7 +68,7 @@ public class MeiStackLayoutManagerActivity extends AppCompatActivity {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        stackLayoutManager.smoothScrollToPosition(i);
+                        stackLayoutManager.smoothScrollToPosition(i, null);
                     }
                 });
             }

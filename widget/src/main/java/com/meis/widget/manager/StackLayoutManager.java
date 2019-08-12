@@ -1,5 +1,7 @@
 package com.meis.widget.manager;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -270,7 +272,7 @@ public class StackLayoutManager extends RecyclerView.LayoutManager {
                 //当列表滚动停止后，判断一下自动选中是否打开
                 if (isAutoSelect) {
                     //找到离目标落点最近的item索引
-                    smoothScrollToPosition(findShouldSelectPosition());
+                    smoothScrollToPosition(findShouldSelectPosition(), null);
                 }
                 break;
             default:
@@ -278,7 +280,7 @@ public class StackLayoutManager extends RecyclerView.LayoutManager {
         }
     }
 
-    private int findShouldSelectPosition() {
+    public int findShouldSelectPosition() {
         if (onceCompleteScrollLength == -1 || mFirstVisiPos == -1) {
             return -1;
         }
@@ -298,13 +300,13 @@ public class StackLayoutManager extends RecyclerView.LayoutManager {
      *
      * @param position 目标Item索引
      */
-    public void smoothScrollToPosition(int position) {
+    public void smoothScrollToPosition(int position, OnStackListener listener) {
         if (position > -1 && position < getItemCount()) {
-            startValueAnimator(position);
+            startValueAnimator(position, listener);
         }
     }
 
-    private void startValueAnimator(int position) {
+    private void startValueAnimator(int position, final OnStackListener listener) {
         cancelAnimator();
 
         final float distance = getScrollToPositionOffset(position);
@@ -330,6 +332,15 @@ public class StackLayoutManager extends RecyclerView.LayoutManager {
                 float value = (float) animation.getAnimatedValue();
                 mHorizontalOffset = (long) (startedOffset + value);
                 requestLayout();
+            }
+        });
+        selectAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                if (listener != null) {
+                    listener.onFocusAnimEnd();
+                }
             }
         });
         selectAnimator.start();
@@ -395,5 +406,9 @@ public class StackLayoutManager extends RecyclerView.LayoutManager {
 
     public int getHorizontalSpace() {
         return getWidth() - getPaddingLeft() - getPaddingRight();
+    }
+
+    public interface OnStackListener {
+        void onFocusAnimEnd();
     }
 }

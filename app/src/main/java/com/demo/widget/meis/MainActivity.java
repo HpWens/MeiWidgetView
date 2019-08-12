@@ -89,13 +89,17 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter = new StackLayoutMangerAdapter(nameArray, new StackLayoutMangerAdapter.OnItemClickListener() {
             @Override
             public void onClick(View view, final int position) {
-                mStackLayoutManager.smoothScrollToPosition(position);
-                view.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        startActivity(new Intent(MainActivity.this, targetArray[position]));
-                    }
-                }, 300);
+                int focusPosition = mStackLayoutManager.findShouldSelectPosition();
+                if (focusPosition == position) {
+                    startActivity(new Intent(MainActivity.this, targetArray[position]));
+                } else {
+                    mStackLayoutManager.smoothScrollToPosition(position, new StackLayoutManager.OnStackListener() {
+                        @Override
+                        public void onFocusAnimEnd() {
+                            startActivity(new Intent(MainActivity.this, targetArray[position]));
+                        }
+                    });
+                }
             }
         }));
     }
